@@ -2,17 +2,25 @@
 <project version="4">
   <component name="PublishConfigData" persistUploadOnCheckin="false" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="localhost">
+      <paths name="localhost:44300">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/yii" />
+            <mapping local="$PROJECT_DIR$/.yarn" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/cache" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/releases" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/unplugged" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="loclhost:80">
+      <paths name="loclhost:8080">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/cache" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/releases" web="/" />
+            <mapping local="$PROJECT_DIR$/.yarn/unplugged" web="/" />
           </mappings>
         </serverdata>
       </paths>

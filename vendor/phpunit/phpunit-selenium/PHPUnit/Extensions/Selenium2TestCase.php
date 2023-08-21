@@ -68,7 +68,6 @@
  * @method void clickOnElement() clickOnElement($id)
  * @method string currentScreenshot() BLOB of the image file
  * @method void dismissAlert() Press Cancel on an alert, or does not confirm a dialog
- * @method void doubleclick() Double clicks (at the coordinates set by the last moveto command).
  * @method \PHPUnit_Extensions_Selenium2TestCase_Element element() element(\PHPUnit_Extensions_Selenium2TestCase_ElementCriteria $criteria) Retrieves an element
  * @method array elements() elements(\PHPUnit_Extensions_Selenium2TestCase_ElementCriteria $criteria) Retrieves an array of Element instances
  * @method string execute() execute($javaScriptCode) Injects arbitrary JavaScript in the page and returns the last
@@ -92,11 +91,10 @@
  * @method array logTypes() Get available log types.
  * @method void closeWindow() Close the current window.
  * @method void close() Close the current window and clear session data.
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element active() Get the element on the page that currently has focus.
  */
 abstract class PHPUnit_Extensions_Selenium2TestCase extends PHPUnit_Framework_TestCase
 {
-    const VERSION = '1.4.0';
+    const VERSION = '1.3.3';
 
     /**
      * @var string  override to provide code coverage data from the server
@@ -289,7 +287,7 @@ abstract class PHPUnit_Extensions_Selenium2TestCase extends PHPUnit_Framework_Te
         $thrownException = NULL;
 
         if ($this->collectCodeCoverageInformation) {
-            $this->url($this->coverageScriptUrl);   // phpunit_coverage.php won't do anything if the cookie isn't set, which is exactly what we want
+            $this->session->cookie()->remove('PHPUNIT_SELENIUM_TEST_ID');
             $this->session->cookie()->add('PHPUNIT_SELENIUM_TEST_ID', $this->testId)->set();
         }
 
@@ -302,10 +300,6 @@ abstract class PHPUnit_Extensions_Selenium2TestCase extends PHPUnit_Framework_Te
             }
         } catch (Exception $e) {
             $thrownException = $e;
-        }
-        
-        if ($this->collectCodeCoverageInformation) {
-            $this->session->cookie()->remove('PHPUNIT_SELENIUM_TEST_ID');
         }
 
         if (NULL !== $thrownException) {

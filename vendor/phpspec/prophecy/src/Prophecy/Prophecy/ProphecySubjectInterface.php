@@ -21,16 +21,14 @@ interface ProphecySubjectInterface
     /**
      * Sets subject prophecy.
      *
-     * @param ProphecyInterface<object> $prophecy
-     *
-     * @return void
+     * @param ProphecyInterface $prophecy
      */
     public function setProphecy(ProphecyInterface $prophecy);
 
     /**
      * Returns subject prophecy.
      *
-     * @return ProphecyInterface<object>
+     * @return ProphecyInterface
      */
     public function getProphecy();
 }

@@ -1,7 +1,6 @@
 # Prophecy
 
-[![Stable release](https://poser.pugx.org/phpspec/prophecy/version.svg)](https://packagist.org/packages/phpspec/prophecy)
-[![Build Status](https://travis-ci.org/phpspec/prophecy.svg?branch=master)](https://travis-ci.org/phpspec/prophecy)
+[![Build Status](https://travis-ci.org/phpspec/prophecy.png?branch=master)](https://travis-ci.org/phpspec/prophecy)
 
 Prophecy is a highly opinionated yet very powerful and flexible PHP object mocking
 framework. Though initially it was created to fulfil phpspec2 needs, it is flexible
@@ -12,7 +11,7 @@ enough to be used inside any testing framework out there with minimal effort.
 ```php
 <?php
 
-class UserTest extends PHPUnit\Framework\TestCase
+class UserTest extends PHPUnit_Framework_TestCase
 {
     private $prophet;
 
@@ -28,7 +27,7 @@ class UserTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('hashed_pass', $user->getPassword());
     }
 
-    protected function setUp()
+    protected function setup()
     {
         $this->prophet = new \Prophecy\Prophet;
     }
@@ -44,7 +43,7 @@ class UserTest extends PHPUnit\Framework\TestCase
 
 ### Prerequisites
 
-Prophecy requires PHP 7.2.0 or greater.
+Prophecy requires PHP 5.3.3 or greater.
 
 ### Setup through composer
 
@@ -97,7 +96,7 @@ $prophecy->willImplement('SessionHandlerInterface');
 ```
 
 There are 2 interesting calls - `willExtend` and `willImplement`. The first one tells
-object prophecy that our object should extend a specific class. The second one says that
+object prophecy that our object should extend specific class, the second one says that
 it should implement some interface. Obviously, objects in PHP can implement multiple
 interfaces, but extend only one parent class.
 
@@ -158,8 +157,8 @@ argument - `'123'` to always return `'value'`. But that's only for this
 promise, there's plenty others you can use:
 
 - `ReturnPromise` or `->willReturn(1)` - returns a value from a method call
-- `ReturnArgumentPromise` or `->willReturnArgument($index)` - returns the nth method argument from call
-- `ThrowPromise` or `->willThrow($exception)` - causes the method to throw specific exception
+- `ReturnArgumentPromise` or `->willReturnArgument()` - returns the first method argument from call
+- `ThrowPromise` or `->willThrow` - causes the method to throw specific exception
 - `CallbackPromise` or `->will($callback)` - gives you a quick way to define your own custom logic
 
 Keep in mind, that you can always add even more promises by implementing
@@ -188,34 +187,23 @@ you'll use promises for that:
 $user->getName()->willReturn(null);
 
 // For PHP 5.4
-$user->setName('everzet')->will(function () {
+$user->setName('everzet')->will(function() {
     $this->getName()->willReturn('everzet');
 });
 
 // For PHP 5.3
-$user->setName('everzet')->will(function ($args, $user) {
+$user->setName('everzet')->will(function($args, $user) {
     $user->getName()->willReturn('everzet');
 });
 
 // Or
-$user->setName('everzet')->will(function ($args) use ($user) {
+$user->setName('everzet')->will(function($args) use ($user) {
     $user->getName()->willReturn('everzet');
 });
 ```
 
 And now it doesn't matter how many times or in which order your methods are called.
 What matters is their behaviors and how well you faked it.
-
-Note: If the method is called several times, you can use the following syntax to return different
-values for each call:
-
-```php
-$prophecy->read('123')->willReturn(1, 2, 3);
-```
-
-This feature is actually not recommended for most cases. Relying on the order of
-calls for the same arguments tends to make test fragile, as adding one more call
-can break everything.
 
 #### Arguments wildcarding
 
@@ -250,15 +238,12 @@ That's why Prophecy comes bundled with a bunch of other tokens:
 - `IdenticalValueToken` or `Argument::is($value)` - checks that the argument is identical to a specific value
 - `ExactValueToken` or `Argument::exact($value)` - checks that the argument matches a specific value
 - `TypeToken` or `Argument::type($typeOrClass)` - checks that the argument matches a specific type or
-  classname
+  classname.
 - `ObjectStateToken` or `Argument::which($method, $value)` - checks that the argument method returns
   a specific value
 - `CallbackToken` or `Argument::that(callback)` - checks that the argument matches a custom callback
 - `AnyValueToken` or `Argument::any()` - matches any argument
 - `AnyValuesToken` or `Argument::cetera()` - matches any arguments to the rest of the signature
-- `StringContainsToken` or `Argument::containingString($value)` - checks that the argument contains a specific string value
-- `InArrayToken` or `Argument::in($array)` - checks if value is in array
-- `NotInArrayToken` or `Argument::notIn($array)` - checks if value is not in array
 
 And you can add even more by implementing `TokenInterface` with your own custom classes.
 
@@ -270,17 +255,17 @@ use Prophecy\Argument;
 $user->getName()->willReturn(null);
 
 // For PHP 5.4
-$user->setName(Argument::type('string'))->will(function ($args) {
+$user->setName(Argument::type('string'))->will(function($args) {
     $this->getName()->willReturn($args[0]);
 });
 
 // For PHP 5.3
-$user->setName(Argument::type('string'))->will(function ($args, $user) {
+$user->setName(Argument::type('string'))->will(function($args, $user) {
     $user->getName()->willReturn($args[0]);
 });
 
 // Or
-$user->setName(Argument::type('string'))->will(function ($args) use ($user) {
+$user->setName(Argument::type('string'))->will(function($args) use ($user) {
     $user->getName()->willReturn($args[0]);
 });
 ```
@@ -297,22 +282,21 @@ use Prophecy\Argument;
 $user->getName()->willReturn(null);
 
 // For PHP 5.4
-$user->setName(Argument::type('string'))->will(function ($args) {
+$user->setName(Argument::type('string'))->will(function($args) {
     $this->getName()->willReturn($args[0]);
 });
 
 // For PHP 5.3
-$user->setName(Argument::type('string'))->will(function ($args, $user) {
+$user->setName(Argument::type('string'))->will(function($args, $user) {
     $user->getName()->willReturn($args[0]);
 });
 
 // Or
-$user->setName(Argument::type('string'))->will(function ($args) use ($user) {
+$user->setName(Argument::type('string'))->will(function($args) use ($user) {
     $user->getName()->willReturn($args[0]);
 });
 
-$user->setName(Argument::any())->will(function () {
-});
+$user->setName(Argument::any())->will(function(){});
 ```
 
 Nothing. Your stub will continue behaving the way it did before. That's because of how
@@ -341,7 +325,7 @@ calling it on a stub.
 
 ### Mocks
 
-Now we know how to define doubles without behavior (dummies) and doubles with behavior, but
+Now we know how to define doubles without behavior (dummies) and doubles with behavior but
 no expectations (stubs). What's left is doubles for which we have some expectations. These
 are called mocks and in Prophecy they look almost exactly the same as stubs, except that
 they define *predictions* instead of *promises* on method prophecies:
@@ -402,10 +386,3 @@ $em->flush()->shouldHaveBeenCalled();
 ```
 
 Such manipulation with doubles is called spying. And with Prophecy it just works.
-
-
-## FAQ
-
-### Can I call the original methods on a prophesized class?
-
-Prophecy does not support calling the original methods on a phrophesized class. If you find yourself needing to mock some methods of a class while calling the original version of other methods, it's likely a sign that your class violates the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle) and should be refactored.

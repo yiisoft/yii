@@ -12,7 +12,6 @@
 namespace Prophecy\Prediction;
 
 use Prophecy\Call\Call;
-use Prophecy\Exception\Prediction\PredictionException;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophecy\MethodProphecy;
 
@@ -28,10 +27,10 @@ interface PredictionInterface
      * Tests that double fulfilled prediction.
      *
      * @param Call[]        $calls
-     * @param ObjectProphecy<object> $object
+     * @param ObjectProphecy $object
      * @param MethodProphecy $method
      *
-     * @throws PredictionException
+     * @throws object
      * @return void
      */
     public function check(array $calls, ObjectProphecy $object, MethodProphecy $method);

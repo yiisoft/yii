@@ -1,0 +1,146 @@
+#!/usr/bin/php
+<?php
+
+$cwd = getcwd();
+
+$dir = realpath($argv[1]);
+
+if (!is_dir($argv[1])) {
+    die("pearify: no such file or directory $argv[1]\n");
+}
+
+chdir($dir);
+
+ini_set('date.timezone', 'Europe/London');
+
+$fileName = $dir . '/package.xml';
+
+if (file_exists($fileName)) {
+    unlink($fileName);
+}
+
+require_once 'PEAR/PackageFileManager2.php';
+PEAR::setErrorHandling(PEAR_ERROR_DIE);
+
+$desc = <<<EOT
+PHPSpec is BDD framework for PHP development.
+EOT;
+
+if (!isset($argv[2])) {
+    die("pearify: missing version\nusage: pearify [DIRECTORY] [VERSION] [STABILITY]\n");
+}
+
+$api = $argv[2];
+$stability = isset($argv[3]) ? $argv[3] : '';
+$version = $api . (!empty($stability) || $stability !== 'stable' ? $stability : '');
+
+$notes = "-";
+
+$package = new PEAR_PackageFileManager2();
+
+$result = $package->setOptions(array(
+    'filelistgenerator' => 'file',
+    'changelogoldtonew' => true,
+    'simpleoutput'      => true,
+    'baseinstalldir'    => '/',
+    'packagefile'       => 'package.xml',
+    'packagedirectory'  => '.'));
+
+if (PEAR::isError($result)) {
+    echo $result->getMessage();
+    die();
+}
+
+$package->setPackage('PHPSpec');
+$package->setPackageType('php');
+$package->setSummary('BDD Framework');
+$package->setDescription($desc);
+$package->setChannel('pear.phpspec.net');
+$package->setLicense('LGPL', 'http://www.gnu.org/licenses/lgpl-3.0.txt');
+$package->setAPIVersion($api);
+$package->setAPIStability($stability);
+$package->setReleaseVersion($version);
+$package->setReleaseStability($stability);
+$package->setNotes($notes);
+$package->setPhpDep('5.3.3');
+$package->setPearinstallerDep('1.9.2');
+$package->addMaintainer('lead', 'MarcelloDuarte', 'Marcello Duarte', 'marcello.duarte@gmail.com');
+$package->addIgnore(array('package.php', 'package.xml'));
+$package->addPackageDepWithChannel('required', 'Text_Template', 'pear.phpunit.de');
+$package->addPackageDepWithChannel('optional', 'PHPSpec_Zend', 'pear.phpspec.net');
+$package->addPackageDepWithChannel('optional', 'Mockery', 'pear.survivethedeepend.com');
+
+$package->generateContents();
+
+$result = $package->writePackageFile();
+//$result = $package->debugPackageFile();
+
+$file = file($fileName);
+$final = '';
+foreach ($file as $line) {
+    
+    if (strpos(ltrim($line), '<file name="') === 0) {
+        $line = str_replace('<file name="', '<file baseinstalldir="/" name="', $line);
+    }
+    
+    if ($line === '  <dir baseinstalldir="/" name="/">' . PHP_EOL) {
+        $line = '  <dir name="/">' . PHP_EOL;
+    }
+    
+    if (trim($line) === '<file baseinstalldir="/" name="phpspec.php" role="php" />') {
+        $line = '   <file baseinstalldir="/" name="phpspec.php" role="script">' . PHP_EOL;
+        $line .= '    <tasks:replace from="/usr/bin/php" to="php_bin" type="pear-config" />' . PHP_EOL;
+        $line .= '    <tasks:replace from="/usr/share/pear" to="php_dir" type="pear-config" />' . PHP_EOL;
+        $line .= '   </file>' . PHP_EOL;
+    }
+    
+    if (trim($line) === '<file baseinstalldir="/" name="phpspec.bat" role="php" />') {
+        $line = '   <file baseinstalldir="/" name="phpspec.php" role="script">' . PHP_EOL;
+        $line .= '    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />' . PHP_EOL;
+        $line .= '    <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />' . PHP_EOL;
+        $line .= '   </file>' . PHP_EOL;
+    }
+    
+    if (trim($line) === '<file baseinstalldir="/" name="Framework.php" role="php" />') {
+        $line = '    <file baseinstalldir="/" name="Framework.php" role="php">' . PHP_EOL;
+        $line .= '     <tasks:replace from="@package_version@" to="version" type="package-info" />' . PHP_EOL;
+        $line .= '    </file>' . PHP_EOL;
+    }
+
+    
+    if ($line === ' <phprelease />' . PHP_EOL) {
+        $line = ' <phprelease>
+  <installconditions>
+   <os>
+    <name>windows</name>
+   </os>
+  </installconditions>
+  <filelist>
+   <install as="phpspec" name="phpspec.php" />
+   <install as="phpspec.bat" name="phpspec.bat" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="phpspec" name="phpspec.php" />
+   <ignore name="phpspec.bat" />
+  </filelist>
+ </phprelease>' . PHP_EOL;
+    }
+    
+    if ($line === ' <changelog>' . PHP_EOL) {
+        $final .= '</package>';
+        break;
+    }
+    
+    $final .= $line;
+}
+
+file_put_contents($fileName, $final);
+
+chdir($cwd);
+
+if (PEAR::isError($result)) {
+    echo $result->getMessage();
+    die();
+}

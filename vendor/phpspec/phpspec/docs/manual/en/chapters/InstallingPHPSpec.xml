@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="installation">
+  <title>Installation</title>
+
+  <para>PHPSpec should be installed using the PEAR Installer. PEAR (PHP
+  Extension and Application Respository) is a simple, easy to use mechanism
+  for distributing and managing PEAR packages. If you have PHP installed,
+  chances are you already have a PEAR system ready to be utilised.</para>
+
+  <section id="installing.phpspec.with.pear">
+    <title>Installing PHPSpec with PEAR</title>
+
+    <para>PHPSpec is distributed primarily from its own dedicated PEAR
+    channel. The PEAR Channel system is quite simple to use and eases the
+    installation of PHPSpec in any scenario where you have access to your own
+    PEAR installation. Before commencing an installation, you first need to
+    "discover" the PHPSpec channel using the command:</para>
+
+    <screen>sudo pear channel-discover pear.phpspec.net</screen>
+
+    <para>The newly discovered channel will have its details stored by
+    PEAR.</para>
+
+    <para>To install the package simply execute the following command:</para>
+
+    <screen>sudo pear install phpspec/PHPSpec</screen>
+
+    <note>
+      <para>Development snapshots of PHPSpec are regularly updated in the
+        develop branch at <ulink url="http://github.com/phpspec/phpspec">
+        http://github.com/phpspec/phpspec</ulink>. These snapshots are
+        considered of dubious stability and should only be utilised for testing
+        and feedback purposes. The installation of development snapshots is
+        described in the "Installing PHPSpec Manually" section below.</para>
+    </note>
+  </section>
+
+  <section>
+    <title>Installing PHPSpec from a PEAR download</title>
+
+    <para>To install PHPSpec without using the PEAR channel system you can
+    select a download of the PEAR archive from <ulink
+    url="http://pear.phpspec.net/get">http://pear.phpspec.net/get</ulink> and
+    by running the following command:</para>
+
+    <screen>sudo pear install PHPSpec-&lt;version&gt;.tar.gz</screen>
+  </section>
+
+  <section id="installing.phpspec.manually">
+    <title>Installing PHPSpec Manually</title>
+
+    <para>To install PHPSpec manually, you can use the non-Pearified tarball
+    called "PHPSpec-&lt;version&gt;.tar.gz" available for download from <ulink
+    url="http://pear.phpspec.net/get/nonpear">
+    http://pear.phpspec.net/get/nonpear</ulink>. Extract to your preferred
+    location, and add the "src" directory to your php.ini include_path. You
+    will also need to copy the phpspec script for your system (*.bat refers to
+    a Windows friendly version) from the "scripts" directory to a location on
+    your system PATH. This script must be edited to provide the location of the
+    PHP binary executable as well as the path to the PHPSpec class files.
+    </para>
+  </section>
+</section>

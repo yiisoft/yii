@@ -11,7 +11,6 @@
 
 namespace Prophecy;
 
-use Prophecy\Doubler\CachedDoubler;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Doubler\ClassPatch;
@@ -30,31 +29,33 @@ use Prophecy\Exception\Prediction\AggregateException;
  */
 class Prophet
 {
-    /**
-     * @var Doubler
-     */
     private $doubler;
     private $revealer;
     private $util;
 
     /**
-     * @var list<ObjectProphecy<object>>
+     * @var ObjectProphecy[]
      */
     private $prophecies = array();
 
-    public function __construct(
-        Doubler $doubler = null,
-        RevealerInterface $revealer = null,
-        StringUtil $util = null
-    ) {
+    /**
+     * Initializes Prophet.
+     *
+     * @param null|Doubler           $doubler
+     * @param null|RevealerInterface $revealer
+     * @param null|StringUtil        $util
+     */
+    public function __construct(Doubler $doubler = null, RevealerInterface $revealer = null,
+                                StringUtil $util = null)
+    {
         if (null === $doubler) {
-            $doubler = new CachedDoubler();
+            $doubler = new Doubler;
             $doubler->registerClassPatch(new ClassPatch\SplFileInfoPatch);
             $doubler->registerClassPatch(new ClassPatch\TraversablePatch);
-            $doubler->registerClassPatch(new ClassPatch\ThrowablePatch);
             $doubler->registerClassPatch(new ClassPatch\DisableConstructorPatch);
             $doubler->registerClassPatch(new ClassPatch\ProphecySubjectPatch);
             $doubler->registerClassPatch(new ClassPatch\ReflectionClassNewInstancePatch);
+            $doubler->registerClassPatch(new ClassPatch\HhvmExceptionPatch());
             $doubler->registerClassPatch(new ClassPatch\MagicCallPatch);
             $doubler->registerClassPatch(new ClassPatch\KeywordPatch);
         }
@@ -70,10 +71,6 @@ class Prophet
      * @param null|string $classOrInterface Class or interface name
      *
      * @return ObjectProphecy
-     *
-     * @template T of object
-     * @phpstan-param class-string<T>|null $classOrInterface
-     * @phpstan-return ObjectProphecy<T>
      */
     public function prophesize($classOrInterface = null)
     {
@@ -97,7 +94,7 @@ class Prophet
     /**
      * Returns all created object prophecies.
      *
-     * @return list<ObjectProphecy<object>>
+     * @return ObjectProphecy[]
      */
     public function getProphecies()
     {
@@ -116,8 +113,6 @@ class Prophet
 
     /**
      * Checks all predictions defined by prophecies of this Prophet.
-     *
-     * @return void
      *
      * @throws Exception\Prediction\AggregateException If any prediction fails
      */

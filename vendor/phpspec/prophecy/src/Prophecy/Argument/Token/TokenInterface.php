@@ -21,16 +21,16 @@ interface TokenInterface
     /**
      * Calculates token match score for provided argument.
      *
-     * @param mixed $argument
+     * @param $argument
      *
-     * @return false|int
+     * @return bool|int
      */
     public function scoreArgument($argument);
 
     /**
      * Returns true if this token prevents check of other tokens (is last one).
      *
-     * @return bool
+     * @return bool|int
      */
     public function isLast();
 

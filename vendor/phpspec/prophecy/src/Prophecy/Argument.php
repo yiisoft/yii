@@ -61,13 +61,12 @@ class Argument
      * Checks that argument matches provided callback.
      *
      * @param callable $callback
-     * @param string|null $customStringRepresentation Customize the __toString() representation of this token
      *
      * @return Token\CallbackToken
      */
-    public static function that($callback, ?string $customStringRepresentation = null)
+    public static function that($callback)
     {
-        return new Token\CallbackToken($callback, $customStringRepresentation);
+        return new Token\CallbackToken($callback);
     }
 
     /**
@@ -93,13 +92,13 @@ class Argument
     /**
      * Checks that argument matches all tokens
      *
-     * @param mixed ...$tokens a list of tokens
+     * @param mixed ... a list of tokens
      *
      * @return Token\LogicalAndToken
      */
-    public static function allOf(...$tokens)
+    public static function allOf()
     {
-        return new Token\LogicalAndToken($tokens);
+        return new Token\LogicalAndToken(func_get_args());
     }
 
     /**
@@ -196,45 +195,4 @@ class Argument
     {
         return new Token\IdenticalValueToken($value);
     }
-
-    /**
-     * Check that argument is same value when rounding to the
-     * given precision.
-     *
-     * @param float $value
-     * @param int $precision
-     *
-     * @return Token\ApproximateValueToken
-     */
-    public static function approximate($value, $precision = 0)
-    {
-        return new Token\ApproximateValueToken($value, $precision);
-    }
-
-    /**
-     * Checks that argument is in array.
-     *
-     * @param array<mixed> $value
-     *
-     * @return Token\InArrayToken
-     */
-
-    public static function in($value)
-    {
-        return new Token\InArrayToken($value);
-    }
-
-    /**
-     * Checks that argument is not in array.
-     *
-     * @param array<mixed> $value
-     *
-     * @return Token\NotInArrayToken
-     */
-
-    public static function notIn($value)
-    {
-        return new Token\NotInArrayToken($value);
-    }
-
 }

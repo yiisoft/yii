@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="phpspecs.goals">
+  <title>PHPSpec の目標</title>
+
+  <section id="goals">
+    <title>目標!</title>
+
+    <para>
+      これまでに説明してきたように、PHPSpec は振舞駆動開発用のフレームワークです。
+      実行可能なコード例を書いて、それを繰り返し実行させることができます。
+      また、BDD の作法のサポートするため、
+      読みやすさを考慮したドメイン特化言語による API を提供します。
+      このドメイン特化言語は、普通の英語をモデルにしたものです。
+    </para>
+
+    <para>PHPSpec が実現しようとしていることを、以下にまとめます。</para>
+
+    <variablelist spacing="normal">
+      <varlistentry>
+        <term>テストよりも、振る舞いの仕様を重視する</term>
+
+        <listitem>
+          <para>
+            振舞駆動開発では、振る舞いに注目して開発を進めます。
+            あるクラスがどのように振る舞うのかを正確に効率よく記述するには、
+            その公開インターフェイスとプロパティ、その役割と仕様、
+            そしてその存在目的を記述します。
+            よりよいコードを設計するためには、
+            まず振る舞いを表すサンプルを書いてからコードを実装するのが有効です。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>仕様を記述するための、読みやすく直感的な言語を提供する</term>
+
+        <listitem>
+          <para>
+            プログラマ以外の人が読んでも理解できるようなサンプルを書けば、
+            それは 1000 語の文章で説明するのと同じくらいの価値があります。
+            流れるようなインターフェイスの API を使用することで、
+            普通の英語の文法に近い方法でサンプルを記述することができ、
+            サンプルがより読みやすいものとなります。
+            この "ドメイン特化言語" を使用すると、
+            自然言語を PHP の構文に翻訳する手間が少なくなります。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>振舞駆動開発をサポートする</term>
+
+        <listitem>
+          <para>
+            振舞駆動開発は、テスト駆動開発の真の目標をより推し進めた手法です。
+            テスト駆動開発におけるありがちなハマりどころを回避し、
+            テスト駆動開発を敬遠していたプログラマにも取り入れやすくしています。
+            振舞駆動開発では、テスト主体ではなく振る舞いの定義を主体において考えます。
+            TDD の要素をドメイン駆動設計 (Domain-Driven Design)、
+            受入テスト駆動設計 (Acceptance-Testing Driven Design)、
+            そしてユーザストーリーやシナリオの概念にどう組み合わせるかによって
+            これを進めます。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>簡単に身につけることができる</term>
+
+        <listitem>
+          <para>
+            PHPSpec は振舞駆動開発用のフレームワークですが、
+            既存のユニットテスト用フレームワークとの違いはそんなに大きくありません。
+            実行方法や結果の表示方法は、さまざまな言語における既存の
+            xUnit 風フレームワークと似ています。
+            その API は意図的に普通の英語に似せてあり、
+            理解しやすいものとなっています。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>開発者に優しいものとする</term>
+
+        <listitem>
+          <para>
+            PHPSpec は、Java や Smalltalk、.NET そして Ruby
+            などの既存の BDD フレームワークを参考にして作成されています。
+            これらのフレームワークの構文をもとに、PHP
+            向けに少し手を加えたものを使用しています。
+            また、フレームワークができるだけシンプルで柔軟であることを心がけています。
+            もし気に食わないところがあれば、ぜひ私たちに文句をぶつけてください!
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>アジャイル/XP の世界での BDD をサポートする</term>
+
+        <listitem>
+          <para>
+            BDD のもととなっているのは、アジャイルや
+            エクストリーム・プログラミングの世界におけるいくつかのプラクティスです。
+            PHPSpec はまだ生まれて間もないため機能的には制限がありますが、
+            モックオブジェクト機能 (Mockery を使用します) や主なフレームワークとの統合は既に実現しています。
+            ストーリーやシナリオを書いて進めていきたい場合は、
+            PHPSpec を Behat と組み合わせて使うことができます。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>シンプルな実行方法</term>
+
+        <listitem>
+          <para>
+            PHPSpec は、コマンドラインから phpspec コマンドで実行します。
+            これは、PEAR QA の phpt のような単純性を参考にしたものです。
+            今後、要望に応じてコマンドラインの機能を拡張していく予定です。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>必要なサンプルだけを自動実行させる</term>
+
+        <listitem>
+          <para>
+            すべての Ruby 開発者たちにとって必須とも言えるツールが、
+            あのすばらしい Autotest です。
+            近い将来、きっとこれの PHP 版も登場することでしょう。
+            とりあえずは github.com/MarcelloDuarte/autorun
+            をチェックしておきましょう。
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+</chapter>

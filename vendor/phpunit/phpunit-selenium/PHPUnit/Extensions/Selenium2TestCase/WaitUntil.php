@@ -117,7 +117,7 @@ class PHPUnit_Extensions_Selenium2TestCase_WaitUntil
 
         while (TRUE) {
             try {
-                $result = call_user_func($callback, $this->_testCase);
+                $result = $callback($this->_testCase);
 
                 if (!is_null($result)) {
                     if ($implicitWait) {

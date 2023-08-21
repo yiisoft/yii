@@ -11,9 +11,6 @@
 
 namespace Prophecy\Argument\Token;
 
-use Prophecy\Comparator\FactoryProvider;
-use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 use Prophecy\Util\StringUtil;
 
 /**
@@ -26,25 +23,19 @@ class ObjectStateToken implements TokenInterface
     private $name;
     private $value;
     private $util;
-    private $comparatorFactory;
 
     /**
      * Initializes token.
      *
-     * @param string $methodName
-     * @param mixed  $value             Expected return value
+     * @param string          $methodName
+     * @param mixed           $value      Expected return value
+     * @param null|StringUtil $util
      */
-    public function __construct(
-        $methodName,
-        $value,
-        StringUtil $util = null,
-        ComparatorFactory $comparatorFactory = null
-    ) {
+    public function __construct($methodName, $value, StringUtil $util = null)
+    {
         $this->name  = $methodName;
         $this->value = $value;
         $this->util  = $util ?: new StringUtil;
-
-        $this->comparatorFactory = $comparatorFactory ?: FactoryProvider::getInstance();
     }
 
     /**
@@ -56,20 +47,10 @@ class ObjectStateToken implements TokenInterface
      */
     public function scoreArgument($argument)
     {
-        $methodCallable = array($argument, $this->name);
-        if (is_object($argument) && method_exists($argument, $this->name) && is_callable($methodCallable)) {
-            $actual = call_user_func($methodCallable);
+        if (is_object($argument) && method_exists($argument, $this->name)) {
+            $actual = call_user_func(array($argument, $this->name));
 
-            $comparator = $this->comparatorFactory->getComparatorFor(
-                $this->value, $actual
-            );
-
-            try {
-                $comparator->assertEquals($this->value, $actual);
-                return 8;
-            } catch (ComparisonFailure $failure) {
-                return false;
-            }
+            return $actual == $this->value ? 8 : false;
         }
 
         if (is_object($argument) && property_exists($argument, $this->name)) {

@@ -11,9 +11,6 @@
 
 namespace Prophecy\Doubler\Generator;
 
-use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
-use Prophecy\Doubler\Generator\Node\TypeNodeAbstract;
-
 /**
  * Class code creator.
  * Generates PHP code for specific class node tree.
@@ -22,11 +19,6 @@ use Prophecy\Doubler\Generator\Node\TypeNodeAbstract;
  */
 class ClassCodeGenerator
 {
-    // Used to accept an optional first argument with the deprecated Prophecy\Doubler\Generator\TypeHintReference so careful when adding a new argument in a minor version.
-    public function __construct()
-    {
-    }
-
     /**
      * Generates PHP code for class node.
      *
@@ -41,11 +33,8 @@ class ClassCodeGenerator
         $classname = array_pop($parts);
         $namespace = implode('\\', $parts);
 
-        $code = sprintf("%sclass %s extends \%s implements %s {\n",
-            $class->isReadOnly() ? 'readonly ': '',
-            $classname,
-            $class->getParentClass(),
-            implode(', ',
+        $code = sprintf("class %s extends \%s implements %s {\n",
+            $classname, $class->getParentClass(), implode(', ',
                 array_map(function ($interface) {return '\\'.$interface;}, $class->getInterfaces())
             )
         );
@@ -63,53 +52,35 @@ class ClassCodeGenerator
         return sprintf("namespace %s {\n%s\n}", $namespace, $code);
     }
 
-    private function generateMethod(Node\MethodNode $method): string
+    private function generateMethod(Node\MethodNode $method)
     {
-        $php = sprintf("%s %s function %s%s(%s)%s {\n",
+        $php = sprintf("%s %s function %s(%s) {\n",
             $method->getVisibility(),
             $method->isStatic() ? 'static' : '',
-            $method->returnsReference() ? '&':'',
             $method->getName(),
-            implode(', ', $this->generateArguments($method->getArguments())),
-            ($ret = $this->generateTypes($method->getReturnTypeNode())) ? ': '.$ret : ''
+            implode(', ', $this->generateArguments($method->getArguments()))
         );
         $php .= $method->getCode()."\n";
 
         return $php.'}';
     }
 
-    private function generateTypes(TypeNodeAbstract $typeNode): string
+    private function generateArguments(array $arguments)
     {
-        if (!$typeNode->getTypes()) {
-            return '';
-        }
+        return array_map(function (Node\ArgumentNode $argument) {
+            $php = '';
 
-        // When we require PHP 8 we can stop generating ?foo nullables and remove this first block
-        if ($typeNode->canUseNullShorthand()) {
-            return sprintf( '?%s', $typeNode->getNonNullTypes()[0]);
-        } else {
-            return join('|', $typeNode->getTypes());
-        }
-    }
+            if ($hint = $argument->getTypeHint()) {
+                if ('array' === $hint || 'callable' === $hint) {
+                    $php .= $hint;
+                } else {
+                    $php .= '\\'.$hint;
+                }
+            }
 
-    /**
-     * @param list<Node\ArgumentNode> $arguments
-     *
-     * @return list<string>
-     */
-    private function generateArguments(array $arguments): array
-    {
-        return array_map(function (Node\ArgumentNode $argument){
+            $php .= ' '.($argument->isPassedByReference() ? '&' : '').'$'.$argument->getName();
 
-            $php = $this->generateTypes($argument->getTypeNode());
-
-            $php .= ' '.($argument->isPassedByReference() ? '&' : '');
-
-            $php .= $argument->isVariadic() ? '...' : '';
-
-            $php .= '$'.$argument->getName();
-
-            if ($argument->isOptional() && !$argument->isVariadic()) {
+            if ($argument->isOptional()) {
                 $php .= ' = '.var_export($argument->getDefault(), true);
             }
 

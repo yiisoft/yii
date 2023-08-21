@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="execution.methods.for.phpspec">
+  <title>PHPSpec の実行方法</title>
+
+  <para>
+    PHPSpec でスペックやサンプルを実行する方法には、二通りのモードがあります。
+    このマニュアルで主に使用する方法は、bash や MS-DOS などのコマンドプロンプトから
+    <classname>phpspec</classname> コマンドを実行するものです。
+    もうひとつの方法としては、.php ファイルの URL を指定してお好みのウェブブラウザで開くというものもあります。
+    この方式では、プレーンテキストあるいは HTML のいずれかで結果を出力することができます。
+    また、さまざまなオプションも指定することができます。
+  </para>
+
+  <section id="the.console.runner">
+    <title>コンソールからの実行</title>
+
+    <para>
+      PHPSpec のデフォルトの実行方法はをコンソールから実行する方式であり、
+      これは何も追加の作業なしに行うことができます。
+      スペックを書いたら、単にコマンドラインからその場所に移動して
+      次のコマンドを実行するだけです。
+    </para>
+
+    <screen>phpspec --recursive</screen>
+
+    <para>
+      この単純なコマンドは、
+      カレントディレクトリ以下を再帰的にスキャンします。
+      そして、見つかったすべてのスペックファイルについて、
+      すべてのサンプルを実行します。
+      このように単純に使えるため、
+      コンソールから使用するのは最もよい選択といえるでしょう。
+      Unix のコンソールを使用している場合は、
+      なんと結果がカラーで表示されます!
+    </para>
+
+    <para>
+      <classname>phpspec</classname> コマンドにはさまざまなオプションがあります。
+      バージョンが上がるにつれて、さらにオプションが追加される予定です。
+      各オプションには、通常は長いバージョンと (1 文字の)
+      短いバージョンがあります。
+      現在使用可能なオプションの一覧を、次の表にまとめます。
+    </para>
+
+    <table>
+      <title>PHPSpec コマンドのオプション</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry align="center">長い形式</entry>
+
+            <entry align="center">短い形式</entry>
+
+            <entry align="center">説明</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>--backtrace</entry>
+            <entry>-b</entry>
+            <entry>完全なバックトレースを有効にします。</entry>
+          </row>
+
+          <row>
+            <entry>--colour, --color</entry>
+            <entry>-c</entry>
+            <entry>出力に色をつけます。</entry>
+          </row>
+
+          <row>
+            <entry>--example STRING</entry>
+            <entry>-e</entry>
+            <entry>名前に STRING を含むサンプルを実行します。</entry>
+          </row>
+
+          <row>
+            <entry>--formatter [progress/documentation/html]</entry>
+            <entry>-f [progress/documentation/html]</entry>
+            <entry>
+              利用可能なフォーマッターのいずれかを指定します。出力書式を
+              標準の進捗形式 (デフォルトのドット表記) か Specdox、あるいは HTML にします。
+            </entry>
+          </row>
+
+          <row>
+            <entry>--help</entry>
+            <entry>-h</entry>
+            <entry>オプションを表示します。</entry>
+          </row>
+
+          <row>
+            <entry>--fail-fast</entry>
+            <entry>なし</entry>
+            <entry>最初に失敗した時点で実行を中止します。</entry>
+          </row>
+
+          <row>
+            <entry>--recursive</entry>
+            <entry>-r</entry>
+            <entry>
+              カレントディレクトリ以下を再帰的にスキャンします。
+              そして、見つかったすべてのスペックファイルについて、
+              すべてのサンプルを実行します。
+            </entry>
+          </row>
+
+          <row>
+            <entry>--version</entry>
+            <entry>なし</entry>
+            <entry>バージョンを表示します。</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section id="the.http.runner">
+    <title>HTTP 経由の実行</title>
+
+    <para>
+      HTTP ランナーは、その場ですぐ実行できるというものではありません。
+      ウェブブラウザ経由で呼び出したい PHP ファイルについて、
+      ちょっとした仕込みを行う必要があります。
+      とはいえそれは本当にシンプルな作業なので、
+      HTTP 経由での実行もコマンドラインからの実行と同列に扱って説明することにしました。
+    </para>
+
+    <para>
+      HTTP 経由で実行するためのファイル AllSPecs.php の例を以下に示します。
+    </para>
+
+    <programlisting role="php">&lt;?php
+
+require_once 'PHPSpec/Loader/UniversalClassLoader.php';
+$loader = new \PHPSpec\Loader\UniversalClassLoader();
+$loader-&gt;registerNamespace('PHPSpec', '/usr/share/pear');
+$loader-&gt;register();
+
+$options = array('specsDir', '--formatter', 'html');
+$specs = new \PHPSpec\PHPSpec($options);
+$specs-&gt;execute();</programlisting>
+
+    <para>
+      <classname>\PHPSpec\Runner\Cli\Runner</classname> クラスは、
+      実際には \PHPSpec\PHPSpec が内部的に使用しているものです。
+      つまりここで行っているのは非常に単純なことです。
+      この例で実際にやっていることは、
+      Cli ランナーが内部で行っている作業を PHP ファイルに書き出しているだけで、
+      ウェブブラウザから呼び出されたときにもこれを実行できるようにしています。
+
+      まず、ベースとなるファイル
+      <classname>PHPSpec/Loader/UniversalClassLoader.php</classname> をインクルードします。
+      PHPSpec は Symfony のユニバーサルオートローダーを使っているので、
+      PHPSpec のその他のファイルをインクルードする必要はありません。
+      次に、必要なオプションを配列の値として設定します。
+      ここで指定しているオプションは、すべてのスペックを実行するためのごく一般的なものです。
+      PHPSpec は指定したディレクトリ以下を再帰的に検索し、
+      みつかったスペックのすべてのサンプルを実行します。
+      出力結果には specdoc 形式のプレーンテキストが追加され、
+      HTML レポーターを使って HTML を出力します。
+      最後に、
+      <classname>PHPSpec\PHPSpec</classname> <classname>execute()</classname>
+      メソッドを実行します。これで完了!
+      特定のサブディレクトリのスペックだけを実行したいのなら、
+      そのディレクトリを配列 <classname>$options</classname>
+      の最初の要素として渡します
+      (再帰検索のオプションは、親ディレクトリは対象外となります)。
+    </para>
+  </section>
+</chapter>

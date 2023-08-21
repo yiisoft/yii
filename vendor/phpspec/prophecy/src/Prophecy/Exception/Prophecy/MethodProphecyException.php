@@ -17,9 +17,6 @@ class MethodProphecyException extends ObjectProphecyException
 {
     private $methodProphecy;
 
-    /**
-     * @param string $message
-     */
     public function __construct($message, MethodProphecy $methodProphecy)
     {
         parent::__construct($message, $methodProphecy->getObjectProphecy());

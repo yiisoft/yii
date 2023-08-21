@@ -1,0 +1,29 @@
+This file contains a list of credits for developers, maintainers, bug fixes,
+and other instrumental individuals who have assisted the project by
+contributing their time.
+
+Lead Developers
+===============
+
+Pádraic Brady
+Travis Swicegood
+Marcello Duarte
+
+Documentation
+=============
+
+Pádraic Brady (English)
+Takagi Masahiro (Japanese)
+
+Bug Fixes/Patches
+=================
+
+Harley Bussell (HTML Runner and Reporter submission)
+Kubo Atsuhiro (3 bugs with resolving patches on 08 January 2008)
+Takagi Masahiro (manual inaccuracy patched on 08 January 2008)
+Modmac (HTML Reporter on 26 December 2008)
+
+Others
+======
+
+Oliver Saunders

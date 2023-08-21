@@ -11,7 +11,6 @@
 
 namespace Prophecy\Exception\Prediction;
 
-use Prophecy\Call\Call;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Exception\Prophecy\MethodProphecyException;
 
@@ -19,11 +18,6 @@ class UnexpectedCallsException extends MethodProphecyException implements Predic
 {
     private $calls = array();
 
-    /**
-     * @param string         $message
-     * @param MethodProphecy $methodProphecy
-     * @param list<Call>     $calls
-     */
     public function __construct($message, MethodProphecy $methodProphecy, array $calls)
     {
         parent::__construct($message, $methodProphecy);
@@ -31,9 +25,6 @@ class UnexpectedCallsException extends MethodProphecyException implements Predic
         $this->calls = $calls;
     }
 
-    /**
-     * @return list<Call>
-     */
     public function getCalls()
     {
         return $this->calls;

@@ -73,18 +73,12 @@ M
 vendor/composer/installed.php,f\1\f1e920340fcfc7c307af59582a3078c9791c232d
 G
 vendor/composer/LICENSE,4\3\434124b6180e8815257e6ac64bd3ac95a625ffc2
-A
-tests/rununit.bat,d\5\d54290dd09194f7f697f556024aa2916ffcbb276
 C
 tests/bootstrap.php,3\2\326979242ce2c18a934ad123c59abf3a9753ba46
 F
 vendor/bin/phpunit.bat,a\f\af1becbb7f1baad6e52d855e45689372665f0d58
 R
 "vendor/phpunit/php-timer/README.md,e\5\e55e9e6baef182d74240f51fb0e95330f78bce1c
->
-docs/README.md,9\f\9f7cbce127b94a94ee14460050fbff2ce58417d0
->
-docs/index.php,c\2\c21f4ea476595c6a0f5e5e79c6ea59c83e132658
 A
 docs/css/main.css,6\5\65e8097576afd48cb8ba81ea70a4946e3e569fb4
 @
@@ -2125,20 +2119,14 @@ W
 'docs/guide/zh_tw/extension.overview.txt,4\0\40154e4331d382f7a3248dd4028ad17270702a15
 P
  docs/guide/zh_tw/basics.view.txt,0\6\06afd0912d4cb9370e6e436b8b5b85d0c6f26c8e
-E
-docs/viewer/.htaccess,e\8\e8d0e9504cb46c9aa9bbed01a255561a68dcb08a
 O
 docs/viewer/views/blog/view.php,0\f\0f790a462a33599d3e2a08a34cf789b31569ed51
 P
  docs/viewer/views/guide/view.php,1\2\12d0b90bdea10ce83808ab2c634c0052b93492ac
 R
 "docs/viewer/views/layouts/main.php,6\0\60ed94efafa502f04b906f87cad48839e3dc2244
-K
-docs/viewer/config/main.php,3\4\34be83c67f0ba6c9abe25d49acf9345c25fce2f8
 N
 docs/viewer/runtime/.gitignore,e\9\e97806b7238de18e758990b7a5bf6845fe4e4539
-Y
-)docs/viewer/components/MarkdownParser.php,d\6\d6e7e0d768cebaaec1befa9abc118b4f5d0e676f
 Z
 *docs/viewer/controllers/BlogController.php,1\f\1f31ffd647747d8e1e09673da34c10bb34cb9356
 [
@@ -2283,10 +2271,6 @@ I
 tests/TestApplication.php,8\d\8d8ac0b4faeae8031d2e08555be98ea6fed5d88f
 I
 tests/TestHttpRequest.php,f\d\fdcbe96077f32b9b432e93fcf443bd52e5b8856a
-G
-tests/compatibility.php,e\4\e42fed4f842d16b7897c841b7bbe92c71f94c41b
-@
-tests/readme.txt,f\2\f2ffb918ab77bd3b4f846fe202f5f3ff5a2dce95
 G
 tests/assets/.gitignore,8\0\80dd1f95177afa2fc54fd981932c8409b117e777
 H
@@ -8357,8 +8341,6 @@ B
 framework/yiic.bat,5\7\5787fdd36b27c4f87124ffe5a6bef556ffe6a364
 D
 framework/.gitignore,b\e\beba42c9055004a5558e2f77e256782a13c4025d
-A
-framework/yii.php,f\c\fc0e10a96a6394dd0fc690df99a36b2c3dace70b
 C
 framework/.htaccess,b\5\b51a0c5c7dcf668f6660a7da3d38c272583ae8f4
 O
@@ -11593,8 +11575,6 @@ Z
 *framework/vendors/punycode/LICENSE-MIT.txt,e\f\ef9f07b19786a5cfb441d93769a5826728dc1eb2
 V
 &framework/vendors/markdown/LICENSE.txt,3\6\36f9f60101906bef56083fb557e05251ecbb49e1
-W
-'framework/vendors/markdown/markdown.php,8\a\8ac6cdd8ee93990e57ee9e34cecc6cb5416f6dc0
 W
 'framework/vendors/Net_IDNA2/LICENSE.txt,5\6\56e1b9935b713dba4ba23756375884086f687f7f
 Y

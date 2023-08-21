@@ -15,48 +15,33 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 class AggregateException extends \RuntimeException implements PredictionException
 {
-    /**
-     * @var list<PredictionException>
-     */
     private $exceptions = array();
-    /**
-     * @var ObjectProphecy<object>|null
-     */
     private $objectProphecy;
 
-    /**
-     * @return void
-     */
     public function append(PredictionException $exception)
     {
         $message = $exception->getMessage();
-        $message = strtr($message, array("\n" => "\n  "))."\n";
-        $message = empty($this->exceptions) ? $message : "\n" . $message;
+        $message = '  '.strtr($message, array("\n" => "\n  "))."\n";
 
         $this->message      = rtrim($this->message.$message);
         $this->exceptions[] = $exception;
     }
 
     /**
-     * @return list<PredictionException>
+     * @return PredictionException[]
      */
     public function getExceptions()
     {
         return $this->exceptions;
     }
 
-    /**
-     * @param ObjectProphecy<object> $objectProphecy
-     *
-     * @return void
-     */
     public function setObjectProphecy(ObjectProphecy $objectProphecy)
     {
         $this->objectProphecy = $objectProphecy;
     }
 
     /**
-     * @return ObjectProphecy<object>|null
+     * @return ObjectProphecy
      */
     public function getObjectProphecy()
     {

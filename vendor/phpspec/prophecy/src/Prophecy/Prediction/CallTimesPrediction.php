@@ -20,7 +20,8 @@ use Prophecy\Util\StringUtil;
 use Prophecy\Exception\Prediction\UnexpectedCallsCountException;
 
 /**
- * Tests that there was exact amount of calls made.
+ * Prediction interface.
+ * Predictions are logical test blocks, tied to `should...` keyword.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
@@ -30,7 +31,10 @@ class CallTimesPrediction implements PredictionInterface
     private $util;
 
     /**
+     * Initializes prediction.
+     *
      * @param int        $times
+     * @param StringUtil $util
      */
     public function __construct($times, StringUtil $util = null)
     {
@@ -38,6 +42,15 @@ class CallTimesPrediction implements PredictionInterface
         $this->util  = $util ?: new StringUtil;
     }
 
+    /**
+     * Tests that there was exact amount of calls made.
+     *
+     * @param Call[]         $calls
+     * @param ObjectProphecy $object
+     * @param MethodProphecy $method
+     *
+     * @throws \Prophecy\Exception\Prediction\UnexpectedCallsCountException
+     */
     public function check(array $calls, ObjectProphecy $object, MethodProphecy $method)
     {
         if ($this->times == count($calls)) {

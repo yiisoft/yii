@@ -12,15 +12,11 @@
 namespace Prophecy\Prophecy;
 
 use Prophecy\Argument;
-use Prophecy\Exception\Prediction\PredictionException;
-use Prophecy\Prophet;
 use Prophecy\Promise;
 use Prophecy\Prediction;
 use Prophecy\Exception\Doubler\MethodNotFoundException;
 use Prophecy\Exception\InvalidArgumentException;
 use Prophecy\Exception\Prophecy\MethodProphecyException;
-use ReflectionNamedType;
-use ReflectionUnionType;
 
 /**
  * Method prophecy.
@@ -31,47 +27,28 @@ class MethodProphecy
 {
     private $objectProphecy;
     private $methodName;
-    /**
-     * @var Argument\ArgumentsWildcard
-     */
     private $argumentsWildcard;
-    /**
-     * @var Promise\PromiseInterface|null
-     */
     private $promise;
-    /**
-     * @var Prediction\PredictionInterface|null
-     */
     private $prediction;
-    /**
-     * @var list<Prediction\PredictionInterface>
-     */
     private $checkedPredictions = array();
-    /**
-     * @var bool
-     */
     private $bound = false;
-    /**
-     * @var bool
-     */
-    private $voidReturnType = false;
 
     /**
-     * @param ObjectProphecy<object>                  $objectProphecy
-     * @param string                                  $methodName
-     * @param Argument\ArgumentsWildcard|array<mixed> $arguments
+     * Initializes method prophecy.
+     *
+     * @param ObjectProphecy                        $objectProphecy
+     * @param string                                $methodName
+     * @param null|Argument\ArgumentsWildcard|array $arguments
      *
      * @throws \Prophecy\Exception\Doubler\MethodNotFoundException If method not found
-     *
-     * @internal
      */
-    public function __construct(ObjectProphecy $objectProphecy, $methodName, $arguments)
+    public function __construct(ObjectProphecy $objectProphecy, $methodName, $arguments = null)
     {
         $double = $objectProphecy->reveal();
         if (!method_exists($double, $methodName)) {
             throw new MethodNotFoundException(sprintf(
                 'Method `%s::%s()` is not defined.', get_class($double), $methodName
-            ), get_class($double), $methodName, $arguments);
+            ), get_class($double), $methodName);
         }
 
         $this->objectProphecy = $objectProphecy;
@@ -87,103 +64,15 @@ class MethodProphecy
             ), $this);
         }
 
-        $this->withArguments($arguments);
-
-        $hasTentativeReturnType = method_exists($reflectedMethod, 'hasTentativeReturnType')
-            && $reflectedMethod->hasTentativeReturnType();
-
-        if (true === $reflectedMethod->hasReturnType() || $hasTentativeReturnType) {
-            if ($hasTentativeReturnType) {
-                $reflectionType = $reflectedMethod->getTentativeReturnType();
-            }
-            else {
-                $reflectionType = $reflectedMethod->getReturnType();
-            }
-
-            if ($reflectionType instanceof ReflectionNamedType) {
-                $types = [$reflectionType];
-            }
-            elseif ($reflectionType instanceof ReflectionUnionType) {
-                $types = $reflectionType->getTypes();
-            }
-            else {
-                throw new MethodProphecyException(sprintf(
-                    "Can not add prophecy for a method `%s::%s()`\nas its return type is not supported by Prophecy yet.",
-                    get_class($double),
-                    $methodName
-                ), $this);
-            }
-
-            $types = array_map(
-                function(ReflectionNamedType $type) { return $type->getName(); },
-                $types
-            );
-
-            usort(
-                $types,
-                static function(string $type1, string $type2) {
-
-                    // null is lowest priority
-                    if ($type2 == 'null') {
-                        return -1;
-                    }
-                    elseif ($type1 == 'null') {
-                        return 1;
-                    }
-
-                    // objects are higher priority than scalars
-                    $isObject = static function($type) {
-                        return class_exists($type) || interface_exists($type);
-                    };
-
-                    if($isObject($type1) && !$isObject($type2)) {
-                        return -1;
-                    }
-                    elseif(!$isObject($type1) && $isObject($type2))
-                    {
-                        return 1;
-                    }
-
-                    // don't sort both-scalars or both-objects
-                    return 0;
-                }
-            );
-
-            $defaultType = $types[0];
-
-            if ('void' === $defaultType) {
-                $this->voidReturnType = true;
-            }
-
-            $this->will(function () use ($defaultType) {
-                switch ($defaultType) {
-                    case 'void': return;
-                    case 'string': return '';
-                    case 'float':  return 0.0;
-                    case 'int':    return 0;
-                    case 'bool':   return false;
-                    case 'array':  return array();
-
-                    case 'callable':
-                    case 'Closure':
-                        return function () {};
-
-                    case 'Traversable':
-                    case 'Generator':
-                        return (function () { yield; })();
-
-                    default:
-                        $prophet = new Prophet;
-                        return $prophet->prophesize($defaultType)->reveal();
-                }
-            });
+        if (null !== $arguments) {
+            $this->withArguments($arguments);
         }
     }
 
     /**
      * Sets argument wildcard.
      *
-     * @param array<mixed>|Argument\ArgumentsWildcard $arguments
+     * @param array|Argument\ArgumentsWildcard $arguments
      *
      * @return $this
      *
@@ -239,83 +128,35 @@ class MethodProphecy
     /**
      * Sets return promise to the prophecy.
      *
-     * @see \Prophecy\Promise\ReturnPromise
+     * @see Prophecy\Promise\ReturnPromise
      *
      * @return $this
      */
     public function willReturn()
     {
-        if ($this->voidReturnType) {
-            throw new MethodProphecyException(
-                "The method \"$this->methodName\" has a void return type, and so cannot return anything",
-                $this
-            );
-        }
-
         return $this->will(new Promise\ReturnPromise(func_get_args()));
-    }
-
-    /**
-     * @param array<mixed> $items
-     * @param mixed $return
-     *
-     * @return $this
-     *
-     * @throws \Prophecy\Exception\InvalidArgumentException
-     */
-    public function willYield($items, $return = null)
-    {
-        if ($this->voidReturnType) {
-            throw new MethodProphecyException(
-                "The method \"$this->methodName\" has a void return type, and so cannot yield anything",
-                $this
-            );
-        }
-
-        if (!is_array($items)) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected array, but got %s.',
-                gettype($items)
-            ));
-        }
-
-        $generator =  function() use ($items, $return) {
-            yield from $items;
-
-            return $return;
-        };
-
-        return $this->will($generator);
     }
 
     /**
      * Sets return argument promise to the prophecy.
      *
-     * @param int $index The zero-indexed number of the argument to return
-     *
-     * @see \Prophecy\Promise\ReturnArgumentPromise
+     * @see Prophecy\Promise\ReturnArgumentPromise
      *
      * @return $this
      */
-    public function willReturnArgument($index = 0)
+    public function willReturnArgument()
     {
-        if ($this->voidReturnType) {
-            throw new MethodProphecyException("The method \"$this->methodName\" has a void return type", $this);
-        }
-
-        return $this->will(new Promise\ReturnArgumentPromise($index));
+        return $this->will(new Promise\ReturnArgumentPromise);
     }
 
     /**
      * Sets throw promise to the prophecy.
      *
-     * @see \Prophecy\Promise\ThrowPromise
+     * @see Prophecy\Promise\ThrowPromise
      *
-     * @param string|\Throwable $exception Exception class or instance
+     * @param string|\Exception $exception Exception class or instance
      *
      * @return $this
-     *
-     * @phpstan-param class-string<\Throwable>|\Throwable $exception
      */
     public function willThrow($exception)
     {
@@ -353,7 +194,7 @@ class MethodProphecy
     /**
      * Sets call prediction to the prophecy.
      *
-     * @see \Prophecy\Prediction\CallPrediction
+     * @see Prophecy\Prediction\CallPrediction
      *
      * @return $this
      */
@@ -365,7 +206,7 @@ class MethodProphecy
     /**
      * Sets no calls prediction to the prophecy.
      *
-     * @see \Prophecy\Prediction\NoCallsPrediction
+     * @see Prophecy\Prediction\NoCallsPrediction
      *
      * @return $this
      */
@@ -377,27 +218,15 @@ class MethodProphecy
     /**
      * Sets call times prediction to the prophecy.
      *
-     * @see \Prophecy\Prediction\CallTimesPrediction
+     * @see Prophecy\Prediction\CallTimesPrediction
      *
-     * @param int $count
+     * @param $count
      *
      * @return $this
      */
     public function shouldBeCalledTimes($count)
     {
         return $this->should(new Prediction\CallTimesPrediction($count));
-    }
-
-    /**
-     * Sets call times prediction to the prophecy.
-     *
-     * @see \Prophecy\Prediction\CallTimesPrediction
-     *
-     * @return $this
-     */
-    public function shouldBeCalledOnce()
-    {
-        return $this->shouldBeCalledTimes(1);
     }
 
     /**
@@ -408,7 +237,6 @@ class MethodProphecy
      * @return $this
      *
      * @throws \Prophecy\Exception\InvalidArgumentException
-     * @throws PredictionException
      */
     public function shouldHave($prediction)
     {
@@ -423,7 +251,7 @@ class MethodProphecy
             ));
         }
 
-        if (null === $this->promise && !$this->voidReturnType) {
+        if (null === $this->promise) {
             $this->willReturn();
         }
 
@@ -447,11 +275,9 @@ class MethodProphecy
     /**
      * Checks call prediction.
      *
-     * @see \Prophecy\Prediction\CallPrediction
+     * @see Prophecy\Prediction\CallPrediction
      *
      * @return $this
-     *
-     * @throws PredictionException
      */
     public function shouldHaveBeenCalled()
     {
@@ -461,11 +287,9 @@ class MethodProphecy
     /**
      * Checks no calls prediction.
      *
-     * @see \Prophecy\Prediction\NoCallsPrediction
+     * @see Prophecy\Prediction\NoCallsPrediction
      *
      * @return $this
-     *
-     * @throws PredictionException
      */
     public function shouldNotHaveBeenCalled()
     {
@@ -475,7 +299,7 @@ class MethodProphecy
     /**
      * Checks no calls prediction.
      *
-     * @see \Prophecy\Prediction\NoCallsPrediction
+     * @see Prophecy\Prediction\NoCallsPrediction
      * @deprecated
      *
      * @return $this
@@ -488,7 +312,7 @@ class MethodProphecy
     /**
      * Checks call times prediction.
      *
-     * @see \Prophecy\Prediction\CallTimesPrediction
+     * @see Prophecy\Prediction\CallTimesPrediction
      *
      * @param int $count
      *
@@ -500,23 +324,7 @@ class MethodProphecy
     }
 
     /**
-     * Checks call times prediction.
-     *
-     * @see \Prophecy\Prediction\CallTimesPrediction
-     *
-     * @return $this
-     */
-    public function shouldHaveBeenCalledOnce()
-    {
-        return $this->shouldHaveBeenCalledTimes(1);
-    }
-
-    /**
      * Checks currently registered [with should(...)] prediction.
-     *
-     * @return void
-     *
-     * @throws PredictionException
      */
     public function checkPrediction()
     {
@@ -550,7 +358,7 @@ class MethodProphecy
     /**
      * Returns predictions that were checked on this object.
      *
-     * @return list<Prediction\PredictionInterface>
+     * @return PredictionInterface[]
      */
     public function getCheckedPredictions()
     {
@@ -560,7 +368,7 @@ class MethodProphecy
     /**
      * Returns object prophecy this method prophecy is tied to.
      *
-     * @return ObjectProphecy<object>
+     * @return ObjectProphecy
      */
     public function getObjectProphecy()
     {
@@ -587,17 +395,6 @@ class MethodProphecy
         return $this->argumentsWildcard;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasReturnVoid()
-    {
-        return $this->voidReturnType;
-    }
-
-    /**
-     * @return void
-     */
     private function bindToObjectProphecy()
     {
         if ($this->bound) {

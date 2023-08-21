@@ -21,24 +21,34 @@ use ReflectionClass;
  */
 class CachedDoubler extends Doubler
 {
+    private $classes = array();
+
     /**
-     * @var array<string, string>
+     * {@inheritdoc}
      */
-    private static $classes = array();
-
-    protected function createDoubleClass(ReflectionClass $class = null, array $interfaces)
+    public function registerClassPatch(ClassPatch\ClassPatchInterface $patch)
     {
-        $classId = $this->generateClassId($class, $interfaces);
-        if (isset(self::$classes[$classId])) {
-            return self::$classes[$classId];
-        }
+        $this->classes[] = array();
 
-        return self::$classes[$classId] = parent::createDoubleClass($class, $interfaces);
+        parent::registerClassPatch($patch);
     }
 
     /**
-     * @param ReflectionClass<object> $class
-     * @param ReflectionClass<object>[] $interfaces
+     * {@inheritdoc}
+     */
+    protected function createDoubleClass(ReflectionClass $class = null, array $interfaces)
+    {
+        $classId = $this->generateClassId($class, $interfaces);
+        if (isset($this->classes[$classId])) {
+            return $this->classes[$classId];
+        }
+
+        return $this->classes[$classId] = parent::createDoubleClass($class, $interfaces);
+    }
+
+    /**
+     * @param ReflectionClass   $class
+     * @param ReflectionClass[] $interfaces
      *
      * @return string
      */
@@ -51,19 +61,8 @@ class CachedDoubler extends Doubler
         foreach ($interfaces as $interface) {
             $parts[] = $interface->getName();
         }
-        foreach ($this->getClassPatches() as $patch) {
-            $parts[] = get_class($patch);
-        }
         sort($parts);
 
         return md5(implode('', $parts));
-    }
-
-    /**
-     * @return void
-     */
-    public function resetCache()
-    {
-        self::$classes = array();
     }
 }

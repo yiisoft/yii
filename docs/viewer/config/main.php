@@ -1,5 +1,5 @@
 <?php
-Yii::setPathOfAlias('docs',dirname(dirname(dirname(__FILE__))));
+Yii::setPathOfAlias('docs',dirname(dirname(__DIR__)));
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',

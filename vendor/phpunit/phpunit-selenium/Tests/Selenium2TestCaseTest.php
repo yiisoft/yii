@@ -131,20 +131,8 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
 
     public function testTheElementWithFocusCanBeInspected()
     {
-        $this->url('html/test_select.html');
-
-        // Select input and check if active
-        $theInput = $this->byCssSelector('input[name="theInput"]');
-        $theInput->click();
-        $this->assertTrue($this->active()->equals($theInput), 'Input not recognized as active.');
-
-        // Select select-group and check if active
-        $selectGroup = $this->byCssSelector('#selectWithOptgroup');
-        $selectGroup->click();
-        $this->assertTrue($this->active()->equals($selectGroup), 'Select-group not recognized as active.');
-
-        // Make sure that input is not recognized as selected
-        $this->assertFalse($this->active()->equals($theInput), 'Input falsely recognized as active.');
+        $this->markTestIncomplete('Which API to call session/1/element/active?');
+        $this->keys(array('value' => array())); // should send key strokes to the active element
     }
 
     public function testActivePageElementReceivesTheKeyStrokes()
@@ -324,7 +312,25 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
     {
         $this->url('html/test_click_javascript_page.html');
         $this->clickOnElement('link');
-        $this->assertEquals('link clicked', $this->byId('result')->text());
+        $this->assertEquals('link clicked', $this->alertText());
+        $this->markTestIncomplete("Should guarantee alerts to be checked in the right order and be dismissed; should reset the session in case alerts are still displayed as they would block the next test.");
+
+        $this->clickOnElement('linkWithMultipleJavascriptStatements');
+        $this->assertEquals('alert1', $this->alertText());
+        $this->acceptAlert();
+        $this->assertEquals('alert2', $this->alertText());
+        $this->dismissAlert();
+        $this->assertEquals('alert3', $this->alertText());
+
+        $this->clickOnElement('linkWithJavascriptVoidHref');
+        $this->assertEquals('onclick', $this->alertText());
+        $this->assertEquals('Click Page 1', $this->title());
+
+        $this->clickOnElement('linkWithOnclickReturnsFalse');
+        $this->assertEquals('Click Page 1', $this->title());
+
+        $this->clickOnElement('enclosedImage');
+        $this->assertEquals('enclosedImage clicked', $this->alertText());
     }
 
     public function testTypingViaTheKeyboard()
@@ -844,9 +850,6 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
 
         $this->window('myPopupWindow');
         $this->byId('closePage')->click();
-
-        $this->window('');
-        $this->assertEquals('Select Window Base', $this->title());
     }
 
     public function testWindowsCanBeManipulatedAsAnObject()
@@ -862,8 +865,12 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
         $this->assertEquals(100, $size['width']);
         $this->assertEquals(200, $size['height']);
 
-        $this->window('');
-        $this->assertEquals('Select Window Base', $this->title());
+        $this->markTestIncomplete("We should wait for the window to be moved. How? With aynshcrnous javascript specific for this test");
+        //$popup->position(array('x' => 300, 'y' => 400));
+        //$position = $popup->position();
+        //$this->assertEquals(300, $position['x']);
+        //$this->assertEquals(400, $position['y']);
+        // method on Window; interface Closeable, better name?
     }
 
     public function testWindowsCanBeClosed()
@@ -874,8 +881,6 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
         $this->window('myPopupWindow');
         $this->closeWindow();
 
-        $this->window('');
-        $this->assertEquals('Select Window Base', $this->title());
         $this->assertEquals(1, count($this->windowHandles()));
     }
 
@@ -1083,7 +1088,7 @@ class Extensions_Selenium2TestCaseTest extends Tests_Selenium2TestCase_BaseTestC
         $this->assertEquals('113', $this->byId('check')->text());
 
         $this->keys(Keys::ALT . Keys::ENTER);
-        $this->assertEquals('13,alt', $this->byId('check')->text());
+        $this->assertEquals('14,alt', $this->byId('check')->text());
 
         // note that modifier keys (alt, control, shift) are sticky
         // so they are enabled until you explicitly disable it by another call

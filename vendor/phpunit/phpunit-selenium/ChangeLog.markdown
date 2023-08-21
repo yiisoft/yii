@@ -1,16 +1,7 @@
-PHPUnit_Selenium 1.4
+PHPUnit_Selenium 1.2
 ====================
 
-This is the list of changes for the PHPUnit_Selenium 1.4 release series.
-
-PHPUnit_Selenium 1.4.0
-----------------------
-
-* PEAR is now not supported as an installation method, being deprecated from the PHPUnit parent project
-* phpunit_coverage.php does not realy on PEAR now but on finding an autoload.php file
-* A Vagrant VM is provided for contributors to easily run the tests
-* Supporting browsers() static method with same behavior as $browsers static property
-* Added $this->log() and $this->logTypes()
+This is the list of changes for the PHPUnit_Selenium 1.2 release series.
 
 PHPUnit_Selenium 1.3.3
 ----------------------
@@ -150,4 +141,3 @@ PHPUnit_Selenium 1.2.0
 * Introduced element manipulation in WebDriver API: text accessor, value mutator.
 * Introduced `by*()` quick selectors in WebDriver API.
 * Extracted a base command class for extending the supported session and element commands in WebDriver API.
-

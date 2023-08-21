@@ -1,77 +1,37 @@
+<h1 align="center">🇺🇦 <a href="https://phpunit.de/stand-with-ukraine.html">UKRAINE NEEDS YOUR HELP NOW!</a></h1>
+
 # PHPUnit
 
-PHPUnit is the de-facto standard for unit testing in PHP projects. It provides both a framework that makes the writing of tests easy as well as the functionality to easily run the tests and analyse their results.
+[![Latest Stable Version](https://poser.pugx.org/phpunit/phpunit/v/stable.png)](https://packagist.org/packages/phpunit/phpunit)
+[![CI Status](https://github.com/sebastianbergmann/phpunit/workflows/CI/badge.svg)](https://github.com/sebastianbergmann/phpunit/actions)
+[![Type Coverage](https://shepherd.dev/github/sebastianbergmann/phpunit/coverage.svg)](https://shepherd.dev/github/sebastianbergmann/phpunit)
+[![codecov](https://codecov.io/gh/sebastianbergmann/phpunit/branch/main/graph/badge.svg)](https://codecov.io/gh/sebastianbergmann/phpunit)
 
-[![Build Status](https://travis-ci.org/sebastianbergmann/phpunit.png?branch=3.7)](https://travis-ci.org/sebastianbergmann/phpunit)
-
-## Requirements
-
-* PHPUnit 3.7 requires PHP 5.3.3 (or later) but PHP 5.4.6 (or later) is highly recommended.
-* [PHP_CodeCoverage](http://github.com/sebastianbergmann/php-code-coverage), the library that is used by PHPUnit to collect and process code coverage information, depends on [Xdebug](http://xdebug.org/) 2.0.5 (or later) but Xdebug 2.2.1 (or later) is highly recommended.
+PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
 
 ## Installation
 
-There are three supported ways of installing PHPUnit.
+We distribute a [PHP Archive (PHAR)](https://php.net/phar) that has all required (as well as some optional) dependencies of PHPUnit bundled in a single file:
 
-You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) or [Composer](http://getcomposer.org/) to download and install PHPUnit as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPUnit that has all required (as well as some optional) dependencies of PHPUnit bundled in a single file.
+```bash
+$ wget https://phar.phpunit.de/phpunit-X.Y.phar
 
-### PEAR Installer
+$ php phpunit-X.Y.phar --version
+```
 
-The following two commands (which you may have to run as `root`) are all that is required to install PHPUnit using the PEAR Installer:
+Please replace `X.Y` with the version of PHPUnit you are interested in.
 
-    pear config-set auto_discover 1
-    pear install pear.phpunit.de/PHPUnit
+Alternatively, you may use [Composer](https://getcomposer.org/) to download and install PHPUnit as well as its dependencies. Please refer to the "[Getting Started](https://phpunit.de/getting-started-with-phpunit.html)" guide for details on how to install PHPUnit.
 
-### Composer
+## Contribute
 
-To add PHPUnit as a local, per-project dependency to your project, simply add a dependency on `phpunit/phpunit` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPUnit 3.7:
-
-    {
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        }
-    }
-
-### PHP Archive (PHAR)
-
-    wget http://pear.phpunit.de/get/phpunit.phar
-    chmod +x phpunit.phar
-
-## Documentation
-
-The documentation for PHPUnit is available in different formats:
-
-* [English, multiple HTML files](http://www.phpunit.de/manual/3.7/en/index.html)
-* [English, single HTML file](http://www.phpunit.de/manual/3.7/en/phpunit-book.html)
-* [English, PDF](http://www.phpunit.de/manual/3.7/en/phpunit-book.pdf)
-* [English, ePub](http://www.phpunit.de/manual/3.7/en/phpunit-book.epub)
-* [Brazilian Portuguese, multiple HTML files](http://www.phpunit.de/manual/3.7/pt_br/index.html)
-* [Brazilian Portuguese, single HTML file](http://www.phpunit.de/manual/3.7/pt_br/phpunit-book.html)
-* [Brazilian Portuguese, PDF](http://www.phpunit.de/manual/3.7/pt_br/phpunit-book.pdf)
-* [Brazilian Portuguese, ePub](http://www.phpunit.de/manual/3.7/pt_br/phpunit-book.epub)
-* [French, multiple HTML files](http://www.phpunit.de/manual/3.7/fr/index.html)
-* [French, single HTML file](http://www.phpunit.de/manual/3.7/fr/phpunit-book.html)
-* [French, PDF](http://www.phpunit.de/manual/3.7/fr/phpunit-book.pdf)
-* [French, ePub](http://www.phpunit.de/manual/3.7/fr/phpunit-book.epub)
-* [Japanese, multiple HTML files](http://www.phpunit.de/manual/3.7/ja/index.html)
-* [Japanese, single HTML file](http://www.phpunit.de/manual/3.7/ja/phpunit-book.html)
-* [Japanese, PDF](http://www.phpunit.de/manual/3.7/ja/phpunit-book.pdf)
-* [Japanese, ePub](http://www.phpunit.de/manual/3.7/ja/phpunit-book.epub)
-
-## IRC
-
-The [#phpunit channel on the Freenode IRC network](irc://irc.freenode.net/phpunit) is a place to chat about PHPUnit.
+Please refer to [CONTRIBUTING.md](https://github.com/sebastianbergmann/phpunit/blob/main/.github/CONTRIBUTING.md) for information on how to contribute to PHPUnit and its related projects.
 
 ## List of Contributors
 
 Thanks to everyone who has contributed to PHPUnit! You can find a detailed list of contributors on every PHPUnit related package on GitHub. This list shows only the major components:
 
 * [PHPUnit](https://github.com/sebastianbergmann/phpunit/graphs/contributors)
-* [PHP_CodeCoverage](https://github.com/sebastianbergmann/php-code-coverage/graphs/contributors)
-* [PHPUnit_MockObject](https://github.com/sebastianbergmann/phpunit-mock-objects/graphs/contributors)
+* [php-code-coverage](https://github.com/sebastianbergmann/php-code-coverage/graphs/contributors)
 
-A very special thanks to everyone who has contributed to the documentation and helps maintaining the translations:
-
-* [PHPUnit Documentation](https://github.com/sebastianbergmann/phpunit-documentation/graphs/contributors)
-
-Please refer to [CONTRIBUTING.md](https://github.com/sebastianbergmann/phpunit/blob/master/CONTRIBUTING.md) for information on how to contribute to PHPUnit and its related projects.
+A very special thanks to everyone who has contributed to the [documentation](https://github.com/sebastianbergmann/phpunit-documentation-english/graphs/contributors).

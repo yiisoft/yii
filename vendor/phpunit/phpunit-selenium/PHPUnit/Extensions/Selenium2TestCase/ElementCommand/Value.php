@@ -61,6 +61,7 @@ class PHPUnit_Extensions_Selenium2TestCase_ElementCommand_Value
         if ($this->jsonParameters) {
             return 'POST';
         }
-        throw new BadMethodCallException("JSON Wire Protocol only supports POST to /value now. To get the value of an element GET /attribute/:naem should be used and this object should never be involved.");
+
+        return 'GET';
     }
 }

@@ -20,9 +20,9 @@ use Prophecy\Exception\InvalidArgumentException;
  */
 class ArrayEntryToken implements TokenInterface
 {
-    /** @var TokenInterface */
+    /** @var \Prophecy\Argument\Token\TokenInterface */
     private $key;
-    /** @var TokenInterface */
+    /** @var \Prophecy\Argument\Token\TokenInterface */
     private $value;
 
     /**
@@ -39,10 +39,10 @@ class ArrayEntryToken implements TokenInterface
      * Scores half of combined scores from key and value tokens for same entry. Capped at 8.
      * If argument implements \ArrayAccess without \Traversable, then key token is restricted to ExactValueToken.
      *
-     * @param mixed $argument
+     * @param array|\ArrayAccess|\Traversable $argument
      *
-     * @throws InvalidArgumentException
-     * @return false|int
+     * @throws \Prophecy\Exception\InvalidArgumentException
+     * @return bool|int
      */
     public function scoreArgument($argument)
     {
@@ -60,7 +60,6 @@ class ArrayEntryToken implements TokenInterface
 
         $keyScores = array_map(array($this->key,'scoreArgument'), array_keys($argument));
         $valueScores = array_map(array($this->value,'scoreArgument'), $argument);
-        /** @var callable(int|false, int|false): (int|false) $scoreEntry */
         $scoreEntry = function ($value, $key) {
             return $value && $key ? min(8, ($key + $value) / 2) : false;
         };
@@ -111,7 +110,7 @@ class ArrayEntryToken implements TokenInterface
     /**
      * Wraps non token $value into ExactValueToken
      *
-     * @param mixed $value
+     * @param $value
      * @return TokenInterface
      */
     private function wrapIntoExactValueToken($value)
@@ -122,10 +121,10 @@ class ArrayEntryToken implements TokenInterface
     /**
      * Converts instance of \ArrayAccess to key => value array entry
      *
-     * @param \ArrayAccess<array-key, mixed> $object
+     * @param \ArrayAccess $object
      *
-     * @return array<mixed>
-     * @throws InvalidArgumentException
+     * @return array|null
+     * @throws \Prophecy\Exception\InvalidArgumentException
      */
     private function convertArrayAccessToEntry(\ArrayAccess $object)
     {
@@ -138,14 +137,6 @@ class ArrayEntryToken implements TokenInterface
         }
 
         $key = $this->key->getValue();
-
-        if (!\is_int($key) && !\is_string($key)) {
-            throw new InvalidArgumentException(sprintf(
-            'You can only use integer or string keys to match key of ArrayAccess object'.PHP_EOL.
-                'But you used `%s`.',
-               $this->key
-            ));
-        }
 
         return $object->offsetExists($key) ? array($key => $object[$key]) : array();
     }

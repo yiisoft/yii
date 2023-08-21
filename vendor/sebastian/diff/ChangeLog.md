@@ -2,12 +2,33 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [4.0.5] - 2023-05-07
+## [5.0.3] - 2023-05-01
+
+### Changed
+
+* [#119](https://github.com/sebastianbergmann/diff/pull/119): Improve performance of `TimeEfficientLongestCommonSubsequenceCalculator`
+
+## [5.0.2] - 2023-05-01
 
 ### Changed
 
 * [#118](https://github.com/sebastianbergmann/diff/pull/118): Improve performance of `MemoryEfficientLongestCommonSubsequenceCalculator`
-* [#119](https://github.com/sebastianbergmann/diff/pull/119): Improve performance of `TimeEfficientLongestCommonSubsequenceCalculator`
+
+## [5.0.1] - 2023-03-23
+
+### Fixed
+
+* [#115](https://github.com/sebastianbergmann/diff/pull/115): `Parser::parseFileDiff()` does not handle diffs correctly that only add lines or only remove lines
+
+## [5.0.0] - 2023-02-03
+
+### Changed
+
+* Passing a `DiffOutputBuilderInterface` instance to `Differ::__construct()` is no longer optional
+
+### Removed
+
+* Removed support for PHP 7.3, PHP 7.4, and PHP 8.0
 
 ## [4.0.4] - 2020-10-26
 
@@ -83,7 +104,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 5.6
 
-[4.0.5]: https://github.com/sebastianbergmann/diff/compare/4.0.4...4.0.5
+[5.0.3]: https://github.com/sebastianbergmann/diff/compare/5.0.2...5.0.3
+[5.0.2]: https://github.com/sebastianbergmann/diff/compare/5.0.1...5.0.2
+[5.0.1]: https://github.com/sebastianbergmann/diff/compare/5.0.0...5.0.1
+[5.0.0]: https://github.com/sebastianbergmann/diff/compare/4.0.4...5.0.0
 [4.0.4]: https://github.com/sebastianbergmann/diff/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/sebastianbergmann/diff/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/sebastianbergmann/diff/compare/4.0.1...4.0.2

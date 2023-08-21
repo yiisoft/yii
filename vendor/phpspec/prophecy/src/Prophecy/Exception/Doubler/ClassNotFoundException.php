@@ -26,9 +26,6 @@ class ClassNotFoundException extends DoubleException
         $this->classname = $classname;
     }
 
-    /**
-     * @return string
-     */
     public function getClassname()
     {
         return $this->classname;

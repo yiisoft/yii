@@ -135,14 +135,10 @@ class PHPUnit_Extensions_Selenium2TestCase_Driver
         curl_close($curl);
         $content = json_decode($rawResponse, TRUE);
         if ($info['http_code'] == 500) {
-            $message = '';
             if (isset($content['value']['message'])) {
-                $message .= $content['value']['message'];
+                $message = $content['value']['message'];
             } else {
-                $message .= "Internal server error while executing $http_method request at $url. Response: " . var_export($content, TRUE);
-            }
-            if (isset($content['value']['class'])) {
-                $message .= PHP_EOL . $content['value']['class'];
+                $message = "Internal server error while executing $http_method request at $url. Response: " . var_export($content, TRUE);
             }
             throw new PHPUnit_Extensions_Selenium2TestCase_WebDriverException($message, isset($content['status']) ? $content['status'] : 13);
         }

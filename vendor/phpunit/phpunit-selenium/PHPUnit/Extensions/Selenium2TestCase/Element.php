@@ -63,6 +63,7 @@
  * @method bool selected() Checks the state of an option or other form element
  * @method array size() Retrieves the dimensions of the element: 'width' and 'height' of the returned array
  * @method void submit() Submits a form; can be called on its children
+ * @method string value($newValue = NULL) Get or set value of form elements. If the element already has a value, the set one will be appended to it.
  * @method string text() Get content of ordinary elements
  */
 class PHPUnit_Extensions_Selenium2TestCase_Element
@@ -156,24 +157,5 @@ class PHPUnit_Extensions_Selenium2TestCase_Element
     public function toWebDriverObject()
     {
         return array('ELEMENT' => (string)$this->getId());
-    }
-
-    /**
-     * Get or set value of form elements. If the element already has a value, the set one will be appended to it.
-     * Created **ONLY** for keeping backward compatibility, since in selenium v2.42.0 it was removed
-     * The currently recommended solution is to use `$element->attribute('value')`
-     * @see https://code.google.com/p/selenium/source/detail?r=953007b48e83f90450f3e41b11ec31e2928f1605
-     * @see https://code.google.com/p/selenium/source/browse/java/CHANGELOG
-     *
-     * @param string $newValue
-     * @return null|string
-     */
-    public function value($newValue = NULL)
-    {
-        if ($newValue !== NULL) {
-            return parent::value($newValue);
-        }
-
-        return $this->attribute('value');
     }
 }

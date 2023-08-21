@@ -15,8 +15,6 @@ namespace Prophecy\Prophecy;
  * Core Prophecy interface.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
- *
- * @template-covariant T of object
  */
 interface ProphecyInterface
 {
@@ -24,8 +22,6 @@ interface ProphecyInterface
      * Reveals prophecy object (double) .
      *
      * @return object
-     *
-     * @phpstan-return T
      */
     public function reveal();
 }

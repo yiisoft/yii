@@ -98,11 +98,12 @@
     "phing/task-analyzers": "dev-main",
     "phpspec/phpspec": "*",
     "phpspec/prophecy": "*",
-    "phpunit/phpunit": "*",
-    "phpunit/phpunit-selenium": "~1.4.0",
+    "phpunit/phpunit": "^10.0",
+    "phpunit/phpunit-selenium": "*",
     "roave/security-advisories": "dev-latest",
     "symfony/flex": "*",
-    "symfony/yaml": "*"
+    "symfony/yaml": "*",
+    "symfony/console": "*"
   },
   "extra": {
     "branch-alias": {

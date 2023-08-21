@@ -42,15 +42,8 @@
  * @since      File available since Release 1.0.0
  */
 
-$directory = realpath(__DIR__);
-while ($directory != '/') {
-    $autoloadCandidate = $directory . '/vendor/autoload.php';
-    if (file_exists($autoloadCandidate)) {
-        require_once $autoloadCandidate;
-        break;
-    }
-    $directory = realpath($directory . '/..');
-}
+require_once 'File/Iterator/Autoload.php';
+require_once 'PHP/CodeCoverage/Autoload.php';
 
 // Set this to the directory that contains the code coverage files.
 // It defaults to getcwd(). If you have configured a different directory

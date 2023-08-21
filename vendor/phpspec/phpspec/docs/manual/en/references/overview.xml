@@ -1,0 +1,15 @@
+<sect1 id="introduction.overview">
+
+    <title>Overview</title>
+
+    <para>
+        PHPSpec is a Behaviour-Driven Development (BDD) Framework for PHP.
+    </para>
+
+    <para>
+        PHPSpec is a framework providing a Domain Specific Language for
+		describing the behaviour of PHP code with executable, readable
+		specifications.
+    </para>
+
+</sect1>

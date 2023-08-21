@@ -77,10 +77,10 @@ class PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener implements PHPUnit
         if ($test instanceof PHPUnit_Extensions_Selenium2TestCase)
         {
             try {
-                $file = $this->directory . '/' . get_class($test) . '__' . $test->getName() . '__' . date('Y-m-d\TH-i-s') . '.png';
+                $file = $this->directory . '/' . get_class($test) . '__' . $test->getName() . '__ ' . date('Y-m-d\TH-i-s') . '.png';
                 file_put_contents($file,        $test->currentScreenshot());
             } catch (Exception $e) {
-                $file = $this->directory . '/' . get_class($test) . '__' . $test->getName() . '__' . date('Y-m-d\TH-i-s') . '.txt';
+                $file = $this->directory . '/' . get_class($test) . '__' . $test->getName() . '__ ' . date('Y-m-d\TH-i-s') . '.txt';
                 file_put_contents($file, "Screenshot generation doesn't work." . "\n"
                                          . $e->getMessage() . "\n"
                                          . $e->getTraceAsString());
@@ -90,7 +90,6 @@ class PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener implements PHPUnit
 
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {}
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {}
-    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time) {}
     public function startTest(PHPUnit_Framework_Test $test) {}
     public function endTest(PHPUnit_Framework_Test $test, $time) {}
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {}

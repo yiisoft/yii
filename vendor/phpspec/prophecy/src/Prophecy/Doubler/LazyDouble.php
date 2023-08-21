@@ -25,23 +25,16 @@ use ReflectionClass;
 class LazyDouble
 {
     private $doubler;
-    /**
-     * @var ReflectionClass<object>|null
-     */
     private $class;
-    /**
-     * @var list<ReflectionClass<object>>
-     */
     private $interfaces = array();
-    /**
-     * @var array<mixed>|null
-     */
     private $arguments  = null;
-    /**
-     * @var DoubleInterface|null
-     */
     private $double;
 
+    /**
+     * Initializes lazy double.
+     *
+     * @param Doubler $doubler
+     */
     public function __construct(Doubler $doubler)
     {
         $this->doubler = $doubler;
@@ -50,9 +43,7 @@ class LazyDouble
     /**
      * Tells doubler to use specific class as parent one for double.
      *
-     * @param string|ReflectionClass<object> $class
-     *
-     * @return void
+     * @param string|ReflectionClass $class
      *
      * @throws \Prophecy\Exception\Doubler\ClassNotFoundException
      * @throws \Prophecy\Exception\Doubler\DoubleException
@@ -77,9 +68,7 @@ class LazyDouble
     /**
      * Tells doubler to implement specific interface with double.
      *
-     * @param string|ReflectionClass<object> $interface
-     *
-     * @return void
+     * @param string|ReflectionClass $interface
      *
      * @throws \Prophecy\Exception\Doubler\InterfaceNotFoundException
      * @throws \Prophecy\Exception\Doubler\DoubleException
@@ -109,9 +98,7 @@ class LazyDouble
     /**
      * Sets constructor arguments.
      *
-     * @param array<mixed>|null $arguments
-     *
-     * @return void
+     * @param array $arguments
      */
     public function setArguments(array $arguments = null)
     {

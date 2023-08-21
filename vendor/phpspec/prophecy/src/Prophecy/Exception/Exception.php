@@ -17,6 +17,10 @@ namespace Prophecy\Exception;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-interface Exception extends \Throwable
+interface Exception
 {
+    /**
+     * @return string
+     */
+    public function getMessage();
 }

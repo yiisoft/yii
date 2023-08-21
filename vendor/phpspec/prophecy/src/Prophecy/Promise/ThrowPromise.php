@@ -18,7 +18,7 @@ use Prophecy\Exception\InvalidArgumentException;
 use ReflectionClass;
 
 /**
- * Throws predefined exception.
+ * Throw promise.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
@@ -27,38 +27,47 @@ class ThrowPromise implements PromiseInterface
     private $exception;
 
     /**
-     * @var Instantiator|null
+     * @var \Doctrine\Instantiator\Instantiator
      */
     private $instantiator;
 
     /**
      * Initializes promise.
      *
-     * @param string|\Throwable $exception Exception class name or instance
+     * @param string|\Exception $exception Exception class name or instance
      *
      * @throws \Prophecy\Exception\InvalidArgumentException
-     *
-     * @phpstan-param class-string<\Throwable>|\Throwable $exception
      */
     public function __construct($exception)
     {
         if (is_string($exception)) {
-            if ((!class_exists($exception) && !interface_exists($exception)) || !$this->isAValidThrowable($exception)) {
+            if (!class_exists($exception)
+             && 'Exception' !== $exception
+             && !is_subclass_of($exception, 'Exception')) {
                 throw new InvalidArgumentException(sprintf(
-                    'Exception / Throwable class or instance expected as argument to ThrowPromise, but got %s.',
-                    $exception
+                    'Exception class or instance expected as argument to ThrowPromise, but got %s.',
+                    gettype($exception)
                 ));
             }
-        } elseif (!$exception instanceof \Exception && !$exception instanceof \Throwable) {
+        } elseif (!$exception instanceof \Exception) {
             throw new InvalidArgumentException(sprintf(
-                'Exception / Throwable class or instance expected as argument to ThrowPromise, but got %s.',
-                is_object($exception) ? get_class($exception) : gettype($exception)
+                'Exception class or instance expected as argument to ThrowPromise, but got %s.',
+                gettype($exception)
             ));
         }
 
         $this->exception = $exception;
     }
 
+    /**
+     * Throws predefined exception.
+     *
+     * @param array          $args
+     * @param ObjectProphecy $object
+     * @param MethodProphecy $method
+     *
+     * @throws object
+     */
     public function execute(array $args, ObjectProphecy $object, MethodProphecy $method)
     {
         if (is_string($this->exception)) {
@@ -66,7 +75,7 @@ class ThrowPromise implements PromiseInterface
             $reflection  = new ReflectionClass($classname);
             $constructor = $reflection->getConstructor();
 
-            if ($constructor === null || $constructor->isPublic() && 0 == $constructor->getNumberOfRequiredParameters()) {
+            if ($constructor->isPublic() && 0 == $constructor->getNumberOfRequiredParameters()) {
                 throw $reflection->newInstance();
             }
 
@@ -78,16 +87,5 @@ class ThrowPromise implements PromiseInterface
         }
 
         throw $this->exception;
-    }
-
-    /**
-     * @param string $exception
-     *
-     * @return bool
-     */
-    private function isAValidThrowable($exception)
-    {
-        return is_a($exception, 'Exception', true)
-            || is_a($exception, 'Throwable', true);
     }
 }
