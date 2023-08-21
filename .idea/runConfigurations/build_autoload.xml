@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="build autoload" type="BatchConfigurationType" factoryName="Batch" singleton="false">
+  <configuration default="false" name="build autoload" type="BatchConfigurationType" factoryName="Batch" singleton="true">
     <module name="yii" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="WORKING_DIRECTORY" value="./build" />
