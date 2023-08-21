@@ -27,6 +27,13 @@
           </versions>
         </cache>
       </tool>
+      <tool tool_name="PHPSpec">
+        <cache>
+          <versions>
+            <info id="LocalC:\wamp64\www\yii\vendor\phpspec\phpspec\bin\phpspec" version="7.4.0" />
+          </versions>
+        </cache>
+      </tool>
       <tool tool_name="PHPUnit">
         <cache>
           <versions>
