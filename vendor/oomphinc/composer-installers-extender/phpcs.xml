@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Composer Installers Extender">
+  <description>
+    Coding standards for the Composer Installers Extender project using PSR-2
+    with PHP 7 syntax.
+  </description>
+
+  <!-- Directories to scan -->
+  <file>src/</file>
+
+  <!-- PHPCS argument overrides -->
+  <arg name="colors" />
+
+  <!-- PHP configuration overrides -->
+  <ini name="memory_limit" value="-1" />
+
+  <!-- Project autoloader -->
+  <autoload>vendor/autoload.php</autoload>
+
+  <!-- Import rules -->
+  <rule ref="PSR2" />
+</ruleset>

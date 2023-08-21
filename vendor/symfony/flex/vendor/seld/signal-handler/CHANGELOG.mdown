@@ -1,0 +1,31 @@
+### 2.0.1 (2022-07-20)
+
+  * Fixed PHPStan type annotations
+
+### 2.0.0 (2022-07-20)
+
+  * BC Break: On PHP 8.0+ the result of `SignalHandler::create()` MUST now be stored in a variable even if you handle signals via the callback, as otherwise the weak reference will be garbage collected immediately and the handler will never be called. See README for more details.
+  * BC Break: The `SignalHandler` class is now final
+  * BC Break: The `SignalHandler` constructor is now private as it should anyway only be created via `::create()`
+  * BC Break: `unregister()` now clears a handler instance fully and you do not need to pass which signals you want to clear anymore.
+  * Bumped PHP requirement to 7.2
+  * Added `exitWithLastSignal` method on signal handler which you should use if you want to `exit()` the process when a signal was received/handled. This hints to the parent process which signaled that the process was terminated due to the signal.
+  * Added support for nesting handlers and made sure new instances' registration/unregistration does not cause issues with previous instances. See README for more details.
+
+### 1.3.0 (2022-02-17)
+
+  * Dropped support for PHP <7.1 which allows dropping ticks for performance reasons (#6)
+    If you used `declare(ticks = 1);` previously you should now be able to remove it from your code.
+  * Added support for CTRL+C / CTRL+BREAK (both handled as SIGINT) on Windows on PHP 7.4+
+
+### 1.2.0 (2019-07-29)
+
+  * Added support for unregistering signal handlers
+
+### 1.1.0 (2016-09-14)
+
+  * Added PHP7.1 support for async signal handling
+
+### 1.0.0 (2015-09-15)
+
+  * Initial release

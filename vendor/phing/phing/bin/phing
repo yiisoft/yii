@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Shell wrapper for Phing
+ */
+
+// turn off html errors
+ini_set('html_errors', 'off');
+
+putenv("PHING_HOME=" . realpath(__DIR__ . '/../'));
+
+require_once __DIR__ . '/phing.php';

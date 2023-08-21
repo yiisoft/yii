@@ -1,0 +1,33 @@
+{
+  "name": "phing/task-coverage",
+  "description": "coverage database tasks which can be used to gather code coverage information for unit tests.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\Coverage\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "coverage-setup": "Phing\\Task\\Ext\\Coverage\\CoverageSetupTask",
+      "coverage-merger": "Phing\\Task\\Ext\\Coverage\\CoverageMergerTask",
+      "coverage-report": "Phing\\Task\\Ext\\Coverage\\CoverageReportTask",
+      "coverage-threshold": "Phing\\Task\\Ext\\Coverage\\CoverageThresholdTask"
+    }
+  }
+}

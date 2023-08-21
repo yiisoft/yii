@@ -1,0 +1,30 @@
+{
+  "name": "phing/task-phkpackage",
+  "description": "This task runs PHK_Creator.phk to build PHK-package.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\PhkPackage\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "phkpackage": "Phing\\Task\\Ext\\PhkPackage\\PhkPackageTask"
+    }
+  }
+}

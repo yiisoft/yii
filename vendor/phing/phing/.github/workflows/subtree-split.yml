@@ -1,0 +1,127 @@
+name: 'Task Packages Split'
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN_MONOREPO_SPLIT }}
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # define package to repository map
+        package:
+          -
+            local_path: 'Amazon'
+            split_repository: 'task-aws'
+          -
+            local_path: 'Analyzer'
+            split_repository: 'task-analyzers'
+          -
+            local_path: 'ApiGen'
+            split_repository: 'task-apigen'
+          -
+            local_path: 'Archive'
+            split_repository: 'task-archives'
+          -
+            local_path: 'Coverage'
+            split_repository: 'task-coverage'
+          -
+            local_path: 'DbDeploy'
+            split_repository: 'task-dbdeploy'
+          -
+            local_path: 'FtpDeploy'
+            split_repository: 'task-ftpdeploy'
+          -
+            local_path: 'Git'
+            split_repository: 'task-git'
+          -
+            local_path: 'Hg'
+            split_repository: 'task-hg'
+          -
+            local_path: 'Http'
+            split_repository: 'task-http'
+          -
+            local_path: 'IniFile'
+            split_repository: 'task-inifile'
+          -
+            local_path: 'Ioncube'
+            split_repository: 'task-ioncube'
+          -
+            local_path: 'JsHint'
+            split_repository: 'task-jshint'
+          -
+            local_path: 'JsMin'
+            split_repository: 'task-jsmin'
+          -
+            local_path: 'Liquibase'
+            split_repository: 'task-liquibase'
+          -
+            local_path: 'PhkPackage'
+            split_repository: 'task-phkpackage'
+          -
+            local_path: 'PhpDoc'
+            split_repository: 'task-phpdoc'
+          -
+            local_path: 'PhpUnit'
+            split_repository: 'task-phpunit'
+          -
+            local_path: 'Sass'
+            split_repository: 'task-sass'
+          -
+            local_path: 'Smarty'
+            split_repository: 'task-smarty'
+          -
+            local_path: 'Ssh'
+            split_repository: 'task-ssh'
+          -
+            local_path: 'Svn'
+            split_repository: 'task-svn'
+          -
+            local_path: 'Visualizer'
+            split_repository: 'task-visualizer'
+          -
+            local_path: 'ZendCodeAnalyzer'
+            split_repository: 'task-zendcodeanalyzer'
+          -
+            local_path: 'ZendServerDeploymentTool'
+            split_repository: 'task-zendserverdeploymenttool'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # no tag
+      -
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
+        with:
+          package_directory: 'src/Phing/Task/Ext/${{ matrix.package.local_path }}'
+
+          repository_organization: 'phingofficial'
+          repository_name: '${{ matrix.package.split_repository }}'
+
+          user_name: "phing-ci"
+          user_email: "info@phing.info"
+
+      # with tag
+      -
+        if: "startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
+
+          package_directory: 'src/Phing/Task/Ext/${{ matrix.package.local_path }}'
+
+          repository_organization: 'phingofficial'
+          repository_name: '${{ matrix.package.split_repository }}'
+
+          user_name: "phing-ci"
+          user_email: "info@phing.info"

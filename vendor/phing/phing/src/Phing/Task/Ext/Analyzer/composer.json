@@ -1,0 +1,38 @@
+{
+  "name": "phing/task-analyzers",
+  "description": "Tasks for code analysis.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1",
+    "pdepend/pdepend": "^2.9",
+    "phploc/phploc": "^7.0",
+    "phpmd/phpmd": "^2.10",
+    "phpstan/phpstan": "^0.12.87 || ^1.0",
+    "sebastian/phpcpd": "^6.0"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\Analyzer\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "phpstan": "Phing\\Task\\Ext\\Analyzer\\Phpstan\\PHPStanTask",
+      "phpmd": "Phing\\Task\\Ext\\Analyzer\\Phpmd\\PHPMDTask",
+      "phpdepend": "Phing\\Task\\Ext\\Analyzer\\Pdepend\\PhpDependTask",
+      "sonar": "Phing\\Task\\Ext\\Analyzer\\Sonar\\SonarTask"
+    }
+  }
+}

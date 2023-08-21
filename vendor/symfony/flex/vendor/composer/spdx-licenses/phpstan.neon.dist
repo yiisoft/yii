@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+
+    typeAliases:
+        SPDXLicense: 'array{0: string, 1: bool, 2: string, 3: bool}'
+        SPDXLicenseException: 'array{0: string, 1: string}'

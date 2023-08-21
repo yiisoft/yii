@@ -1,0 +1,9 @@
+.dockerignore
+.gitignore
+.git
+.github
+.idea
+build
+docs
+tests
+vendor

@@ -1,0 +1,30 @@
+{
+  "name": "phing/task-apigen",
+  "description": "Task for ApiGen, a tool for creating professional API documentation from PHP source code.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\ApiGen\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "apigen": "Phing\\Task\\Ext\\ApiGen\\ApiGenTask"
+    }
+  }
+}

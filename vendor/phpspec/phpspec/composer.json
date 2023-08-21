@@ -1,0 +1,73 @@
+{
+    "name":         "phpspec/phpspec",
+    "description":  "Specification-oriented BDD framework for PHP 7.1+",
+    "keywords":     ["BDD", "SpecBDD", "TDD", "spec", "specification", "tests", "testing"],
+    "homepage":     "http://phpspec.net/",
+    "type":         "library",
+    "license":      "MIT",
+    "authors":      [
+        {
+            "name":      "Konstantin Kudryashov",
+            "email":     "ever.zet@gmail.com",
+            "homepage":  "http://everzet.com"
+        },
+        {
+            "name":      "Marcello Duarte",
+            "homepage":  "http://marcelloduarte.net/"
+        },
+        {
+            "name":      "Ciaran McNulty",
+            "homepage":  "https://ciaranmcnulty.com/"
+        }
+    ],
+
+    "require": {
+        "php":                      "^7.3 || 8.0.* || 8.1.* || 8.2.*",
+        "phpspec/prophecy":         "^1.9",
+        "phpspec/php-diff":         "^1.0.0",
+        "sebastian/exporter":       "^3.0 || ^4.0 || ^5.0",
+        "symfony/console":          "^3.4 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/event-dispatcher": "^3.4 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/process":          "^3.4 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/finder":           "^3.4 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/yaml":             "^3.4 || ^4.4 || ^5.0 || ^6.0",
+        "doctrine/instantiator":    "^1.0.5 || ^2",
+        "ext-tokenizer":            "*"
+    },
+
+    "require-dev": {
+        "behat/behat":           "^3.3",
+        "symfony/filesystem":    "^3.4 || ^4.0 || ^5.0 || ^6.0",
+        "phpunit/phpunit":       "^8.0 || ^9.0 || ^10.0",
+        "vimeo/psalm": "^4.3 || ^5.2"
+    },
+
+    "suggest": {
+        "phpspec/nyan-formatters": "Adds Nyan formatters"
+    },
+
+    "conflict": {
+        "sebastian/comparator" : "<1.2.4"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "PhpSpec": "src/"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-0": {
+            "spec\\PhpSpec": "."
+        }
+    },
+
+    "bin": ["bin/phpspec"],
+
+    "extra": {
+        "branch-alias": {
+            "dev-main": "7.4.x-dev"
+        }
+    }
+
+}

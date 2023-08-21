@@ -64,7 +64,6 @@ Desktop.ini
 Session.vim
 
 /composer.lock
-/vendor
 
 ###> phpunit/phpunit ###
 /phpunit.xml

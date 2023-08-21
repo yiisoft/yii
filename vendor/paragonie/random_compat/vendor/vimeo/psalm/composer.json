@@ -1,0 +1,36 @@
+{
+    "name": "vimeo/psalm",
+    "description": "A static analysis tool for finding errors in PHP applications",
+    "keywords": ["php", "code", "inspection"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Brown"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "nikic/PHP-Parser": ">=3.0.2"
+    },
+    "bin": ["bin/psalm"],
+    "autoload": {
+        "psr-4": {
+            "Psalm\\": "src/Psalm"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Psalm\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=5.7.4",
+        "squizlabs/php_codesniffer": "^2.7"
+    },
+    "scripts": {
+        "psalm": "./bin/psalm",
+        "standards": "phpcs --standard=phpcs.xml",
+        "tests": "phpunit"
+    }
+}

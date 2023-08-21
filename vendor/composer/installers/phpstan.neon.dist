@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludes_analyse:
+        - tests/Composer/Installers/Test/PolyfillTestCase.php
+    ignoreErrors:
+        - '~Test::[a-zA-Z0-9]+Provider\(\) return type~'
+
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon

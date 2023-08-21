@@ -1,0 +1,175 @@
+#!/usr/bin/env php
+<?php
+
+foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
+
+use Psalm\Checker\FileChecker;
+use Psalm\Checker\ProjectChecker;
+
+// show all errors
+error_reporting(-1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+ini_set('memory_limit', '2048M');
+ini_set('xdebug.max_nesting_level', 512);
+
+// get options from command line
+$options = getopt(
+    'f:mhc:',
+    [
+        'help', 'debug', 'config:', 'monochrome', 'show-info:', 'diff',
+        'file:', 'self-check', 'update-docblocks', 'output-format:',
+    ]
+);
+
+if (array_key_exists('help', $options)) {
+    $options['h'] = false;
+}
+
+if (array_key_exists('monochrome', $options)) {
+    $options['m'] = false;
+}
+
+if (isset($options['config'])) {
+    $options['c'] = $options['config'];
+}
+
+if (isset($options['c']) && is_array($options['c'])) {
+    die('Too many config files provided' . PHP_EOL);
+}
+
+if (array_key_exists('h', $options)) {
+    echo <<< HELP
+Usage:
+    psalm [options] [file...]
+
+Options:
+    -h,  --help                     Display this help message
+         --debug                    Debug information
+    -c,  --config=psalm.xml         Path to a psalm.xml configuration file
+    -m,  --monochrome               Enable monochrome output
+         --show-info[=BOOLEAN]      Show non-exception parser findings.
+         --diff                     File to check is a diff
+         --self-check               Psalm checks itself
+         --update-docblocks         Adds correct return types to the given file(s)
+         --output-format=console    Changes the output format
+
+
+HELP;
+
+    exit;
+}
+
+if (getcwd() === false) {
+    die('Cannot get current working directory');
+}
+
+// get vars from options
+$debug = array_key_exists('debug', $options);
+
+if (isset($options['f'])) {
+    $input_paths = is_array($options['f']) ? $options['f'] : [$options['f']];
+} else {
+    $input_paths = $argv ? $argv : null;
+}
+
+$output_format = isset($options['output-format']) ? $options['output-format'] : ProjectChecker::TYPE_CONSOLE;
+
+$paths_to_check = null;
+
+if ($input_paths) {
+    $filtered_input_paths = [];
+
+    for ($i = 0; $i < count($input_paths); $i++) {
+        $input_path = $input_paths[$i];
+
+        if (realpath($input_path) === __FILE__) {
+            continue;
+        }
+
+        if ($input_path[0] === '-' && strlen($input_path) === 2) {
+            if ($input_path[1] === 'c' || $input_path[1] === 'f') {
+                $i++;
+            }
+            continue;
+        }
+
+        if ($input_path[0] === '-' && $input_path[2] === '=') {
+            continue;
+        }
+
+        if (substr($input_path, 0, 2) === '--' && strlen($input_path) > 2) {
+            continue;
+        }
+
+        $filtered_input_paths[] = $input_path;
+    }
+
+    stream_set_blocking(STDIN, 0);
+
+    if ($filtered_input_paths === ['-'] && $stdin = fgets(STDIN)) {
+        $filtered_input_paths = preg_split('/\s+/', trim($stdin));
+    }
+
+    $paths_to_check = [];
+
+    foreach ($filtered_input_paths as $i => $path_to_check) {
+        if ($path_to_check[0] === '-') {
+            die('Invalid usage, expecting psalm [options] [file...]' . PHP_EOL);
+        }
+
+        if (!file_exists($path_to_check)) {
+            die('Cannot locate ' . $path_to_check . PHP_EOL);
+        }
+
+        $paths_to_check[] = realpath($path_to_check);
+    }
+
+    if (!$paths_to_check) {
+        $paths_to_check = null;
+    }
+}
+
+$path_to_config = isset($options['c']) ? realpath($options['c']) : null;
+
+if ($path_to_config === false) {
+    die('Could not resolve path to config ' . $options['c'] . PHP_EOL);
+}
+
+$use_color = !array_key_exists('m', $options);
+
+$show_info = isset($options['show-info'])
+            ? $options['show-info'] !== 'false' && $options['show-info'] !== '0'
+            : true;
+
+$is_diff = isset($options['diff']);
+
+$update_docblocks = isset($options['update-docblocks']);
+
+$project_checker = new ProjectChecker($use_color, $show_info, $output_format, $debug, $update_docblocks);
+
+// initialise custom config, if passed
+if ($path_to_config) {
+    $project_checker->setConfigXML($path_to_config);
+}
+
+\Psalm\IssueBuffer::setStartTime(microtime(true));
+
+if (array_key_exists('self-check', $options)) {
+    $project_checker->checkDir(dirname(__DIR__) . '/src');
+} elseif ($paths_to_check === null) {
+    $project_checker->check($is_diff);
+} elseif ($paths_to_check) {
+    foreach ($paths_to_check as $path_to_check) {
+        if (is_dir($path_to_check)) {
+            $project_checker->checkDir($path_to_check);
+        } else {
+            $project_checker->checkFile($path_to_check);
+        }
+    }
+}

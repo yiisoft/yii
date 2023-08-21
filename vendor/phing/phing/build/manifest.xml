@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phar xmlns="https://phar.io/xml/manifest/1.0">
+    <contains name="phing/phing" version="${version}" type="application"/>
+    <copyright>
+        <author name="Michiel Rook" email="mrook@php.net"/>
+        <license type="LGPL-3.0" url="https://github.com/phingofficial/phing/blob/main/LICENSE"/>
+    </copyright>
+    <requires>
+        <php version="^7.3 || ^8.0"/>
+    </requires>
+</phar>

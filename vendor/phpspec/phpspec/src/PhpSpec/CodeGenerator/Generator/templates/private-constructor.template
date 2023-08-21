@@ -1,0 +1,4 @@
+
+    private function __construct()
+    {
+    }

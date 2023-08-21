@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<psalm
+    name="Psalm for Psalm"
+    stopOnFirstError="false"
+    useDocblockTypes="true"
+    totallyTyped="true"
+    strictBinaryOperands="false"
+>
+    <projectFiles>
+        <directory name="src" />
+        <directory name="tests" />
+        <ignoreFiles>
+            <file name="src/Psalm/CallMap.php" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <MisplacedRequiredParam errorLevel="suppress" />
+        <NullOperand errorLevel="suppress" />
+
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </MixedArgument>
+
+        <MixedOperand>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </MixedOperand>
+
+        <MixedPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </MixedPropertyFetch>
+
+        <NoInterfaceProperties>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </NoInterfaceProperties>
+
+        <NullArrayAccess>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </NullArrayAccess>
+
+        <NullPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </NullPropertyFetch>
+
+        <NullArgument>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </NullArgument>
+
+        <TypeCoercion>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </TypeCoercion>
+    </issueHandlers>
+</psalm>

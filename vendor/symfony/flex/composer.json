@@ -1,0 +1,32 @@
+{
+    "name": "symfony/flex",
+    "type": "composer-plugin",
+    "description": "Composer plugin for Symfony",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien.potencier@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0",
+        "composer-plugin-api": "^2.1"
+    },
+    "require-dev": {
+        "composer/composer": "^2.1",
+        "symfony/dotenv": "^5.4|^6.0",
+        "symfony/filesystem": "^5.4|^6.0",
+        "symfony/phpunit-bridge": "^5.4|^6.0",
+        "symfony/process": "^5.4|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symfony\\Flex\\": "src"
+        }
+    },
+    "extra": {
+        "class": "Symfony\\Flex\\Flex"
+    }
+}

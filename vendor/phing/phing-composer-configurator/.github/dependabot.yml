@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: widen
+  ignore:
+  - dependency-name: phpunit/phpunit
+    versions:
+    - ">= 0"
+  commit-message:
+    prefix: Build
+    include: scope
