@@ -8,3 +8,5 @@
 /dataSources.local.xml
 # CodeStream ignored files
 /../../yii\.idea/codestream.xml
+
+/sonarlint
