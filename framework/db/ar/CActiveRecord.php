@@ -37,6 +37,7 @@
  * @package system.db.ar
  * @since 1.0
  */
+#[\AllowDynamicProperties]
 abstract class CActiveRecord extends CModel
 {
 	const BELONGS_TO='CBelongsToRelation';
