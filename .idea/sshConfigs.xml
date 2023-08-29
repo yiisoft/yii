@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig authType="PASSWORD" connectionConfig="{&quot;hostKeyVerifier&quot;:{&quot;hashKnownHosts&quot;:true,&quot;stringHostKeyChecking&quot;:&quot;ASK&quot;}}" host="ssh.github.com" id="b759297e-1720-40f5-8981-0c421a615276" port="443" nameFormat="DESCRIPTIVE" username="git" useOpenSSHConfig="false" />
-      <sshConfig authType="OPEN_SSH" connectionConfig="{&quot;hostKeyVerifier&quot;:{&quot;hashKnownHosts&quot;:true,&quot;stringHostKeyChecking&quot;:&quot;ASK&quot;},&quot;serverAliveInterval&quot;:300}" host="bitbucket.org" id="62af9b05-bc2c-4bb4-b3d8-44c026f10eb4" port="22" nameFormat="DESCRIPTIVE" username="git" useOpenSSHConfig="true" />
-    </configs>
-  </component>
-</project>
