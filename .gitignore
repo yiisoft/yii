@@ -64,4 +64,11 @@ Desktop.ini
 Session.vim
 
 /composer.lock
-/vendor
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+#Random
+/.idea/sonarlint

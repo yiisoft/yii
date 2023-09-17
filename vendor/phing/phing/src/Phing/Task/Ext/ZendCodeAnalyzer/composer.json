@@ -1,0 +1,31 @@
+{
+  "name": "phing/task-zendcodeanalyser",
+  "description": "The ZendCodeAnalyzerTask analyze PHP source files using the Zend Code Analyzer tool that ships with all versions of Zend Studio.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\ZendCodeAnalyzer\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "zendcodeanalyzer": "Phing\\Task\\Ext\\ZendCodeAnalyzer\\ZendCodeAnalyzerTask",
+      "analyze": "Phing\\Task\\Ext\\ZendCodeAnalyzer\\ZendCodeAnalyzerTask"
+    }
+  }
+}

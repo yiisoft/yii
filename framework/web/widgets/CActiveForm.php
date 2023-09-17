@@ -279,6 +279,11 @@ class CActiveForm extends CWidget
 	 */
 	public $enableClientValidation=false;
 
+    /**
+     * @var bool
+     */
+    public $validateOnBlur=false;
+
 	/**
 	 * @var mixed form element to get initial input focus on page load.
 	 *
@@ -468,11 +473,13 @@ class CActiveForm extends CWidget
 			'model'=>get_class($model),
 			'name'=>$attribute,
 			'enableAjaxValidation'=>$enableAjaxValidation,
+            'validateOnBlur'=>$this->validateOnBlur,
 		);
 
 		$optionNames=array(
 			'validationDelay',
 			'validateOnChange',
+            'validateOnBlur',
 			'validateOnType',
 			'hideErrorMessage',
 			'inputContainer',

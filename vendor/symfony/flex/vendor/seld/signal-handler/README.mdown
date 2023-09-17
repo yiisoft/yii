@@ -1,0 +1,139 @@
+Signal Handler
+==============
+
+A simple cross-platform<sup>1</sup> signal handler.
+
+<sup>1</sup> Windows support is only possible on PHP 7.4+ and only supports catching
+`SIGINT`/`SIGBREAK` (`ctrl+c` / `ctrl+break` respectively). On older PHP versions it
+will simply silently fail to work on Windows so you can use it but signals will just
+interrupt PHP as if the library was not in use.
+
+[![Continuous Integration](https://github.com/Seldaek/signal-handler/workflows/Continuous%20Integration/badge.svg?branch=main)](https://github.com/Seldaek/signal-handler/actions)
+
+Usage
+-----
+
+> **Note**: To maximize cross-platform support all signals are available as constants
+on the SignalHandler class and it is recommended to use those instead of the PHP
+constants as the constants are not available on all platforms.
+
+### Default usage, listen to SIGTERM and SIGINT (i.e. Ctrl+C / ^C interrupts)
+
+```php
+use Seld\Signal\SignalHandler;
+
+$signal = SignalHandler::create();
+
+while (true) {
+    // do some work here ...
+
+    // exit gracefully at the end of an iteration if the process interruption was called for
+    if ($signal->isTriggered()) {
+        $signal->exitWithLastSignal();
+    }
+}
+```
+
+### Nesting/stacking and unregistering signal handlers
+
+If you create multiple `SignalHandler` instances they will be kept on a stack and only
+the top-most / last created one will be triggered when a signal comes in.
+
+When you unregister the top one the previous one becomes active again, etc.
+
+For this to work well however you need to make sure you properly unregister the signal handler
+when you are done with it. On PHP 8.0+ this is done automatically whenever the signal handler is
+garbage collected as the stack uses [WeakReference](https://www.php.net/manual/en/class.weakreference.php)
+instances to keep track of the handlers. On PHP 7 however you need to call `$signal->unregister();`
+explicitly to remove it from the global handler stack.
+
+Typically it would look something like this if you need PHP 7 support:
+
+```php
+use Seld\Signal\SignalHandler;
+
+$signal = SignalHandler::create();
+
+try {
+    // do things
+} finally {
+    $signal->unregister();
+}
+```
+
+### Listen to custom signals and reset the handler to handle the same signal multiple times
+
+```php
+use Seld\Signal\SignalHandler;
+
+// using strings for the constant names makes sure the code will run on Windows and
+// OSX even if the signal is missing on those platforms
+$signal = SignalHandler::create([SignalHandler::SIGHUP, SignalHandler::SIGUSR1]);
+
+while (true) {
+    // do some work here ...
+
+    // reload the config when the signal was triggered
+    if ($signal->isTriggered()) {
+        $this->reloadConfiguration();
+
+        // reset the handler so next time you check isTriggered() it
+        // will be false, until SIGHUP/SIGUSR1 is signaled again
+        $signal->reset();
+    }
+}
+```
+
+### Passing in a [PSR-3 Logger](https://packagist.org/providers/psr/log-implementation) will make it log `->info('Received '.$signalName)`
+
+```php
+use Seld\Signal\SignalHandler;
+
+$signal = SignalHandler::create(null, new PSR3Logger());
+```
+
+### Passing in a callback you can react to the signal as well
+
+```php
+use Seld\Signal\SignalHandler;
+
+$signal = SignalHandler::create([SignalHandler::SIGINT], function (string $signalName, SignalHandler $self) {
+    echo 'Received ' . $signalName . PHP_EOL;
+
+    // you can optionally receive the SignalHandler instance as second arg to do things on it like
+    // resetting its state or exiting to handle the signal
+    $self->reset();
+    $self->exitWithLastSignal();
+});
+```
+
+> **Warning**: As described above on PHP 8.0+ this library uses weak references to keep track of the handlers,
+> so if you do not store the result of `::create()` into a variable that you keep around as long as you need
+> the handler, it will not work and your callback function will never be called.
+
+Installation
+------------
+
+For a quick install with Composer use:
+
+    $ composer require seld/signal-handler
+
+Requirements
+------------
+
+- PHP 7.2+ (or PHP 5.4+ for v1 which is EOL now)
+
+Submitting bugs and feature requests
+------------------------------------
+
+Bugs and feature request are tracked on [GitHub](https://github.com/Seldaek/signal-handler/issues)
+
+Author
+------
+
+Jordi Boggiano - <j.boggiano@seld.be> - <http://twitter.com/seldaek>
+
+License
+-------
+
+signal-handler is licensed under the MIT License - see the LICENSE file for details

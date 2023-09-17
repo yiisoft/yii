@@ -1,0 +1,31 @@
+{
+  "name": "phing/task-zendserverdevelopmenttools",
+  "description": "Zend Server Development Tools.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\ZendServerDeploymentTool\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "zsdtvalidate": "Phing\\Task\\Ext\\ZendServerDeploymentTool\\ZsdtValidateTask",
+      "zsdtpack": "Phing\\Task\\Ext\\ZendServerDeploymentTool\\ZsdtPackTask"
+    }
+  }
+}

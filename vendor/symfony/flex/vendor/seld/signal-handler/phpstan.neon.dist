@@ -1,0 +1,15 @@
+parameters:
+    level: 8
+
+    paths:
+        - src/
+        - tests/
+
+    treatPhpDocTypesAsCertain: false
+
+includes:
+    - ./phpstan-baseline.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon

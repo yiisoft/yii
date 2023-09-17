@@ -1,0 +1,36 @@
+{
+  "name": "phing/task-liquibase",
+  "description": "The LiquibaseTask is a generic task for liquibase commands that don't require extra command parameters.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\Liquibase\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "liquibase-changelog": "Phing\\Task\\Ext\\Liquibase\\LiquibaseChangeLogTask",
+      "liquibase-dbdoc": "Phing\\Task\\Ext\\Liquibase\\LiquibaseDbDocTask",
+      "liquibase-diff": "Phing\\Task\\Ext\\Liquibase\\LiquibaseDiffTask",
+      "liquibase-rollback": "Phing\\Task\\Ext\\Liquibase\\LiquibaseRollbackTask",
+      "liquibase-tag": "Phing\\Task\\Ext\\Liquibase\\LiquibaseTagTask",
+      "liquibase-update": "Phing\\Task\\Ext\\Liquibase\\LiquibaseUpdateTask",
+      "liquibase": "Phing\\Task\\Ext\\Liquibase\\LiquibaseTask"
+    }
+  }
+}

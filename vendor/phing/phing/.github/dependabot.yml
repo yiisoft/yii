@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "11:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: aws/aws-sdk-php
+    versions:
+    - 3.173.18
+  - dependency-name: pear/archive_tar
+    versions:
+    - 1.4.13
+  - dependency-name: phpstan/phpstan
+    versions:
+    - 0.12.80

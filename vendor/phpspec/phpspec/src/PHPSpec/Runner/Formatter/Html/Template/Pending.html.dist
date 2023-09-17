@@ -1,0 +1,7 @@
+     <dd class="example not_implemented">
+      <span class="not_implemented_spec_name">{description}</span>
+      <script type="text/javascript">makeYellow('phpspec-header');</script>
+      <script type="text/javascript">makeYellow('div_group_{index}');</script>
+      <script type="text/javascript">makeYellow('example_group_{index}');</script>
+
+    </dd>

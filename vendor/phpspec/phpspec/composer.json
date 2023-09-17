@@ -1,0 +1,22 @@
+{
+    "name": "phpspec/phpspec",
+    "description": "PHPSpec: The BDD Specification Library",
+    "keywords": ["bdd", "spec", "test"],
+    "homepage": "http://phpspec.net",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "PHPSpec Team",
+            "homepage": "https://github.com/phpspec/phpspec/contributors"
+        }
+    ],
+    "bin": ["scripts/phpspec.php"],
+    "autoload": {
+        "psr-0": { "PHPSpec": "src/" }
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "mockery/mockery": "0.7.*",
+        "sebastianbergmann/php-text-template": "1.1.1"
+    }
+}

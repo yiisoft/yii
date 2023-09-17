@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with 'SIGHUP' and null will always evaluate to false\\.$#"
+			count: 1
+			path: tests/SignalHandlerTest.php

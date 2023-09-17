@@ -56,7 +56,7 @@ abstract class CActiveRecord extends CModel
 	private static $_md=array();				// class name => meta data
 
 	private $_new=false;						// whether this instance is new or not
-	private $_attributes=array();				// attribute name => attribute value
+	protected $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
 	private $_pk;								// old primary key value

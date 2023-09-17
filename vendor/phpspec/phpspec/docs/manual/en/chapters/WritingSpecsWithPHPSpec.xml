@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="writing.specs.with.phpspec">
+  <title>Writing Specs with PHPSpec</title>
+
+  <section id="specs.examples.and.contexts">
+    <title>Specs, Examples and Contexts</title>
+
+    <para>The terminology used throughout Behaviour-Driven Development is
+    focused entirely on the concept of describing behaviour. This alleviates
+    any misunderstanding from attempting to describe the process of
+    Test-Driven Development in terms of tests - a counterintuitive notion for
+    many programmers.</para>
+
+    <para>The terms Spec<indexterm>
+        <primary>Spec</primary>
+
+        <seealso>Specification</seealso>
+      </indexterm> and Example<indexterm>
+        <primary>Example</primary>
+
+        <seealso>Spec</seealso>
+      </indexterm> are almost used interchangeably. While a Spec refers to a
+    single behavioural requirement, often captured as a simple sentence of the
+    form "it should do something", an Example refers to the the entire method
+    within PHPSpec which demonstrates this Spec in code. If you take the
+    example below, the spec is the line of code commencing with
+    <classname>$this-&gt;spec()</classname> and the example is the entire
+    public method which shows how this spec is achievable</para>
+
+    <example>
+      <title>A Spec in a PHPSpec Example Method</title>
+
+      <programlisting role="php">public function itShouldHaveScoreOfZero()
+{
+    $bowling = new Bowling;
+    $bowling-&gt;hit(0);
+    $this-&gt;spec($bowling-&gt;score)-&gt;should-&gt;be(0);
+}</programlisting>
+
+      <para>A more difficult concept is that of a Context<indexterm>
+          <primary>Context</primary>
+        </indexterm>. In brief a Context is the set of conditions prevailing
+      at the time we are specifying behaviour. Above, our Bowling example
+      assumes we've just started a new game. This is the Context all our Specs
+      in the same class would share. Later we might want a game which is
+      finished, or partially played. Each different Context helps you explore
+      how behaviour changes under different conditions.</para>
+    </example>
+  </section>
+
+  <section id="before.writing.code.specify.its.required.behaviour">
+    <title>Before Writing Code, Specify Its Required Behaviour</title>
+
+    <para>In the course of developing a new application we've determined we
+    need a Logging<indexterm>
+        <primary>Logging</primary>
+
+        <secondary>example in PHPSpec</secondary>
+      </indexterm> system, perhaps to store an audit trail. We're going to
+    assume no current open source Logger library is sufficient for our needs
+    and we are required to develop one from scratch. Before we can do anything
+    we need to start figuring out what it needs to do. In other words, how we
+    want it to behave. After consulting with our colleagues we determine at
+    least one fundamental requirement - to log messages to a
+    filesystem.</para>
+
+    <para>Rather than immediately jumping into an editor to start coding,
+    we're going to write the specifications<indexterm>
+        <primary>Specifications</primary>
+
+        <secondary>plain text</secondary>
+      </indexterm> first.</para>
+
+    <example>
+      <title>Some Plain Text Specs for a Filesystem Logger</title>
+
+      <screen>New Filesystem Logger:
+- should create a new log file if none currently exists
+- should use an existing log file if one exists without truncating it
+- should throw Exception if existing log file not writeable</screen>
+    </example>
+
+    <para>These simple plain text specifications can be translated to PHPSpec
+    by creating a new Context class contain the examples demonstrating these
+    behaviours.</para>
+
+    <programlisting role="php">class DescribeNewFilesystemLogger extends \PHPSpec\Context
+{
+
+    public function itShouldCreateCreateNewLogFileIfNoneExists()
+    {
+        $this-&gt;pending();
+    }
+
+    public function itShouldUseAnExistingLogFileIfOneExistsWithoutTruncatingIt()
+    {
+        $this-&gt;pending();
+    }
+
+    public function itShouldThrowExceptionIfExistingLogFileNotWriteable()
+    {
+        $this-&gt;pending();
+    }
+
+}</programlisting>
+
+    <para>This skeleton class has two Pending<indexterm>
+        <primary>pending specs</primary>
+      </indexterm> examples. The pending status simply means they are
+    incomplete or pending completion. If you were to execute this spec from
+    the command line when saved as NewFilesystemLoggerSpec.php (using the
+    alternate filename convention which utilises a "Spec" suffix and omits the
+    "Describe" prefix), the output would look something like:</para>
+
+    <screen>
+***
+
+Pending:
+  NewFilesystemLogger should create create new log file if none exists
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:8
+
+  NewFilesystemLogger should use an existing log file if one exists without truncating it
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:13
+
+  NewFilesystemLogger should throw exception if existing log file not writeable
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:18
+
+Finished in 0.058379 seconds
+3 examples, 3 pendings
+</screen>
+
+    <para>The relevant command line target to run PHPSpec would be something
+    like:</para>
+
+    <screen>phpspec NewFileSystemLoggerSpec</screen>
+
+    <para>We now have two example methods. Based on the defined
+    specifications, let's fill these in with something useful.</para>
+
+    <example>
+      <title>Specification for a New Filesystem Logger Context</title>
+
+      <programlisting role="php">class DescribeNewFilesystemLogger extends \PHPSpec\Context
+{
+
+    public function itShouldCreateCreateNewLogFileIfNoneExists()
+    {
+        $file = $this-&gt;getTmpFileName();
+        $logger = new Logger($file);
+        $this-&gt;spec(file_exists($file))-&gt;should-&gt;beTrue();
+    }
+
+    public function itShouldUseAnExistingLogFileIfOneExistsWithoutTruncatingIt()
+    {
+        $file = $this-&gt;getTmpFileName();
+        file_put_contents($file, 'Hello' . "\n");
+        $logger = new Logger($file);
+        $this-&gt;spec(file_get_contents($file))-&gt;shouldNot-&gt;beEmpty();
+    }
+
+    public function itShouldThrowExceptionIfExistingLogFileNotWriteable()
+    {
+        $file = $this-&gt;getTmpFileName();
+        file_put_contents($file, 'Hello' . "\n");
+        $this-&gt;spec('Logger', $file)-&gt;should-&gt;throw('Exception');
+    }
+
+    public function after()
+    {
+        unlink($this-&gt;getTmpFileName());
+    }
+
+    public function getTmpFileName()
+    {
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'logger_tmp_file.log';
+    }
+
+}</programlisting>
+    </example>
+
+    <para>And so we've now turned our plain text specs into coded examples for
+    execution. Of course executing this now will result in an ugly Fatal Error
+    since the Logger class does not yet exist. We'll cross this bridge later
+    on.</para>
+
+    <section id="explaining.the.phpspec.spec.layout">
+      <title>Explaining the PHPSpec Spec Layout</title>
+
+      <para>Our completed New Filesystem Logger example demonstrates how a
+      Spec<indexterm>
+          <primary>Spec</primary>
+
+          <secondary>API and layout</secondary>
+        </indexterm> is put together.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>All Specs are aggregated within a \PHPSpec\Context subclass
+          based on the condition of the system being specified</para>
+        </listitem>
+
+        <listitem>
+          <para>All Context classnames must begin with the term "Describe" to
+          encourage full sentence descriptions</para>
+        </listitem>
+
+        <listitem>
+          <para>All Example methods in a Context must begin with "itShould",
+          again to encourage full sentence specification text (this might be
+          later shortened to optionally omit "Should" to allow present tense
+          specification language)</para>
+        </listitem>
+
+        <listitem>
+          <para>A <classname>\PHPSpec\Context::spec()</classname> method is
+          utilised to prepare any object or scalar value for expectations via
+          the DSL.</para>
+        </listitem>
+
+        <listitem>
+          <para>The domain specific langauge (DSL) generally includes an
+          Expectation (should/shouldNot) and a Matcher (beSomething,
+          haveSomething, equals, etc.)</para>
+        </listitem>
+
+        <listitem>
+          <para>It is almost a rule that you only have one Spec per Example -
+          this ensures each Spec is a single isolated piece of
+          behaviour</para>
+        </listitem>
+
+        <listitem>
+          <para>You can add any other methods to the class to provide Helper
+          Methods, e.g. <classname>getTmpFileName()</classname></para>
+        </listitem>
+
+        <listitem>
+          <para>You can use <classname>after()</classname> and
+          <classname>before()</classname> methods to setup common Fixtures for
+          each Example</para>
+        </listitem>
+
+        <listitem>
+          <para>You can also use <classname>afterAll()</classname> and
+          <classname>beforeAll()</classname> methods with are run only once
+          before and after all Examples are executed</para>
+        </listitem>
+
+        <listitem>
+          <para>Note that any Exceptions or Errors triggered with an Example
+          will be reported but will not interrupt any other tests</para>
+        </listitem>
+      </orderedlist>
+    </section>
+
+    <section id="the.code.to.implement.the.new.filesystem.logger.specification">
+      <title>The Code To Implement The New Filesystem Logger
+      Specification</title>
+
+      <para>With our specification now written up with PHPSpec, we can move on
+      and implement the Logger to its specifications. I'm sure many people
+      will note some paths for refactoring but for now we're only interested
+      in writing the minimum amount of code necessary to pass all our
+      Specs.</para>
+
+      <example>
+        <title>Implementation of the Filesystem Logger</title>
+
+        <programlisting role="php">class Logger
+{
+
+    protected $_file = null;
+
+    public function __construct($file)
+    {
+        if (!file_exists($file)) {
+            $f = fopen($file, 'w');
+            fclose($f);
+        } elseif (file_exists($file) &amp;&amp; is_writeable($file)) {
+            $this-&gt;_file = $file;
+        } else {
+            throw new Exception('log file is not writeable');
+        }
+    }
+
+}</programlisting>
+      </example>
+
+      <para>The next step is deciding what the next behaviour should be so we
+      can write a Spec for it. Maybe you want to add a Logger_Exception class
+      to extend Exception? Maybe the file needs a few more checks? Maybe you
+      want to consider moving file handling to a new subclass or strategy
+      class for composition?</para>
+
+      <para>Whatever you would decide - write a spec for it before adding more
+      code. Take small steps and build up your classes iteratively. Remember
+      also not to over-specify. Just because you extract file handling to a
+      new class does not mean you should immediately specify the new class
+      (unless it's valuable enough to warrant it) since the original Specs
+      still cover the effects of a Logger being instantiated with a file. This
+      is not adding new behaviour - it's just changing the implementation of
+      that behaviour transparently.</para>
+    </section>
+  </section>
+
+  <section id="spec.domain.specific.language">
+    <title>The Spec Domain Specific Language (DSL)</title>
+
+    <para><indexterm>
+        <primary>Domain Specific Language</primary>
+
+        <seealso>DSL</seealso>
+      </indexterm>PHPSpec writes coded Examples of behaviour using a Domain
+    Specific Language (DSL) for describing expectations. The DSL was designed
+    to approximate plain grammatically accurate English so it is intuitive to
+    use, read and comprehend.</para>
+
+    <para>The basic form of the DSL is to attach an Expectation (should or
+    should not) and a Matcher (be, beAnInstanceOf, equal, etc.) to the value
+    or object passed to a new Spec. This approach leads to a relatively easy
+    to read sentence requiring minimal translation into the plain English (or
+    other language!) we normally think in. Since the translation effort is
+    minimised, and is closer to how we really think, it's invariably easy to
+    review, critique and modify.</para>
+
+    <example>
+      <title>Example Spec DSL: Bowling should not be an instance of
+      Logger</title>
+
+      <programlisting role="php">$bowling = $this-&gt;spec(new Bowling);
+$bowling-&gt;shouldNot-&gt;beAnInstanceOf('Logger');</programlisting>
+    </example>
+
+    <section id="actual.value.term">
+      <title>The Actual Value Term</title>
+
+      <para>In a PHPSpec Example method block, the DSL is instantiated using a
+      call to the <classname>\PHPSpec\Context::spec()</classname>. This accepts
+      three possible parameter groupings.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>A scalar value, i.e. string, integer, boolean, float, or
+          array</para>
+        </listitem>
+
+        <listitem>
+          <para>An object</para>
+        </listitem>
+
+        <listitem>
+          <para>An object name, together with any constructor
+          parameters</para>
+        </listitem>
+      </orderedlist>
+
+      <example>
+        <title>Actual Term: Scalar Examples</title>
+
+        <programlisting role="php">$this-&gt;spec('i am a string')-&gt;should-beString();
+$this-&gt;spec(567)-&gt;should-&gt;equal(567);
+$this-&gt;spec(array(1, 2, 3))-&gt;shouldNot-&gt;beEmpty();</programlisting>
+      </example>
+
+      <example>
+        <title>Actual Term: Object Examples</title>
+
+        <programlisting role="php">$this-&gt;spec(new Bowling)-&gt;should-&gt;beAnInstanceOf('Bowling');
+
+$bowling = new Bowling;
+$this-&gt;spec($bowling)-&gt;shouldNot-&gt;havePlayers();</programlisting>
+      </example>
+
+      <example>
+        <title>Actual Term: Object Name With Constructor Params</title>
+
+        <programlisting role="php">$this-&gt;spec('Bowling', new Player('Joe'), new Player('Jim'))-&gt;should-&gt;havePlayers();</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>The Expectation Term (Should or Should Not)</title>
+
+      <para>Just as with English, all expectations fall into one of two
+      possible classes. Those you expect to fail, and those you expect to
+      pass. Whether you wish a Matched Actual Value or an Unmatched Actual
+      Value to be interpreted as a pass depends on the use of the DSL
+      <classname>should</classname> or <classname>shouldNot</classname>
+      phrases.</para>
+
+      <para>All the examples below are expected to pass.</para>
+
+      <example>
+        <title>Expectation Term: Various Passing Examples</title>
+
+        <programlisting role="php">$spec-&gt;( array() )-&gt;should-&gt;beEmpty();
+$spec-&gt;('Bowling')-&gt;shouldNot-&gt;havePlayers();
+$spec-&gt;('i am a string')-&gt;should-&gt;match("/^[a-z ]$/");
+$spec-&gt;(is_int('string'))-&gt;shouldNot-&gt;beTrue();</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>The Matcher Term</title>
+
+      <para>Whereas Unit Testing frameworks rely on assertions, PHPSpec splits
+      the responsibility between an Expectation Term and a Matcher. A Matcher
+      is a simple object which compares an Actual Value Term with the expected
+      value passed to the Matcher method in the DSL for a positive or negative
+      match. The form of a Matcher is ruled by the
+      <classname>\PHPSpec\Matcher</classname> interface so you can
+      write custom Matchers (pending feature).</para>
+
+      <para>An already expansive range of Matchers are provided by the PHPSpec
+      framework. [Note: Some are still awaiting development.]</para>
+
+      <para>A Matcher is generally appended as the last term to a Spec as
+      demonstrated in earlier examples.</para>
+
+      <section>
+        <title>Matchers Included In PHPSpec</title>
+
+        <para>Note that all Matchers will return a boolean when called thus
+        ending the fluent interface of the Spec. Parameters marked
+        <classname>NULL</classname> generally mean a parameter is not required
+        (the expected value is implicit in the Matcher name).</para>
+
+        <table>
+          <title>PHPSpec Matchers</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry align="center">Matcher Method</entry>
+
+                <entry align="center">Explanation</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry><para><classname>bool be (mixed
+                $expected)</classname></para></entry>
+
+                <entry>Identical to using <classname>equal()</classname> and
+                reflects general English usage.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beEqualTo (mixed
+                $expected)</classname></entry>
+
+                <entry>Identical to using <classname>equal()</classname> and
+                reflects general English usage.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool equal (mixed
+                $expected)</classname></entry>
+
+                <entry>Attempts to match the expected value on an equal basis
+                intelligently comparing scalar values, object class, array
+                content, or other metrics generally associated with two items
+                being equivelant.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beTrue (null
+                $expected)</classname></entry>
+
+                <entry>Matches the actual value against
+                <classname>TRUE</classname>.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beFalse (null
+                $expected)</classname></entry>
+
+                <entry>Matches the actual value against
+                <classname>FALSE</classname>.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beNull (null
+                $expected)</classname></entry>
+
+                <entry>Checks if the actual value is
+                <classname>NULL</classname>.</entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beEmpty (mixed
+                $expected)</classname></entry>
+
+                <entry>Checks if the actual value is empty (using
+                <classname>empty()</classname>).</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beSet (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is set (using
+                <classname>isset()</classname>).</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beAnInstanceOf (string
+                $expected)</classname></para></entry>
+
+                <entry>Determines if the actual value is both an object and an
+                instance of the class type provided.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beInt (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is an integer. This is a
+                precise check - the string form of an integer will not
+                match.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beArray (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is an array.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beString (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is a string.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beFloat (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is a float.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beObject (null
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is an object; does not
+                perform type comparison on class type.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beGreaterThan (mixed
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is greater than
+                (<classname>&gt;</classname>) the expected value
+                provided.</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beLessThan (mixed
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is less than
+                (<classname>&lt;</classname>) the expected value
+                provided</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beGreaterThanOrEqualTo (mixed
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is greater than or equal to
+                (<classname>&gt;=</classname>) the expected value
+                provided</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beLessThanOrEqualTo (mixed
+                $expected)</classname></para></entry>
+
+                <entry>Checks if the actual value is less than or equal to
+                (<classname>&lt;=</classname>) the expected value
+                provided</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <section id="predicate.matchers">
+        <title>Predicate Matchers</title>
+
+        <para>A Predicate Matcher<indexterm>
+            <primary>Matcher</primary>
+
+            <secondary>Predicate Matching</secondary>
+          </indexterm> is a Matcher which captures it's actual value from an
+        object being specified. It does so by seeking and then calling a
+        method of the form <classname>isSomething()</classname> or
+        <classname>hasSomething()</classname>. We saw this already in previous
+        DSL examples where the DSL method <classname>havePlayers()</classname>
+        is translated into a call to
+        <classname>Bowling::hasPlayers()</classname>. A boolean result from
+        the called method is then compared to a boolean
+        <classname>TRUE</classname> to check for a positive or negative
+        match.</para>
+
+        <example>
+          <title>Example of Classes and Predicate Matcher Calls</title>
+
+          <programlisting>class Insect {
+
+    public function isInsect() {
+        return true;
+    }
+
+    public function hasWings() {
+        return true;
+    }
+
+}
+
+class Flea extends Insect {
+
+    public function hasWings() {
+        return false; // Fleas are wingless blood sucking things
+    }
+
+}
+
+class DescribeFlea extends \PHPSpec\Context {
+
+    public function itShouldBeAnInsect()
+    {
+        $flea = new Flea;
+        $this-&gt;spec($flea)-&gt;should-&gt;beAnInsect(); // Flea::isInsect() == TRUE
+    }
+
+    public function itShouldHaveNoWings()
+    {
+        $flea = new Flea;
+        $this-&gt;spec($flea)-&gt;shouldNot-&gt;haveWings(); // Flea::hasWings() == FALSE
+    }
+}</programlisting>
+        </example>
+
+        <para>Predicate Matcher methods in the DSL allow for the use of
+        <classname>be()</classname>, <classname>beA()</classname>,
+        <classname>beAn()</classname> variations which are primarily for
+        allowing grammatically correct structures and are otherwise identical.
+        Same applies to <classname>have(), haveA(), and haveAn()</classname>.
+        The same variations are also searched for when matching to an object's
+        methods (even object methods can be grammatically correct!). This form
+        of matching will eventually be expanded to allow for other predicate
+        style calling methods. If you have any suggestions be sure to let us
+        know.</para>
+      </section>
+    </section>
+  </section>
+</chapter>

@@ -1,0 +1,116 @@
+{
+    "name": "composer/installers",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "description": "A multi-framework Composer library installer",
+    "keywords": [
+        "installer",
+        "AGL",
+        "AnnotateCms",
+        "Attogram",
+        "Bitrix",
+        "CakePHP",
+        "Chef",
+        "Cockpit",
+        "CodeIgniter",
+        "concrete5",
+        "Croogo",
+        "DokuWiki",
+        "Dolibarr",
+        "Drupal",
+        "Elgg",
+        "Eliasis",
+        "ExpressionEngine",
+        "eZ Platform",
+        "FuelPHP",
+        "Grav",
+        "Hurad",
+        "ImageCMS",
+        "iTop",
+        "Kanboard",
+        "Known",
+        "Kohana",
+        "Lan Management System",
+        "Laravel",
+        "Lavalite",
+        "Lithium",
+        "Magento",
+        "majima",
+        "Mako",
+        "MantisBT",
+        "Matomo",
+        "Mautic",
+        "Maya",
+        "MODX",
+        "MODX Evo",
+        "MediaWiki",
+        "Miaoxing",
+        "OXID",
+        "osclass",
+        "MODULEWork",
+        "Moodle",
+        "Pantheon",
+        "Piwik",
+        "pxcms",
+        "phpBB",
+        "Plentymarkets",
+        "PPI",
+        "Puppet",
+        "Porto",
+        "ProcessWire",
+        "RadPHP",
+        "ReIndex",
+        "Roundcube",
+        "shopware",
+        "SilverStripe",
+        "SMF",
+        "Starbug",
+        "SyDES",
+        "Sylius",
+        "TastyIgniter",
+        "Thelia",
+        "WHMCS",
+        "WolfCMS",
+        "WordPress",
+        "YAWIK",
+        "Zend",
+        "Zikula"
+    ],
+    "homepage": "https://composer.github.io/installers/",
+    "authors": [
+        {
+            "name": "Kyle Robinson Young",
+            "email": "kyle@dontkry.com",
+            "homepage": "https://github.com/shama"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Composer\\Installers\\": "src/Composer/Installers" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test" }
+    },
+    "extra": {
+        "class": "Composer\\Installers\\Plugin",
+        "branch-alias": {
+            "dev-main": "2.x-dev"
+        },
+        "plugin-modifies-install-path": true
+    },
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "composer-plugin-api": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "1.6.* || ^2.0",
+        "composer/semver": "^1 || ^3",
+        "symfony/phpunit-bridge": "^5.3",
+        "phpstan/phpstan": "^0.12.55",
+        "symfony/process": "^5",
+        "phpstan/phpstan-phpunit": "^0.12.16"
+    },
+    "scripts": {
+        "test": "vendor/bin/simple-phpunit",
+        "phpstan": "vendor/bin/phpstan analyse"
+    }
+}

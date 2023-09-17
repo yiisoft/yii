@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section id="phpspec.getting.started">
+  <title>さぁはじめましょう</title>
+
+  <para>
+    PHPSpec は、PHP のコードの振る舞いを記述することに特化した
+    ドメイン特化言語を提供するフレームワークです。
+    可読性が高く実行可能なコードを用いて、
+    設計段階だけでなくドキュメント作成やテストなどの手助けもしてくれます。
+  </para>
+
+  <section id="what.is.phpspec">
+    <title>PHPSpec とは?</title>
+
+    <para>
+      PHPSpec はシンプルなフレームワークです。
+      公式な説明によると、繰り返し実行できるサンプルを書くことができるということです。
+      つまり、一度書いたサンプルを必要に応じて何度でも繰り返し、
+      対応する実装がそのサンプルに合致するかどうかを確認できるということです。
+      PHPSpec はユニットテストの一種ですが、振舞駆動開発 (BDD) の流儀では
+      ごく一般的な英語風の API を使用することになっています。
+      このように、自然言語に近い形式で流れるように書ける API のことを
+      ドメイン特化言語 (Domain Specific Language: DSL)<indexterm>
+        <primary>ドメイン特化言語</primary>
+      </indexterm> と言います。
+      PHPSpec は、完全に BDD を念頭において設計されています。
+      ユニットテスト<indexterm>
+        <primary>ユニットテスト</primary>
+      </indexterm> と似てはいますが、このフレームワークははじめから
+      BDD をサポートするように作られています。
+      これを使用すると、BDD を身につけて実践するのが簡単になります。
+    </para>
+  </section>
+
+  <section id="you.start.by.writing.a.specification">
+    <title>まずはスペックを書くことから</title>
+
+    <para>
+      振舞駆動開発を身につけるにあたって、まず最初に行うのはスペック (仕様) を書くことです。
+    </para>
+
+    <para>
+      スペックとは、特定の状況にあわせたサンプルを集めたもののことです。
+      ボウリングを例にして考えてみましょう。
+      まずはゲームを開始するところから始まります。
+      ということは、一番最初の状態とはゲームを開始する前の状態ということです。
+      個々のサンプルは、振る舞いの一面を説明するものとなります。
+      たとえばボウリングゲームでは、スコアに関するルールがあります。
+      そこで、ピンを何本倒せばスコアがいくつになるかということを表すサンプルを書けば、
+      その振る舞いをうまくとらえることができるでしょう。
+    </para>
+
+    <para>
+      まずはじめに簡単なサンプルを書いてみましょう。
+      このサンプルは、ボウリングゲームをはじめるにあたって守らなければならない決まりの一部を表すものです。
+    </para>
+
+    <programlisting role="php">class DescribeNewBowlingGame extends \PHPSpec\Context
+{
+
+    private $_bowling = null;
+
+    public function before()
+    {
+        $this-&gt;_bowling = $this-&gt;spec(new Bowling);
+    }
+
+    public function itShouldScore0ForGutterGame() //「全部ガターなら、スコアはゼロでなければならない」
+    {
+        for ($i=1; $i&lt;=20; $i++) {
+            // ボウリングがめちゃめちゃ下手な人だったのでしょう!
+            $this-&gt;_bowling-&gt;hit(0);
+        }
+        $this-&gt;_bowling-&gt;score-&gt;should&gt;-&gt;equal(0);
+    }
+
+}</programlisting>
+
+    <para>
+      このサンプルを実行するには、まずこのクラスを
+      <classname>DescribeNewBowlingGame.php</classname> という名前で保存し、
+      その場所に移動して、コマンドラインから次のように
+      <classname>phpspec</classname> コマンドを実行します。
+    </para>
+
+    <note>
+      <para>
+        命名規約では、<classname>DescribeNewBowlingGame</classname>
+        というクラスを NewBowlingGameSpec.php
+        という名前のファイルで定義することも許可しています。
+        これは、他の BDD フレームワークでもよく使われているものであり、
+        他の BDD フレームワークから
+        PHPSpec への移植を簡単に行えるようにするためにパクりました。
+        コマンドラインで phpspec を実行するときのパラメータは、
+        常にファイル名あるいはそこから拡張子 ".php" を省略したものとなります。
+        どちらの規約を使用するにしても、一貫してそれを使用するよう注意しましょう。
+      </para>
+    </note>
+
+    <screen>phpspec DescribeNewBowlingGame</screen>
+
+    <para>
+      実行は失敗することでしょう。当然です。まだ Bowling
+      クラスはどこにも存在しないわけですから。
+    </para>
+
+    <para>
+      では、このサンプルを成功させるための最小限のコードを書いてみましょう。
+    </para>
+
+    <programlisting role="php">class Bowling
+{
+
+    public $score = 0;
+
+    public function hit()
+    {
+    }
+
+}</programlisting>
+
+    <para>
+      サンプルをもう一度実行し、成功することを確認してください。
+    </para>
+
+    <para>
+      以下で説明するように、少しずつ着実に進めていくようにしましょう。
+      最初のサンプルの実装を終えたので、新たなコードを書くには
+      さらに別のサンプルを用意して「新たなコードがどのように振る舞うのか」
+      を示す必要があります。サンプルは、スペックメソッドとして定義します。
+      スペックメソッドは "itShould" という名前ではじめなければなりません。
+      次の段階として行うのは、おそらく何本かのピンを倒したときの処理でしょう。
+      そのときは何らかのスコアが記録されるはずです。
+      また、スコアに関するルールを表すサンプルを
+      <classname>Bowling::hit()</classname> メソッドを用いて書くことになるでしょう。
+    </para>
+
+    <para>
+      PHPSpec を用いてより複雑な BDD を行う方法については、後ほど説明します。
+    </para>
+  </section>
+
+  <section id="take.very.small.steps">
+    <title>一歩ずつ着実に</title>
+
+    <para>
+      いきなりコードを書き始める必要はありません。
+      まずはどのような振る舞いが要求されているのかを考え、
+      その振る舞いを表すサンプルスペックを追加し、
+      それから初めて実装に進みます。
+      そのうちすぐに、この流れが自然に感じられるようになるでしょう。
+      さらに、何を満たすべきなのかという仕様 (スペック)
+      を把握していることによる安心感が得られるようになります。
+    </para>
+
+    <para>
+      まず最初に、普通の英語でスペックを書いてみるというのもお勧めです。
+      それをもとにして、PHPSpec 用の実行可能なサンプルを書くことができます。
+      逆に、近い将来にも PHPSpec のスペックを普通のテキスト形式に変換できるようになるでしょう。
+      (BDD フレームワークとしての) PHPSpec が本質的に目指すところは、
+      「たとえコードが複雑になったとしても、
+      そのスペックは常に明確で読みやすいものである」ということです。
+      これは、TDD の目的のひとつである
+      「テストそのものがドキュメントとなる」を反映しています。
+    </para>
+
+    <para>
+      また、必要に応じてコードをリファクタリングすることも忘れないようにしましょう。
+      BDD を進めるには、コードを常にきれいにしておくことが大切です。
+    </para>
+  </section>
+</section>

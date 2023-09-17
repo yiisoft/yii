@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="introduction">
+  <title>導入</title>
+
+  <section id="testing.your.code">
+    <title>コードのテスト</title>
+
+    <para>
+      みなさんは、自分の書いたコードをどのようにテストしていますか?
+    </para>
+
+    <para>
+      PHP のコードをテスト<indexterm>
+        <primary>テスト</primary>
+      </indexterm> する方法として最もありがちなのは、
+      そのコードをファイルに保存してウェブブラウザで開いてみるということです。
+      で、期待通りに出力されていればテストに通過したとみなすわけです。
+      これと似たパターンで、何も出力しない関数やクラスをテストする場合に
+      var_dump() や echo を使って変数の中身を確認するという方法もあります。
+      あるいは、完成したアプリケーションを実際に操作して
+      期待通りに動作するかどうかを確認するということもあるでしょう。
+    </para>
+
+    <para>
+      これらの方法はどれもお手軽ですが、重大な問題があります。
+      同じテストを繰り返し実行しようとすると、大変なことになってしまうということです。
+      この問題を回避してテストやサンプルを繰り返し実行できるようにするために便利なのが
+      PHPSpec です。
+      別に SimpleTest<indexterm>
+        <primary>SimpleTest</primary>
+      </indexterm> や PHPUnit<indexterm>
+        <primary>PHPUnit</primary>
+      </indexterm>、あるいは PHPT<indexterm>
+        <primary>PHPT</primary>
+      </indexterm> のことを無視しているわけではありません。
+      PHP におけるフレームワークを複数身につけていることは、決して損にはなりません。
+    </para>
+
+    <para>
+      PHPSpec のようなフレームワークを使用すると、繰り返し可能なサンプル
+      <indexterm>
+        <primary>テスト</primary>
+
+        <secondary>繰り返し可能な</secondary>
+      </indexterm> を書くことができます。
+      自動化されたテストは、
+      ちょっとしたコマンドラインやブラウザの再読み込みで何度でも実行することができます。
+      しかし、繰り返し可能なテストを書いただけですべて解決するわけではありません。
+    </para>
+  </section>
+
+  <section id="source.code.examples.as.documentation">
+    <title>ドキュメントとしてのソースコードサンプル</title>
+
+    <para>
+      繰り返し可能なテストはそれだけでも十分よくできていますが、
+      別の目的にも使うことができます。
+      一枚の絵が何千もの言葉より雄弁なことがあります。
+      プログラミングにおいても、
+      コードの使用法を示すよいサンプルがあれば
+      それは何千もの言葉に匹敵するものとなるでしょう
+      <indexterm>
+        <primary>ドキュメント</primary>
+
+        <secondary>……としてのサンプル</secondary>
+      </indexterm>。
+      繰り返し可能なサンプルは機能テストとしても優れていますが、
+      ユーザや他のプログラマに対してソースコードの正しい使用法を示すという意味合いもあります。
+    </para>
+
+    <para>
+      ここで、いわゆるユニットテスト
+      <indexterm>
+        <primary>ユニットテスト</primary>
+      </indexterm> やテスト駆動開発<indexterm>
+        <primary>テスト駆動開発</primary>
+      </indexterm><indexterm>
+        <primary>TDD</primary>
+      </indexterm> を例にして考えてみましょう。
+      あなたが書くことになるひとつひとつのサンプルは、
+      ソースコードが持つ振る舞い (behaviour)<indexterm>
+        <primary>振る舞い</primary>
+      </indexterm> のある側面を表すものになります。
+      たとえばその振る舞いがどのような場合に発生するのか、
+      その結果どのような影響が出るのかといったことを表します。
+      振舞駆動開発<indexterm>
+        <primary>振舞駆動開発</primary>
+      </indexterm> では、これらのサンプルのことをスペック
+      (仕様) と呼びます。
+    </para>
+
+    <para>
+      BDD では、読みやすい形式のサンプルを書くことを推し進めています。
+      流れるように書けるドメイン特化言語
+      <indexterm>
+        <primary>ドメイン特化言語</primary>
+      </indexterm>
+      を用いることで、作成したサンプルのドキュメントとしての価値も向上します。
+      次のふたつの例を比較してみましょう。
+      2 番目の例のほうが、明確で読みやすく感じられるはずです。
+    </para>
+
+    <example>
+      <title>PHPUnit の例</title>
+
+      <programlisting role="php">$logger = new Logger;
+$this-&gt;assertTrue($logger-&gt;hasFile());</programlisting>
+    </example>
+
+    <example>
+      <title>PHPSpec の例</title>
+
+      <programlisting role="php">$logger = new Logger;
+$this-&gt;spec($logger)-&gt;should-&gt;haveFile();</programlisting>
+    </example>
+
+    <para>
+      コードのサンプルは、単なるテストだけではなくそれ自体がドキュメントにもなります。
+      サンプルを書くときには、できるだけ自然な英語の流れに沿うようにしましょう。
+      そうすることで、明確で読みやすいドキュメントとすることができます。
+      各サンプルは、そのまま普通の英語の文章に戻せなければなりません。
+      たとえば、先ほどのサンプルは次のように書き戻すことができます。
+    </para>
+
+    <informalexample>
+      <para>Logger</para>
+
+      <para>- should have a file</para>
+    </informalexample>
+
+    <para>
+      ここで改めて言っておきますが、BDD というのは単に TDD
+      の "assert" を "should" に置き換えただけのものではありません。
+      BDD が存在する理由はそんなところにはなく、
+      TDD と比べてよりシンプルな言語で書くことができるということにあります。
+    </para>
+  </section>
+
+  <section id="writing.examples.specs.before.writing.code">
+    <title>コードの前にまずサンプル (スペック) から</title>
+
+    <para>
+      一連の手法を進めていくと、次のようなことが頭に浮かぶようになります。
+      もし私たちが作成したサンプル/テストがそんなにすばらしいドキュメント
+      <indexterm>
+        <primary>ドキュメント</primary>
+
+        <secondary>……としてのサンプル</secondary>
+      </indexterm>
+      だというのなら、もしそれがクラスやアプリケーションの振る舞いをきちんと説明しており
+      繰り返し実行可能なものなのだとしたら、
+      設計ドキュメントを書くかわりにまずサンプルを最初に書くようにして、
+      それをもとにコードを実装していくという方法はどうでしょう?
+    </para>
+
+    <para>
+      これはまさに、テスト駆動開発 <indexterm>
+        <primary>テスト駆動開発</primary>
+      </indexterm> における悪名高い "テストファースト! テストファースト!"
+      と同じことです。PHPSpec は振舞駆動開発用のフレームワークなので、
+      ここではその代わりに "スペックファースト! スペックファースト!"
+      と叫ぶことにします。
+    </para>
+
+    <section id="why.write.examples.first">
+      <title>なぜ先にサンプルから書き始めるの?</title>
+
+      <para>
+        サンプルから先に書き始める理由は、ごく単純なものです。
+      </para>
+
+      <para>
+        まずはじめに、自分たちが直面している問題を把握することで
+        これからやるべきことをはっきりさせるという効果があります。
+        スペックやテストを書かず、
+        堅いことを考えずにさっさとコーディングを始めようとしてしまい、
+        結局方向性を見失ってしまう。
+        誰でも一度はそんな経験があるはずです!
+        一方、サンプルを書くということは、
+        まず最初に公開 API をどのようにするかを検討しなければならないということを意味します。
+        また各部品間のロジックの流れや出力内容、実装に必要なロジックなども検討することになります。
+      </para>
+
+      <para>
+        もうひとつの効用は、
+        すこしずつ一歩一歩進めていくことでよりよいコードを書けるということです。
+        「仕様を考えてサンプルを書き、それを満たすコードを実装し、
+        リファクタリングし、そしてまた最初に戻る」
+        という一連の流れを細かく繰り返すことで、
+        よりよい設計のコードができあがるようになります。
+        その結果できあがったコードは保守しやすいものとなり、
+        またシンプルですっきりしたものとなるでしょう。
+        一般に、そのようなコードのほうがバグも少なくなります。
+      </para>
+
+      <para>
+        それ以外にもさまざまな利点がありますが、
+        中でも最大の利点は確信を持てるようになるということでしょう
+        <indexterm>
+          <primary>確信</primary>
+        </indexterm>。
+        自分の設計、コードの品質、プログラマとしてのスキルなどに自信が持てるようになり、
+        コードを変更する際にも怖がることはなくなります。
+        また、ソースコードがきちんと設計されていてテストが行われているということに対する
+        他のプログラマやユーザからの信頼も得られます。
+      </para>
+    </section>
+
+    <section id="workflow.of.bdd.using.phpspec">
+      <title>PHPSpec を使用した BDD の流れ</title>
+
+      <para>
+        普段のコーディング作業に BDD を適用する手順をまとめます<indexterm>
+          <primary>振舞駆動開発</primary>
+
+          <secondary>……の流れ</secondary>
+        </indexterm>。
+        サンプルを書いたらまず一度それを実行し、失敗することを確認するようにしましょう。
+        あとは、そのサンプルが成功するようになるまで実装を行います。
+      </para>
+
+      <orderedlist>
+        <listitem>
+          <para>実装したい振る舞いを特定する</para>
+        </listitem>
+
+        <listitem>
+          <para>
+            それを "it should ... (... でなければならない)" 形式の普通の文章
+            (仕様) にまとめる
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            その仕様の中の "it should" 部分に対応するスペック/
+            サンプルを書く
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            そのスペックが定義している振る舞いを実装する
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>必要に応じて実装コードをリファクタリングする</para>
+        </listitem>
+
+        <listitem>
+          <para>1 に戻る</para>
+        </listitem>
+      </orderedlist>
+
+      <para>
+        後で振舞駆動開発について説明するときに、
+        これらについてより詳しく取り上げます。
+        これは、TDD における「テストを書いて、コードを書いて、
+        そしてリファクタリングする」という手順に似ていますが、
+        BDD ではそれだけでなく ドキュメント/仕様
+        という観点も重視しています。本書では、テスト手法については特に取り上げません
+        (作成したスペックがテストとしても有効であるというのは偶然の産物であり、
+        BDD の真の目的はよりよい設計を目指すということです)。
+      </para>
+    </section>
+  </section>
+
+  <section id="phpspec.and.bdd.in.context">
+    <title>PHPSpec および BDD について</title>
+
+    <para>
+      PHPSpec は、PHP では初の振舞駆動開発
+      <indexterm>
+        <primary>振舞駆動開発</primary>
+
+        <secondary>in context</secondary>
+      </indexterm>
+      用フレームワークです。PHP な人たちにとっては、
+      少し目新しく感じられるかもしれません。
+      また、ちょっと奇抜なものに思えるかもしれません。
+      他の言語の世界では、BDD は徐々に有名になりつつあります。
+      Ruby における RSpec や Java における JBehave
+      などの存在もその一因です。
+      Java や Ruby、.NET、Smalltalk、Javascript
+      などの言語には BDD 用のフレームワークが存在します。
+      なかには Java のように、ひとつの言語に対して複数のフレームワークが存在するものもあります。
+    </para>
+
+    <para>
+      一方、以前からあるユニットテスト用フレームワークたちも、
+      この流れを無視できなくなりつつあるようです。
+      彼らも BDD に適した API を用意するなどして、この流行に乗っかろうとしています。
+      しかし、この試みはまだ完全に成功しているとは言えません。
+      先ほども書いたとおり、BDD というのは単に TDD の
+      "assert" を "should" に変えただけのものではないのです。
+      ただ、この流れは悪いことではありません。
+      フレームワークを移行することなしに、旧来の TDD ユニットテストにうまく
+      BDD の仕様記述を混ぜることができるということになります。
+    </para>
+
+    <para>
+      さらに複雑なことに、BDD フレームワーク側でもまったく同じような動きがあるのです。
+      つまり、BDD フレームワークでユニットテスト実行用のテストランナー API
+      を提供するということです。これにより、移行作業がより簡単になります。
+      Ruby の RSpec
+      <indexterm>
+        <primary>BDD フレームワーク</primary>
+
+        <secondary>Rspec for Ruby</secondary>
+      </indexterm>
+      などは、すでに最新のバージョンでこの改良が始まっています。
+    </para>
+  </section>
+</chapter>

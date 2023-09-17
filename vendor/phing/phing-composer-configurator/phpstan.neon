@@ -1,0 +1,23 @@
+parameters:
+  level: max
+  paths:
+    - src
+    - tests
+  checkMissingIterableValueType: false
+  exceptionRules:
+    reportUnusedCatchesOfUncheckedExceptions: false
+    uncheckedExceptions: []
+  ergebnis:
+    classesAllowedToBeExtended:
+      - Composer\Installer\LibraryInstaller
+  ignoreErrors:
+    - '~Dynamic call to static method~'
+    - '~PHPDoc tag @throws with type .* is not compatible with parent~'
+
+includes:
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
+  - vendor/phpstan/phpstan-phpunit/extension.neon
+  - vendor/phpstan/phpstan-phpunit/rules.neon
+  - vendor/pepakriz/phpstan-exception-rules/extension.neon
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - vendor/ergebnis/phpstan-rules/rules.neon

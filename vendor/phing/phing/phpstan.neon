@@ -1,0 +1,8 @@
+parameters:
+    level: 1
+    paths:
+        - src/Phing
+        - tests/Phing
+    bootstrapFiles:
+        - tests/bootstrap.php
+        - vendor/pear/versioncontrol_svn/VersionControl/SVN.php

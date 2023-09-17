@@ -1,0 +1,30 @@
+tools:
+  external_code_coverage:
+    timeout: 1200
+
+filter:
+  paths: ["src/Phing/*", "tests/bootstrap.php", "tests/Phing/*"]
+  dependency_paths:
+    - "vendor/"
+
+checks:
+  php:
+    duplication: false
+
+build:
+  environment:
+    timezone: UTC
+    php:
+      version: '8.1'
+      ini:
+        xdebug.mode: coverage
+  nodes:
+    analysis:
+      tests:
+        override:
+          - 'php-scrutinizer-run --enable-security-analysis'
+    tests:
+      tests:
+        override:
+          - 'git config --global user.email "scrutinizer@phing.info" && git config --global user.name "Phing Scrutinizer Builder"'
+          - 'cd tests && ../bin/phing'

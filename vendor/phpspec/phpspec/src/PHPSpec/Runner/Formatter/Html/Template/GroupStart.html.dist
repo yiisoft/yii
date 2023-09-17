@@ -1,0 +1,4 @@
+    <div id="div_group_{index}" class="example_group">
+
+      <dl>
+        <dt id="example_group_{index}">{name}</dt>

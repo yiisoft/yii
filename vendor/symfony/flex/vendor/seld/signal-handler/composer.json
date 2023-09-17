@@ -1,0 +1,40 @@
+{
+    "name": "seld/signal-handler",
+    "description": "Simple unix signal handler that silently fails where signals are not supported for easy cross-platform development",
+    "keywords": ["unix", "posix", "signal", "sigint", "sigterm"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordi Boggiano",
+            "email": "j.boggiano@seld.be",
+            "homepage": "http://seld.be"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5.20 || ^8.5.23",
+        "psr/log": "^1 || ^2 || ^3",
+        "phpstan/phpstan": "^1",
+        "phpstan/phpstan-phpunit": "^1",
+        "phpstan/phpstan-strict-rules": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.0"
+    },
+    "autoload": {
+        "psr-4": { "Seld\\Signal\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Seld\\Signal\\": "tests/" }
+    },
+    "scripts": {
+        "phpstan": "@php phpstan analyse",
+        "test": "@php phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "2.x-dev"
+        }
+    }
+}

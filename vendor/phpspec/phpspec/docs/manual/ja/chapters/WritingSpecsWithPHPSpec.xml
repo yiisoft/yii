@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="writing.specs.with.phpspec">
+  <title>PHPSpec でのスペックの記述</title>
+
+  <section id="specs.examples.and.contexts">
+    <title>スペック、サンプル、そしてコンテキスト</title>
+
+    <para>
+      振舞駆動開発で使用する用語は、振る舞いを記述することを重視したものです。
+      これは、テスト駆動開発の用語が
+      (多くのプログラマにとって直感的ではないために)
+      引き起こしていたさまざまな誤解を軽減させることでしょう。
+    </para>
+
+    <para>
+      スペック
+      <indexterm>
+        <primary>スペック</primary>
+
+        <seealso>仕様</seealso>
+      </indexterm>
+      とサンプル
+      <indexterm>
+        <primary>サンプル</primary>
+
+        <seealso>スペック</seealso>
+      </indexterm>
+      のふたつの用語は、ほぼ同じ意味で使用しています。
+      「スペック」は、通常は単一の振る舞いを表します。これは
+      "なにかをしなければならない (it should do something)"
+      という単純な文で表すことができます。一方「サンプル」は、
+      PHPSpec のメソッド全体を表します。つまり「スペック」
+      を表すメソッドのコードのことです。たとえば以下の例でいうと、コードの中の
+      <classname>$this-&gt;spec()</classname>
+      で始まる行のことを「スペック」、
+      そしてそのスペックが満たす仕様を書いたパブリックメソッド全体のことを
+      「サンプル」と呼びます。
+    </para>
+
+    <example>
+      <title>PHPSpec のサンプルメソッドで記述したスペック</title>
+
+      <programlisting role="php">public function itShouldHaveScoreOfZero()
+{
+    $bowling = new Bowling;
+    $bowling-&gt;hit(0);
+    $this-&gt;spec($bowling-&gt;score)-&gt;should-&gt;be(0);
+}</programlisting>
+
+      <para>
+        さらに難しい概念が「コンテキスト」
+        <indexterm>
+          <primary>コンテキスト</primary>
+        </indexterm>
+        です。要するにコンテキストとは、
+        振る舞いを定義する際に一般に使用する条件の集まりのことです。
+        上に示したボウリングの例では、
+        まずは新しいゲームを開始するところからはじめると仮定しています。
+        これは、そのクラスのすべてのスペックがが共有するコンテキストとなります。
+        今後、ゲームが終了した状態だとかゲームの途中の状態なども用意することになるでしょう。
+        さまざまなコンテキストを用意することで、
+        条件によって振る舞いがどのように変化するのかを探りやすくなります。
+      </para>
+    </example>
+  </section>
+
+  <section id="before.writing.code.specify.its.required.behaviour">
+    <title>コードを書く前に、まずは要求される振る舞いを定義する</title>
+
+    <para>
+      新しいアプリケーションを開発するにあたり、監査証跡を記録するロギングシステム
+      <indexterm>
+        <primary>ロギング</primary>
+
+        <secondary>PHPSpec のサンプル</secondary>
+      </indexterm>
+      が必要となりました。
+      既存のオープンソースのロガーライブラリを調べてみたところ、
+      要件を満たすライブラリが見つからないようです。
+      そこで要件を満たすライブラリを自前で作成することにしました。
+      実際に作成しはじめる前に、まずその要件をはっきりさせなければなりません。
+      言いかえれば、そのライブラリがどのように振る舞ってほしいのかをはっきりさせるということです。
+      他のメンバーと相談した結果、まず最低限の基本機能が確定しました。
+      それは、メッセージをファイルシステムに記録するということです。
+    </para>
+
+    <para>
+      さっさとエディタを立ち上げてコードを書きはじめたい気持ちはわかりますが、
+      まずは仕様
+      <indexterm>
+        <primary>仕様</primary>
+
+        <secondary>プレーンテキスト</secondary>
+      </indexterm>
+      を書くことからはじめましょう。
+    </para>
+
+    <example>
+      <title>プレーンテキストで書いた、ファイルシステムロガーのスペック</title>
+
+      <screen>New Filesystem Logger:
+(新しいファイルシステムロガー)
+- should create a new log file if none currently exists
+  (は、ログファイルが存在しない場合は新規ファイルを作成しなければならない)
+- should use an existing log file if one exists without truncating it
+  (は、ログファイルが存在する場合は、既存の内容を残したままそのファイルを使用しなければならない)
+- should throw Exception if existing log file not writeable
+  (は、ログファイルに書き込めない場合には例外をスローしなければならない)</screen>
+    </example>
+
+    <para>
+      このシンプルなプレーンテキストの仕様を PHPSpec 形式に変換するには、
+      新しいコンテキストクラスを作成して
+      その振る舞いを表すサンプルを定義します。
+    </para>
+
+    <programlisting role="php">class DescribeNewFilesystemLogger extends \PHPSpec\Context
+{
+
+    public function itShouldCreateCreateNewLogFileIfNoneExists()
+    {
+        $this-&gt;pending();
+    }
+
+    public function itShouldUseAnExistingLogFileIfOneExistsWithoutTruncatingIt()
+    {
+        $this-&gt;pending();
+    }
+
+    public function itShouldThrowExceptionIfExistingLogFileNotWriteable()
+    {
+        $this-&gt;pending();
+    }
+
+}</programlisting>
+
+    <para>
+      この雛形クラスでは、未確定の (pending)
+      <indexterm>
+        <primary>未確定のスペック</primary>
+      </indexterm>
+      サンプルが定義されています。
+      未確定とは、まだ完成していないなどの状態を意味します。
+      このスペックを NewFilesystemLoggerSpec.php というファイル
+      (もうひとつのファイル命名規約を用います。先頭の "Describe"
+      を省略して最後に "Spec" を付加します)
+      に保存してコマンドラインから実行すると、その出力は次のようになります。
+    </para>
+
+    <screen>
+***
+
+Pending:
+  NewFilesystemLogger should create create new log file if none exists
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:8
+
+  NewFilesystemLogger should use an existing log file if one exists without truncating it
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:13
+
+  NewFilesystemLogger should throw exception if existing log file not writeable
+     # No reason given
+     # ./NewFilesystemLoggerSpec.php:18
+
+Finished in 0.058379 seconds
+3 examples, 3 pendings
+</screen>
+
+    <para>
+      PHPSpec を実行する際のコマンドラインは次のようになります。
+    </para>
+
+    <screen>phpspec NewFileSystemLoggerSpec</screen>
+
+    <para>
+      先ほど定義した仕様にもとづいて、
+      これらのサンプルメソッドの中身を作成していきましょう。
+    </para>
+
+    <example>
+      <title>New Filesystem Logger コンテキストの仕様</title>
+
+      <programlisting role="php">class DescribeNewFilesystemLogger extends \PHPSpec\Context
+{
+
+    public function itShouldCreateCreateNewLogFileIfNoneExists()
+    {
+        $file = $this-&gt;getTmpFileName();
+        $logger = new Logger($file);
+        $this-&gt;spec(file_exists($file))-&gt;should-&gt;beTrue();
+    }
+
+    public function itShouldUseAnExistingLogFileIfOneExistsWithoutTruncatingIt()
+    {
+        $file = $this-&gt;getTmpFileName();
+        file_put_contents($file, 'Hello' . "\n");
+        $logger = new Logger($file);
+        $this-&gt;spec(file_get_contents($file))-&gt;shouldNot-&gt;beEmpty();
+    }
+
+    public function itShouldThrowExceptionIfExistingLogFileNotWriteable()
+    {
+        $file = $this-&gt;getTmpFileName();
+        file_put_contents($file, 'Hello' . "\n");
+        $this-&gt;spec('Logger', $file)-&gt;should-&gt;throw('Exception');
+    }
+
+    public function after()
+    {
+        unlink($this-&gt;getTmpFileName());
+    }
+
+    public function getTmpFileName()
+    {
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'logger_tmp_file.log';
+    }
+
+}</programlisting>
+    </example>
+
+    <para>
+      これで、最初にプレーンテキストで定義したスペックを実行可能なコードサンプルに落とすことができました。
+      もちろん、今これを実行しても単に Fatal Error となるだけでしょう。
+      まだ Logger クラスが存在しないわけですから。
+      この続きは、また後ほど。
+    </para>
+
+    <section id="explaining.the.phpspec.spec.layout">
+      <title>PHPSpec におけるスペックの配置</title>
+
+      <para>
+        先ほど作成した新しいファイルシステムロガーのサンプルを見れば、スペック
+        <indexterm>
+          <primary>スペック</primary>
+
+          <secondary>API とレイアウト</secondary>
+        </indexterm>
+        をどのように作成すればいいのかがわかります。
+      </para>
+
+      <orderedlist>
+        <listitem>
+          <para>
+            すべてのスペックは \PHPSpec\Context のサブクラスに記述し、
+            システムの仕様を表す条件をここに集約する
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            コンテキストクラス名の最初は必ず "Describe" となり、
+            その後に内容を表す文を続ける
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            コンテキスト内のサンプルメソッド名の最初は必ず "itShould" となり、
+            その仕様を表す説明文をできるだけきちんとした文で書くようにする
+            (現在形で仕様を書くために、"Should"
+            を省略できるようにする可能性もある)
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <classname>\PHPSpec\Context::spec()</classname> メソッドを使用して、
+            DSL 経由で使用するオブジェクトやスカラー値を準備する
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            ドメイン特化言語 (DSL) は一般的に Expectation (should/shouldNot)
+            と Matcher (beSomething, haveSomething, equals, etc.) で構成される
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            正式なルールではないが、ひとつのサンプルではひとつのスペックのみを扱うようにする -
+            これにより、各スペックが個別の振る舞いを表すようになる
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <classname>getTmpFileName()</classname>
+            のように、サンプル以外のメソッドをクラスに追加して
+            ヘルパーメソッドとして使用できる
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <classname>after()</classname> メソッドおよび
+            <classname>before()</classname> メソッドを使用して、
+            各サンプルで共通のフィクスチャを準備できる
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <classname>afterAll()</classname> メソッドおよび
+            <classname>beforeAll()</classname> メソッドを使用して、
+            全サンプルの実行の前後に一度だけ実行する処理を定義できる
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            サンプルの内部で例外やエラーを発生させても、
+            それがその他のテストの実行を妨げることはない
+          </para>
+        </listitem>
+      </orderedlist>
+    </section>
+
+    <section id="the.code.to.implement.the.new.filesystem.logger.specification">
+      <title>New Filesystem Logger の仕様を実装するコード</title>
+
+      <para>
+        PHPSpec で書いた仕様をもとに、
+        その仕様を満たすロガーの実装を始めましょう。
+        きっとリファクタリングのことを考える人もおられるのでしょうが、
+        ここではまず、仕様を満たす必要最小限のコードを書くことだけを考えます。
+      </para>
+
+      <example>
+        <title>ファイルシステムロガーの実装</title>
+
+        <programlisting role="php">class Logger
+{
+
+    protected $_file = null;
+
+    public function __construct($file)
+    {
+        if (!file_exists($file)) {
+            $f = fopen($file, 'w');
+            fclose($f);
+        } elseif (file_exists($file) &amp;&amp; is_writeable($file)) {
+            $this-&gt;_file = $file;
+        } else {
+            throw new Exception('ログファイルに書き込めません');
+        }
+    }
+
+}</programlisting>
+      </example>
+
+      <para>
+        次に、これら以外にどんな振る舞いがあるのかを考えて
+        それを表すスペックを書いていきましょう。
+        Exception クラスを継承した Logger_Exception クラスを作成しますか?
+        ファイルのチェックをもう少し厳しくしますか?
+        ファイルの処理を新たなサブクラスに移したり、
+        あるいはストラテジークラスを使用したりしますか?
+      </para>
+
+      <para>
+        何をやるにしても、コードを書き始める前にまずスペックを書くようにします。
+        小さなことからコツコツと進め、少しずつクラスを作成していくようにしましょう。
+        また、仕様以上のことをコードに書かないよう心がけましょう。
+        ファイル処理を別のクラスに抽出することにしたとしても、
+        (その価値が十分あると保証できる場合を除いて)
+        すぐに新しいクラスの仕様を考えることはありません。というのも、
+        もとのスペックにおいても
+        ロガーを作成する際にファイルを指定するということが網羅されているからです。
+        この場合は新たな振る舞いを追加するのではなく、
+        単にその振る舞いに関する実装を透過的に変更するということになります。
+      </para>
+    </section>
+  </section>
+
+  <section id="spec.domain.specific.language">
+    <title>スペック用のドメイン特化言語 (DSL)</title>
+
+    <para>
+      <indexterm>
+        <primary>ドメイン特化言語</primary>
+
+        <seealso>DSL</seealso>
+      </indexterm>
+      PHPSpec では、振る舞いを表すサンプルを書く際に専用のドメイン特化言語
+      (DSL) を使用します。この DSL はできるだけ自然な
+      (かつ文法的に正しい) 英語に近い形式で書けるように作られており、
+      直感的に使用することができます。また、読んで理解するのも簡単になります。
+    </para>
+
+    <para>
+      DSL の基本的な形式は、Expectation (should あるいは
+      should not) と Matcher (be, beAnInstanceOf, equal, etc.)
+      を用意して、それを新規スペックに渡した値やオブジェクトに関連づけるというものです。
+      こうすることで、比較的読みやすい文章ができあがります。
+      ほんの少し手を加えるだけで、普通の英語 (あるいはその他の言語!) に変換することができます。
+      変換の手間が最小限であること、そして私たちが実際に頭で考える内容に近いこと
+      などから、スペックの内容をレビューしたり修正したりするのも常に簡単です。
+    </para>
+
+    <example>
+      <title>スペック DSL の例: Bowling は Logger のインスタンスであってはならない</title>
+
+      <programlisting role="php">$bowling = $this-&gt;spec(new Bowling);
+$bowling-&gt;shouldNot-&gt;beAnInstanceOf('Logger');</programlisting>
+    </example>
+
+    <section id="actual.value.term">
+      <title>実際の値 (Actual Value)</title>
+
+      <para>
+        PHPSpec のサンプルメソッドで DSL のインスタンスを作成するには、
+        <classname>\PHPSpec\Context::spec()</classname> を使用します。
+        このメソッドには、次の 3 種類のパラメータを渡すことができます。
+      </para>
+
+      <orderedlist>
+        <listitem>
+          <para>スカラー値 (文字列、整数値、論理値、浮動小数点数値、あるいは配列)</para>
+        </listitem>
+
+        <listitem>
+          <para>オブジェクト</para>
+        </listitem>
+
+        <listitem>
+          <para>オブジェクトの名前とコンストラクタへのパラメータ</para>
+        </listitem>
+      </orderedlist>
+
+      <example>
+        <title>Actual Term: スカラーの例</title>
+
+        <programlisting role="php">$this-&gt;spec('i am a string')-&gt;should-beString();
+$this-&gt;spec(567)-&gt;should-&gt;equal(567);
+$this-&gt;spec(array(1, 2, 3))-&gt;shouldNot-&gt;beEmpty();</programlisting>
+      </example>
+
+      <example>
+        <title>Actual Term: オブジェクトの例</title>
+
+        <programlisting role="php">$this-&gt;spec(new Bowling)-&gt;should-&gt;beAnInstanceOf('Bowling');
+
+$bowling = new Bowling;
+$this-&gt;spec($bowling)-&gt;shouldNot-&gt;havePlayers();</programlisting>
+      </example>
+
+      <example>
+        <title>Actual Term: オブジェクト名とコンストラクタのパラメータの例</title>
+
+        <programlisting role="php">$this-&gt;spec('Bowling', new Player('Joe'), new Player('Jim'))-&gt;should-&gt;havePlayers();</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>期待する内容 (Expectation (Should or Should Not))</title>
+
+      <para>
+        英語と同様、あらゆる期待は大きく二つに分類できます。
+        失敗することを期待するものと、成功することを期待するものです。
+        実際の値が一致してほしいのか一致してほしくないのかに応じて、
+        DSL で <classname>should</classname> あるいは
+        <classname>shouldNot</classname> のいずれかを使用します。
+      </para>
+
+      <para>以下のサンプルは、どれも成功するはずです。</para>
+
+      <example>
+        <title>Expectation Term: さまざまなサンプル</title>
+
+        <programlisting role="php">$spec-&gt;( array() )-&gt;should-&gt;beEmpty();
+$spec-&gt;('Bowling')-&gt;shouldNot-&gt;havePlayers();
+$spec-&gt;('i am a string')-&gt;should-&gt;match("/^[a-z ]$/");
+$spec-&gt;(is_int('string'))-&gt;shouldNot-&gt;beTrue();</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>条件 (Matcher)</title>
+
+      <para>
+        ユニットテストのフレームワークがアサーション (表明) に頼っているのに対して、
+        PHPSpec は期待 (Expectation Term) と条件 (Matcher) に責任を分担させています。
+        Matcher はシンプルなオブジェクトで、実際の値と期待内容を
+        DSL のメソッドで比較します。そしてマッチしたか否かを返します。
+        Matcher の形式は <classname>\PHPSpec\Matcher</classname>
+        インターフェイスで定義されているので、独自の Matchers
+        を書くこともできます (現在この機能は未完成です)。
+      </para>
+
+      <para>
+        PHPSpec フレームワークには、すでにさまざまな Matcher
+        が用意されています [注意: 中にはまだ開発途中のものもあります]。
+      </para>
+
+      <para>
+        Matcher とは、一般にスペックの最後に追加されるものです。
+        先ほどごらんいただいた例でもそのようになっています。
+      </para>
+
+      <section>
+        <title>PHPSpec に含まれる Matcher</title>
+
+        <para>
+          すべての Matcher は、boolean 値を返します。
+          したがって、スペックを記述する「流れるようなインターフェイス」
+          においては一番最後にコールすることになります。
+          <classname>NULL</classname> とされているパラメータは、
+          通常は不要であることを意味します
+          (Matcher の名前から、期待する内容は暗黙のうちに決まります)。
+       </para>
+
+        <table>
+          <title>PHPSpec の Matcher</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry align="center">Matcher メソッド</entry>
+
+                <entry align="center">説明</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry><para><classname>bool be (mixed
+                $expected)</classname></para></entry>
+
+                <entry>
+                  <classname>equal()</classname> と同じ意味で、
+                  英語っぽく書くために用意されています。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beEqualTo (mixed
+                $expected)</classname></entry>
+
+                <entry>
+                  <classname>equal()</classname> と同じ意味で、
+                  英語っぽく書くために用意されています。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool equal (mixed
+                $expected)</classname></entry>
+
+                <entry>
+                  期待する内容と等しいかどうかを調べます。
+                  スカラー値、オブジェクトのクラス、配列の内容など、
+                  種類に応じて適切な比較を行います。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beTrue (null
+                $expected)</classname></entry>
+
+                <entry>
+                  実際の値を <classname>TRUE</classname> と比較します。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beFalse (null
+                $expected)</classname></entry>
+
+                <entry>
+                  実際の値を <classname>FALSE</classname> と比較します。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beNull (null
+                $expected)</classname></entry>
+
+                <entry>
+                  実際の値が <classname>NULL</classname> かどうかを調べます。
+                </entry>
+              </row>
+
+              <row>
+                <entry><classname>bool beEmpty (mixed
+                $expected)</classname></entry>
+
+                <entry>
+                  実際の値が空かどうかを調べます (<classname>empty()</classname> を使用します)。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beSet (null
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が設定されているかどうかを調べます (<classname>isset()</classname>
+                  を使用します)。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beAnInstanceOf (string
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値がオブジェクトであり、かつ指定したクラスのインスタンスであるかどうかを調べます。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beInt (null
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が整数値かどうかを調べます。
+                  厳格なチェックを行うので、数値形式の文字列は整数値と見なされません。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beArray (null
+                $expected)</classname></para></entry>
+
+                <entry>実際の値が配列かどうかを調べます。</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beString (null
+                $expected)</classname></para></entry>
+
+                <entry>実際の値が文字列かどうかを調べます。</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beFloat (null
+                $expected)</classname></para></entry>
+
+                <entry>実際の値が浮動小数点数値かどうかを調べます。</entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beObject (null
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値がオブジェクトかどうかを調べます。
+                  どのようなクラスのオブジェクトなのかは調べません。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beGreaterThan (mixed
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が指定した値より大きい
+                  (<classname>&gt;</classname>) かどうかを調べます。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beLessThan (mixed
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が指定した値より小さい
+                  (<classname>&lt;</classname>) かどうかを調べます。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beGreaterThanOrEqualTo (mixed
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が指定した値以上
+                  (<classname>&gt;=</classname>) かどうかを調べます。
+                </entry>
+              </row>
+
+              <row>
+                <entry><para><classname>bool beLessThanOrEqualTo (mixed
+                $expected)</classname></para></entry>
+
+                <entry>
+                  実際の値が指定した値以下
+                  (<classname>&lt;=</classname>) かどうかを調べます。
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <section id="predicate.matchers">
+        <title>叙述型の Matcher (Predicate Matchers)</title>
+
+        <para>
+          叙述型の Matcher
+          <indexterm>
+            <primary>Matcher</primary>
+
+            <secondary>叙述型のマッチ</secondary>
+          </indexterm>
+          とは、指定したオブジェクトから実際の値を取得する Matcher です。
+          オブジェクトを調べ、<classname>isSomething()</classname>
+          あるいは <classname>hasSomething()</classname>
+          形式のメソッドをコールします。
+          すでに先ほどの DSL の例でこれを使用しており、
+          DSL のメソッド <classname>havePlayers()</classname>
+          は <classname>Bowling::hasPlayers()</classname>
+          メソッドをコールします。コールしたメソッドの戻り値である boolean
+          値が <classname>TRUE</classname> かどうかを調べ、
+          その結果を返します。
+        </para>
+
+        <example>
+          <title>クラスと叙述型の Matcher のコール例</title>
+
+          <programlisting>class Insect { // Insect ... 昆虫
+
+    public function isInsect() { // ……は昆虫です
+        return true;
+    }
+
+    public function hasWings() { // ……は羽根を持っています
+        return true;
+    }
+
+}
+
+class Flea extends Insect { // Flea ... ノミ
+
+    public function hasWings() {
+        return false; // ノミには羽根がありません
+    }
+
+}
+
+class DescribeFlea extends \PHPSpec\Context {
+
+    public function itShouldBeAnInsect()
+    {
+        $flea = new Flea;
+        $this-&gt;spec($flea)-&gt;should-&gt;beAnInsect(); // Flea::isInsect() == TRUE
+    }
+
+    public function itShouldHaveNoWings()
+    {
+        $flea = new Flea;
+        $this-&gt;spec($flea)-&gt;shouldNot-&gt;haveWings(); // Flea::hasWings() == FALSE
+    }
+}</programlisting>
+        </example>
+
+        <para>
+          叙述型の Matcher メソッドとして、DSL 内では
+          <classname>be()</classname>、<classname>beA()</classname>、
+          <classname>beAn()</classname> 形式を使用することができます。
+          これらはそれぞれ文法的に正しくなるように区別されているだけであり、
+          それ以外はまったく同じです。<classname>have(), haveA() および haveAn()</classname>
+          も同様です。同じような規則でオブジェクトのメソッドを探します
+          (オブジェクトのメソッド名が文法的に正しいものである必要があります!)。
+          将来的には、他の形式にもこのような叙述型を取り入れる予定です。
+          何かよい案があれば、ぜひ教えてください。
+        </para>
+      </section>
+    </section>
+  </section>
+</chapter>

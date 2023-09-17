@@ -1,0 +1,13 @@
+<appendix id="copyrights">
+    <title>著作権について</title>
+
+    <para>
+        次の著作権が PHPSpec Reference Manual に適用されます。
+    </para>
+
+    <para>
+        Copyright &#169; 2007-<?dbtimestamp format="Y"?> Pádraic Brady
+        (<ulink url="http://blog.astrumfutura.com" />)
+    </para>
+
+</appendix>

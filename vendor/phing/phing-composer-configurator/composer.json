@@ -1,0 +1,77 @@
+{
+    "name": "phing/phing-composer-configurator",
+    "type": "composer-plugin",
+    "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+    "keywords": [
+        "build",
+        "tool",
+        "task",
+        "phing",
+        "php",
+        "build-tool",
+        "build-automation",
+        "ant",
+        "make"
+    ],
+    "homepage": "https://www.phing.info/",
+    "license": "LGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Siad Ardroumli",
+            "email": "siad.ardroumli@gmail.com"
+        },
+        {
+            "name": "Phing Community",
+            "homepage": "https://github.com/phingofficial/phing/blob/master/CREDITS.md"
+        }
+    ],
+    "require": {
+        "php": ">= 7.3",
+        "composer-plugin-api": "^1.1|^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "~2.1.9 || ~2.3.0 || ~2.5.0",
+        "ergebnis/composer-normalize": "^2.0.2",
+        "ergebnis/phpstan-rules": "^0.14.2|^0.15.0",
+        "mikey179/vfsstream": "^1.6.8",
+        "pepakriz/phpstan-exception-rules": "^0.10.1|^0.11.0",
+        "phpstan/phpstan": "^0.12.4",
+        "phpstan/phpstan-beberlei-assert": "^0.12.2",
+        "phpstan/phpstan-deprecation-rules": "^0.12.1",
+        "phpstan/phpstan-phpunit": "^0.12.5",
+        "phpstan/phpstan-strict-rules": "^0.12.1",
+        "phpunit/phpunit": "^8.5.0|^9.4.2",
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "^3.5.3"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        }
+    },
+    "extra": {
+        "class": [
+            "Phing\\PhingComposerConfigurator\\ExtensionInstallerPlugin"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Phing\\PhingComposerConfigurator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phing\\PhingComposerConfigurator\\": "tests"
+        }
+    },
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/phingofficial/phing-composer-configurator/issues",
+        "irc": "irc://irc.freenode.net/phing",
+        "source": "https://github.com/phingofficial/phing-composer-configurator/",
+        "docs": "https://www.phing.info/docs/guide/stable/",
+        "slack": "https://www.phing.info/slack"
+    }
+}

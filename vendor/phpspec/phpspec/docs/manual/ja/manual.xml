@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+    "@DOCBOOK_DTD@"
+[
+    <!ENTITY % xinclude SYSTEM "xinclude.mod">
+    %xinclude;
+]>
+<book id="manual" lang="ja">
+    <bookinfo>
+        <title>PHPSpec リファレンスマニュアル</title>
+        <subtitle>PHP 用の振舞駆動開発フレームワーク</subtitle>
+        <pubdate>公開日: <?dbtimestamp format="Y-m-d"?></pubdate>
+        <copyright>
+            <year><?dbtimestamp format="Y"?></year>
+            <holder>
+                Pádraic Brady
+                (<ulink url="http://blog.astrumfutura.com" />)
+            </holder><!-- add holders as needed -->
+        </copyright>
+        <legalnotice>
+            <para>
+            This work is licensed under the Creative Commons Attribution 3.0 License. To view a copy of this license, visit <ulink url="http://creativecommons.org/licenses/by/3.0/" /> or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.
+            </para>
+        </legalnotice>
+        <revhistory>
+            <revision>
+                <revnumber>1.0.2</revnumber>
+                <date>2011-08-01</date>
+                <author><personname><firstname>Rupert</firstname><surname>Jones</surname></personname></author>
+                <revremark>HTML 版を docbook にバックポート</revremark>
+            </revision>
+            <revision>
+                <revnumber>1.0.1</revnumber>
+                <date>2011-07-24</date>
+                <author><personname><firstname>Marcello</firstname><surname>Duarte</surname></personname></author>
+                <revremark>現在のバージョンにあわせてマニュアルを更新</revremark>
+            </revision>
+            <revision>
+                <revnumber>1.0.0</revnumber>
+                <date>2008-01-08</date>
+                <author><personname><firstname>Pádraic</firstname><surname>Brady</surname></personname></author>
+                <revremark>最初のバージョン</revremark>
+            </revision>
+        </revhistory>
+    </bookinfo>
+
+    <!-- Chapter List -->
+    <xi:include href="chapters/Preface.xml" />
+
+    <chapter id="installing.phpspec">
+        <title>PHPSpec のインストール</title>
+        <xi:include href="chapters/InstallingPHPSpec.xml" />
+    </chapter>
+
+    <chapter id="getting.started">
+        <title>さぁはじめましょう</title>
+        <xi:include href="chapters/GettingStarted.xml" />
+    </chapter>
+
+    <xi:include href="chapters/Introduction.xml" />
+
+    <xi:include href="chapters/PHPSpecsGoals.xml" />
+
+    <xi:include href="chapters/WritingSpecsWithPHPSpec.xml" />
+
+	<xi:include href="chapters/ExecutionMethodsForPHPSpec.xml" />
+
+    <xi:include href="references/copyrights.xml" />
+    <index id="the.index" />
+</book>

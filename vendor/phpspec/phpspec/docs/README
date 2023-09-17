@@ -1,0 +1,7 @@
+docbook docs (in linux) can be built into html using the xmlto program, with the following syntax:
+
+bash$ xmlto html /path/to/source
+
+e.g.:
+bash$ xmlto html -o /var/www/phpspec/ phpspec/docs/manual/en/manual.xml
+

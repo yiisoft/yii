@@ -1,0 +1,255 @@
+name: Phing CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pre_job:
+    # continue-on-error: true # Uncomment once integration is finished
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          # All of these options are optional, so you can remove them if you are happy with the defaults
+          concurrent_skipping: 'never'
+          skip_after_successful_duplicate: 'true'
+          paths_ignore: '["**/README.md", "**/docs/**"]'
+          do_not_skip: '["push", "workflow_dispatch", "schedule"]'
+
+  static_code_analysis:
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+          tools: composer:v2
+
+      - uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: 'locked'
+
+      - name: Code style
+        run: vendor/bin/phpcs -s -n --standard="PSR12" src tests/Phing
+
+      - name: Static analysis (level 1)
+        run: vendor/bin/phpstan --ansi --no-progress --no-interaction
+
+      - name: 'Install xdg-open (required by OpenTaskTest.php)'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run : |
+          sudo apt update -y
+          sudo apt install -y xdg-utils
+
+  qodana_scan:
+    needs:
+      - pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@main
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+
+  test:
+    needs:
+      - pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ${{ matrix.operating-system }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest, macos-latest, windows-latest ]
+        php: [ '7.4', '8.0', '8.1' ]
+        dependencies: [ 'lowest', 'locked' ]
+        experimental: [ false ]
+
+    name: PHP ${{ matrix.php }} on ${{ matrix.operating-system }} with ${{ matrix.dependencies }} dependencies
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: pdo_sqlite,pdo_mysql,sockets,xsl,openssl,zip,fileinfo
+          ini-values: phar.readonly=off
+
+      - uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+          composer-options: ${{ matrix.composer-options }}
+
+      - name: Test phing
+        working-directory: tests
+        run: |
+          echo "=== SETTING GIT IDENTITY ==="
+          git config --global user.email "github-ci-build@phing.info"
+          git config --global user.name "Phing Github Action"
+          echo "=== RUN TESTS ==="
+          ../bin/phing -Dtests.codecoverage=false -listener "Phing\\Listener\\StatisticsListener"
+        env:
+          # Required by xdg-open (OpenTaskTest.php)
+          # 'true' command will behave as a fake browser, always returning 0.
+          BROWSER: /usr/bin/true
+
+  build_phar:
+    runs-on: ubuntu-latest
+    needs:
+      - pre_job
+      - static_code_analysis
+      - test
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+          ini-values: phar.readonly=Off
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --optimize-autoloader --prefer-dist --no-progress --no-interaction
+
+      - name: Build phar
+        working-directory: build
+        run: |
+          ../bin/phing
+          php full/phing-$(cat ../etc/VERSION.TXT).phar -v
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs:
+      - pre_job
+      - static_code_analysis
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: xdebug
+          ini-values: xdebug.mode=coverage
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Composer install
+        run: composer install --no-interaction --no-progress --ansi
+
+      - name: Test with coverage
+        working-directory: tests
+        run: |
+          echo "=== SETTING GIT IDENTITY ==="
+          git config --global user.email "github-ci-build@phing.info"
+          git config --global user.name "Phing Github Action"
+          echo "=== RUN TESTS ==="
+          ../bin/phing -debug -Dtests.codecoverage=true -listener "Phing\\Listener\\StatisticsListener"
+        env:
+          # Required by xdg-open (OpenTaskTest.php)
+          # 'true' command will behave as a fake browser, always returning 0.
+          BROWSER: /usr/bin/true
+
+      - name: Upload to Codecov
+        if: github.repository_owner == 'phingofficial'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./tests/reports/clover-coverage.xml
+          verbose: true
+
+      - name: Upload to Scrutinizer
+        if: github.repository_owner == 'phingofficial'
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./tests/reports/clover-coverage.xml
+
+  build_docker_image:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'phingofficial' && github.event_name != 'pull_request' }}
+    needs:
+      - test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build & upload image
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: phing/phing
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: "3.0-nightly"
+
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'phingofficial' }}
+    needs:
+      - static_code_analysis
+      - qodana_scan
+      - test
+      - build_phar
+      - build_docker_image
+      - coverage
+    steps:
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3.8.0
+        continue-on-error: true
+        with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              username: 'action-slack',
+              icon_emoji: ':octocat:',
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} succeeded in ${process.env.AS_TOOK}`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_BUILDS }}

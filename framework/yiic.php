@@ -16,7 +16,7 @@ defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 
-require_once(dirname(__FILE__).'/yii.php');
+require_once(__DIR__ .'/yii.php');
 
 if(isset($config))
 {
@@ -24,7 +24,7 @@ if(isset($config))
 	$app->commandRunner->addCommands(YII_PATH.'/cli/commands');
 }
 else
-	$app=Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'));
+	$app=Yii::createConsoleApplication(array('basePath'=> __DIR__ .'/cli'));
 
 $env=@getenv('YII_CONSOLE_COMMANDS');
 if(!empty($env))

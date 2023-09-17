@@ -1,0 +1,147 @@
+body {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: Arial, serif;
+    color: #990000;
+}
+
+h2 {
+	font-size: 1.3em;
+}
+
+h3, h4, h5 {
+	font-size: 1em;
+	margin: 0.2em;
+}
+
+div.note, div.warning, div.tip {
+	margin-left: 0.3in;
+	margin-right: 0.5in;
+	border: solid 1px blue;
+	background-color: #e0e0e0;
+	padding: 0.1in;
+}
+
+div.note img, div.warning img, div.tip img {
+	margin-right: 0.1in;
+	/*border: solid 1px blue;*/
+}
+
+pre.programlisting {
+	border: solid 1px #444;
+	background-color: #e0e0e0;
+	padding: 0.1in;
+	margin: 0.2in;
+	clear: right;
+}
+
+pre.screen {
+	border: solid 1px #777;
+	background-color: #ddd;
+	padding: 0.1in;
+	margin: 0.2in;
+	clear: right;
+}
+
+strong.userinput {
+    font-weight: normal;
+}
+
+div.variablelist dl dt span.term {
+	font-weight: bold;
+}
+
+hr { display: none; }
+
+div.navheader {
+	padding-bottom: 0.1in;
+	border-bottom: solid 1px black;
+	border-color: #aaa;
+}
+div.navfooter {
+	margin-top: 0.1in;
+	border-top: solid 1px black;
+	border-color: #aaa;
+	padding-top: 0.1in;
+}
+
+div.figure-float {
+	float: right;
+	margin-left: 2em;
+	margin-bottom: 2em;
+}
+
+div.revinfo {
+	text-align: center;
+	font-size: 0.7em;
+	text-decoration: italic;
+}
+
+code.code {
+    font-family: "Lucida Console", monospace;
+}
+
+ol.code {
+	font-family: "Lucida Console", monospace;
+    width: 90%;
+    margin: 0 5%;
+    padding: 0;
+    font-size: 0.75em;
+    line-height: 1.5em;
+    overflow: hidden;
+    color: #939399;
+    text-align: left;
+    list-style-position: inside;
+    border: 1px solid #d3d3d0;
+}
+ol.code li {
+    float: left;
+    clear: both;
+    width: 99%;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0 0 0 1%;
+    background: #fff;
+}
+ol.code li.even { background: #f3f3f0; }
+ol.code li code {
+    font: 1.2em courier, monospace;
+    color: #c30;
+    white-space: pre;
+    padding-left: 0.5em;
+}
+ul.code {
+	font-family: "Lucida Console", monospace;
+    width: 90%;
+    margin: 0 5%;
+    padding: 0;
+    font-size: 0.75em;
+    line-height: 1.5em;
+    overflow: hidden;
+    color: #939399;
+    text-align: left;
+    list-style: none;
+    border: 1px solid #d3d3d0;
+}
+ul.code li {
+    float: left;
+    clear: both;
+    width: 99%;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0 0 0 1%;
+    background: #fff;
+}
+ul.code li.even { background: #f3f3f0; }
+ul.code li code {
+    font: 1.2em courier, monospace;
+    color: #c30;
+    white-space: pre;
+    padding-left: 0.5em;
+}
+.code .comment { color: #939399; }
+.code .default { color: #44c; }
+.code .keyword { color: #373; }
+.code .string { color: #c30; }

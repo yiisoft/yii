@@ -1,0 +1,38 @@
+{
+  "name": "phing/task-archives",
+  "description": "Archive related phing tasks and types.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "LGPL-3.0-only",
+  "type": "phing-extension",
+  "authors": [
+    {
+      "name": "Siad Ardroumli",
+      "email": "siad.ardroumli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1",
+    "pear/archive_tar": "^1.4"
+  },
+  "require-dev": {
+    "phing/phing": "3.0.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phing\\Task\\Ext\\Archive\\": ""
+    }
+  },
+  "extra": {
+    "phing-custom-taskdefs": {
+      "tar": "Phing\\Task\\Ext\\Archive\\TarTask",
+      "untar": "Phing\\Task\\Ext\\Archive\\UntarTask",
+      "zip": "Phing\\Task\\Ext\\Archive\\ZipTask",
+      "unzip": "Phing\\Task\\Ext\\Archive\\UnzipTask"
+    },
+    "phing-custom-typedefs": {
+      "tarfileset": "Phing\\Task\\Ext\\Archive\\TarFileSet",
+      "zipfileset": "Phing\\Task\\Ext\\Archive\\ZipFileSet"
+    }
+  }
+}
