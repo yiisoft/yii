@@ -121,8 +121,6 @@ EOD;
 
 	/**
 	 * Generate code to put in ActiveRecord class's relations() function.
-	 * @return array indexed by table names, each entry contains array of php code to go in appropriate ActiveRecord class.
-	 *		Empty array is returned if database couldn't be connected.
 	 */
 	protected function generateRelations()
 	{
