@@ -201,10 +201,10 @@ class CMysqlSchema extends CDbSchema
 		$c->name=$column['Field'];
 		$c->rawName=$this->quoteColumnName($c->name);
 		$c->allowNull=$column['Null']==='YES';
-		$c->isPrimaryKey=strpos($column['Key'],'PRI')!==false;
+		$c->isPrimaryKey=strpos($column['Key']??'','PRI')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
-		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+		$c->autoIncrement=strpos(strtolower($column['Extra']??''),'auto_increment')!==false;
 		if(isset($column['Comment']))
 			$c->comment=$column['Comment'];
 
