@@ -198,8 +198,9 @@ class CDbCriteria extends CComponent
 			{
 				if(is_array($this->$field))
 					foreach($this->$field as $k=>$v)
-						$this->{$field}[$k]=strtr($v,$map);
-				else
+						if (is_string($this->{$field}[$k]))
+							$this->{$field}[$k]=strtr($v,$map);
+				elseif(is_string($this->$field))
 					$this->$field=strtr($this->$field,$map);
 			}
 		}
