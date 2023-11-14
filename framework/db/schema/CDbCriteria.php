@@ -200,11 +200,11 @@ class CDbCriteria extends CComponent
 				{
 					foreach($this->$field as $k=>$v)
 					{
-						if (is_string($this->{$field}[$k]))
+						if (is_scalar($this->{$field}[$k]))
 							$this->{$field}[$k]=strtr($v,$map);
 					}
 				}
-				elseif(is_string($this->$field))
+				elseif(is_scalar($this->$field))
 				{
 					$this->$field=strtr($this->$field,$map);
 				}
