@@ -522,7 +522,6 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Checks if a key is valid for {@link cryptAlgorithm}.
 	 * @param string $key the key to check
-	 * @return boolean the validation result
 	 * @throws CException if the supported key lengths of the cipher are unknown
 	 */
 	protected function validateEncryptionKey($key)
