@@ -200,7 +200,7 @@ class CDbCriteria extends CComponent
 				{
 					foreach($this->$field as $k=>$v)
 					{
-						if (is_scalar($this->{$field}[$k]))
+						if (is_scalar($v))
 							$this->{$field}[$k]=strtr($v,$map);
 					}
 				}
