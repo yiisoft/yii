@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.29 under development
+Version 1.1.29 November 14, 2023
 --------------------------------
 
 - Bug #4516: PHP 8 compatibility: Allow union types and intersection types in action declarations (wtommyw)
