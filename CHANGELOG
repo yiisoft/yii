@@ -1,12 +1,20 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.29 under development
+Version 1.1.30 under development
+--------------------------------
+
+- No changes yet
+
+Version 1.1.29 November 14, 2023
 --------------------------------
 
 - Bug #4516: PHP 8 compatibility: Allow union types and intersection types in action declarations (wtommyw)
 - Bug #4523: Fixed translated in Greek class messages in framework requirements view, which they should not be translated (lourdas)
+- Bug #4534: PHP 8.2 compatibility: Fix deprecated dynamic properties in gii/components/Pear/Text/Diff (mdeweerd, marcovtwout)
+- Bug: CVE-2023-47130. Prevent RCE when deserializing untrusted user input (ma4ter222, marcovtwout)
 - Enh #4529: Exceptions thrown while loading fixture file rows now contain more details (eduardor2k)
+- Enh #4533: Various refactorings applied based on PHAN checks (marcovtwout)
 
 Version 1.1.28 February 28, 2023
 --------------------------------

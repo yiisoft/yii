@@ -30,6 +30,16 @@
  */
 class Text_Diff_Engine_native {
 
+    public $xchanged;
+    public $ychanged;
+    public $xv;
+    public $yv;
+    public $xind;
+    public $yind;
+    public $seq;
+    public $in_seq;
+    public $lcs;
+
     function diff($from_lines, $to_lines)
     {
         array_walk($from_lines, array('Text_Diff', 'trimNewlines'));
@@ -63,9 +73,11 @@ class Text_Diff_Engine_native {
         }
 
         // Ignore lines which do not exist in both files.
+        $xhash = [];
         for ($xi = $skip; $xi < $n_from - $endskip; $xi++) {
             $xhash[$from_lines[$xi]] = 1;
         }
+        $yhash = [];
         for ($yi = $skip; $yi < $n_to - $endskip; $yi++) {
             $line = $to_lines[$yi];
             if (($this->ychanged[$yi] = empty($xhash[$line]))) {
@@ -160,6 +172,7 @@ class Text_Diff_Engine_native {
                 = array($yoff, $ylim, $xoff, $xlim);
         }
 
+        $ymatches = array();
         if ($flip) {
             for ($i = $ylim - 1; $i >= $yoff; $i--) {
                 $ymatches[$this->xv[$i]][] = $i;
@@ -173,7 +186,7 @@ class Text_Diff_Engine_native {
         $this->lcs = 0;
         $this->seq[0]= $yoff - 1;
         $this->in_seq = array();
-        $ymids[0] = array();
+        $ymids = array(array());
 
         $numer = $xlim - $xoff + $nchunks - 1;
         $x = $xoff;
@@ -191,15 +204,17 @@ class Text_Diff_Engine_native {
                     continue;
                 }
                 $matches = $ymatches[$line];
-                while (($y = array_shift($matches)) !== null) {
+                reset($matches);
+                while ($y = current($matches)) {
                     if (empty($this->in_seq[$y])) {
                         $k = $this->_lcsPos($y);
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;
                     }
+                    next($matches);
                 }
-                while (($y = array_shift($matches)) !== null) {
+                while ($y = current($matches)) {
                     if ($y > $this->seq[$k - 1]) {
                         assert($y <= $this->seq[$k]);
                         /* Optimization: this is a common case: next match is
@@ -212,11 +227,12 @@ class Text_Diff_Engine_native {
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                     }
+                    next($matches);
                 }
             }
         }
 
-        $seps[] = $flip ? array($yoff, $xoff) : array($xoff, $yoff);
+        $seps = array($flip ? array($yoff, $xoff) : array($xoff, $yoff));
         $ymid = $ymids[$this->lcs];
         for ($n = 0; $n < $nchunks - 1; $n++) {
             $x1 = $xoff + (int)(($numer + ($xlim - $xoff) * $n) / $nchunks);

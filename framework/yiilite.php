@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.29-dev';
+		return '1.1.30-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -4211,11 +4211,10 @@ abstract class CAction extends CComponent implements IAction
 			$name=$param->getName();
 			if(isset($params[$name]))
 			{
-				if(version_compare(PHP_VERSION,'8.0','>=')) {
-					$isArray=$param->getType() && $param->getType()->getName()==='array';
-				} else {
+				if(version_compare(PHP_VERSION,'8.0','>='))
+					$isArray=($type=$param->getType()) instanceof \ReflectionNamedType && $type->getName()==='array';
+				else
 					$isArray=$param->isArray();
-                }
 				if($isArray)
 					$ps[]=is_array($params[$name]) ? $params[$name] : array($params[$name]);
 				elseif(!is_array($params[$name]))

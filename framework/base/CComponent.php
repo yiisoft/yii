@@ -141,7 +141,6 @@ class CComponent
 	 * </pre>
 	 * @param string $name the property name or the event name
 	 * @param mixed $value the property value or callback
-	 * @return mixed
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
@@ -210,7 +209,6 @@ class CComponent
 	 * to allow using unset() to set a component property to be null.
 	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
-	 * @return mixed
 	 */
 	public function __unset($name)
 	{

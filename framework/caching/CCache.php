@@ -370,7 +370,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * Deletes the value with the specified key from cache
 	 * This method is required by the interface ArrayAccess.
 	 * @param string $id the key of the value to be deleted
-	 * @return boolean if no error happens during deletion
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetUnset($id)
