@@ -24,7 +24,7 @@ class MarkdownParser extends CMarkdownParser
 	{
 		if ($matches[3] == '-' && preg_match('{^- }', $matches[1]))
 			return $matches[0];
-		$level = $matches[3]{0} == '=' ? 1 : 2;
+		$level = $matches[3][0] == '=' ? 1 : 2;
 		$text = $this->runSpanGamut($matches[1]);
 		$attr = $this->doHeaderId($text);
 		$block = "<h$level$attr>".$text."</h$level>";
