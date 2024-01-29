@@ -37,8 +37,8 @@ class CPgsqlCommandBuilder extends CDbCommandBuilder
      * @since 1.1.30
      */
     public function createMultipleInsertCommandWithIgnore($table, array $data) {
-        return $this->composeMultipleInsertCommand($table, $data, [
+        return $this->composeMultipleInsertCommand($table, $data, array(
             "main" => "INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}} ON CONFLICT DO NOTHING",
-        ]);
+        ));
     }
 }
