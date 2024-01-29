@@ -66,7 +66,7 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
      */
     public function createMultipleInsertCommandWithIgnore($table, array $data) {
         return $this->composeMultipleInsertCommand($table, $data, [
-            "main" => "INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}} ON DUPLICATE KEY DO NOTHING ",
+            "main" => "INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}} ON DUPLICATE KEY DO NOTHING",
         ]);
     }
 }
