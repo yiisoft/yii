@@ -264,7 +264,18 @@ class CDbCommandBuilder extends CComponent
 		return $this->composeMultipleInsertCommand($table,$data);
 	}
 
-	/**
+    /**
+     * Creates a conflict ignorant multiple INSERT command (should be overridden).
+     * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+     * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+     * @return CDbCommand multiple insert command
+     * @since 1.1.30
+     */
+    public function createMultipleInsertCommandWithIgnore($table, array $data) {
+        return $this->createMultipleInsertCommand($table, $data);
+    }
+
+    /**
 	 * Creates a multiple INSERT command.
 	 * This method compose the SQL expression via given part templates, providing ability to adjust
 	 * command for different SQL syntax.
