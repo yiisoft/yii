@@ -55,4 +55,18 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
 			$limit=PHP_INT_MAX;
 		return parent::applyLimit($sql,$limit,$offset);
 	}
+
+    /**
+     * Creates a conflict ignorant multiple INSERT command.
+     * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+     * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+     * @return CDbCommand multiple insert command
+     * @throws CDbException
+     * @since 1.1.30
+     */
+    public function createMultipleInsertCommandWithIgnore($table, array $data) {
+        return $this->composeMultipleInsertCommand($table, $data, [
+            "main" => "INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}} ON DUPLICATE KEY DO NOTHING ",
+        ]);
+    }
 }
