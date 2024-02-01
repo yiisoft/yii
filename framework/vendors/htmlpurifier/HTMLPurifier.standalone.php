@@ -7958,13 +7958,13 @@ class HTMLPurifier_Lexer
 
         if ($config->get('HTML.Trusted')) {
             // escape convoluted CDATA
-            $html = $this->escapeCommentedCDATA($html);
+            $html = self::escapeCommentedCDATA($html);
         }
 
         // escape CDATA
-        $html = $this->escapeCDATA($html);
+        $html = self::escapeCDATA($html);
 
-        $html = $this->removeIEConditional($html);
+        $html = self::removeIEConditional($html);
 
         // extract body from document if applicable
         if ($config->get('Core.ConvertDocumentToFragment')) {
