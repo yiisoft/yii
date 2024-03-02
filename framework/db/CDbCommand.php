@@ -151,9 +151,9 @@ class CDbCommand extends CComponent
 		return $this;
 	}
 
-	/**
-	 * @return string the SQL statement to be executed
-	 */
+    /**
+     * @return string the SQL statement to be executed
+     */
 	public function getText()
 	{
 		if($this->_text=='' && !empty($this->_query))
@@ -551,7 +551,6 @@ class CDbCommand extends CComponent
 	 * query options are supported: {@link select}, {@link distinct}, {@link from},
 	 * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
 	 * {@link limit}, {@link offset} and {@link union}.
-	 * @throws CDbException if "from" key is not present in given query parameter
 	 * @return string the SQL statement
 	 * @since 1.1.6
 	 */
@@ -589,20 +588,22 @@ class CDbCommand extends CComponent
 		return $sql;
 	}
 
-	/**
-	 * Sets the SELECT part of the query.
-	 * @param mixed $columns the columns to be selected. Defaults to '*', meaning all columns.
-	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
-	 * Columns can contain table prefixes (e.g. "tbl_user.id") and/or column aliases (e.g. "tbl_user.id AS user_id").
-	 * The method will automatically quote the column names unless a column contains some parenthesis
-	 * (which means the column contains a DB expression).
-	 * @param string $option additional option that should be appended to the 'SELECT' keyword. For example,
-	 * in MySQL, the option 'SQL_CALC_FOUND_ROWS' can be used. This parameter is supported since version 1.1.8.
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the SELECT part of the query.
+     * @param mixed $columns the columns to be selected. Defaults to '*', meaning all columns.
+     * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
+     * Columns can contain table prefixes (e.g. "tbl_user.id") and/or column aliases (e.g. "tbl_user.id AS user_id").
+     * The method will automatically quote the column names unless a column contains some parenthesis
+     * (which means the column contains a DB expression).
+     * @param string $option additional option that should be appended to the 'SELECT' keyword. For example,
+     * in MySQL, the option 'SQL_CALC_FOUND_ROWS' can be used. This parameter is supported since version 1.1.8.
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function select($columns='*', $option='')
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(is_string($columns) && strpos($columns,'(')!==false)
 			$this->_query['select']=$columns;
 		else
@@ -650,15 +651,17 @@ class CDbCommand extends CComponent
 		$this->select($value);
 	}
 
-	/**
-	 * Sets the SELECT part of the query with the DISTINCT flag turned on.
-	 * This is the same as {@link select} except that the DISTINCT flag is turned on.
-	 * @param mixed $columns the columns to be selected. See {@link select} for more details.
-	 * @return CDbCommand the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the SELECT part of the query with the DISTINCT flag turned on.
+     * This is the same as {@link select} except that the DISTINCT flag is turned on.
+     * @param mixed $columns the columns to be selected. See {@link select} for more details.
+     * @return CDbCommand the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function selectDistinct($columns='*')
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['distinct']=true;
 		return $this->select($columns);
 	}
@@ -673,28 +676,32 @@ class CDbCommand extends CComponent
 		return isset($this->_query['distinct']) ? $this->_query['distinct'] : false;
 	}
 
-	/**
-	 * Sets a value indicating whether SELECT DISTINCT should be used.
-	 * @param boolean $value a value indicating whether SELECT DISTINCT should be used.
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets a value indicating whether SELECT DISTINCT should be used.
+     * @param boolean $value a value indicating whether SELECT DISTINCT should be used.
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function setDistinct($value)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['distinct']=$value;
 	}
 
-	/**
-	 * Sets the FROM part of the query.
-	 * @param mixed $tables the table(s) to be selected from. This can be either a string (e.g. 'tbl_user')
-	 * or an array (e.g. array('tbl_user', 'tbl_profile')) specifying one or several table names.
-	 * Table names can contain schema prefixes (e.g. 'public.tbl_user') and/or table aliases (e.g. 'tbl_user u').
-	 * The method will automatically quote the table names unless it contains some parenthesis
-	 * (which means the table is given as a sub-query or DB expression).
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the FROM part of the query.
+     * @param mixed $tables the table(s) to be selected from. This can be either a string (e.g. 'tbl_user')
+     * or an array (e.g. array('tbl_user', 'tbl_profile')) specifying one or several table names.
+     * Table names can contain schema prefixes (e.g. 'public.tbl_user') and/or table aliases (e.g. 'tbl_user u').
+     * The method will automatically quote the table names unless it contains some parenthesis
+     * (which means the table is given as a sub-query or DB expression).
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function from($tables)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(is_string($tables) && strpos($tables,'(')!==false)
 			$this->_query['from']=$tables;
 		else
@@ -737,46 +744,48 @@ class CDbCommand extends CComponent
 		$this->from($value);
 	}
 
-	/**
-	 * Sets the WHERE part of the query.
-	 *
-	 * The method requires a $conditions parameter, and optionally a $params parameter
-	 * specifying the values to be bound to the query.
-	 *
-	 * The $conditions parameter should be either a string (e.g. 'id=1') or an array.
-	 * If the latter, it must be of the format <code>array(operator, operand1, operand2, ...)</code>,
-	 * where the operator can be one of the followings, and the possible operands depend on the corresponding
-	 * operator:
-	 * <ul>
-	 * <li><code>and</code>: the operands should be concatenated together using AND. For example,
-	 * array('and', 'id=1', 'id=2') will generate 'id=1 AND id=2'. If an operand is an array,
-	 * it will be converted into a string using the same rules described here. For example,
-	 * array('and', 'type=1', array('or', 'id=1', 'id=2')) will generate 'type=1 AND (id=1 OR id=2)'.
-	 * The method will NOT do any quoting or escaping.</li>
-	 * <li><code>or</code>: similar as the <code>and</code> operator except that the operands are concatenated using OR.</li>
-	 * <li><code>in</code>: operand 1 should be a column or DB expression, and operand 2 be an array representing
-	 * the range of the values that the column or DB expression should be in. For example,
-	 * array('in', 'id', array(1,2,3)) will generate 'id IN (1,2,3)'.
-	 * The method will properly quote the column name and escape values in the range.</li>
-	 * <li><code>not in</code>: similar as the <code>in</code> operator except that IN is replaced with NOT IN in the generated condition.</li>
-	 * <li><code>like</code>: operand 1 should be a column or DB expression, and operand 2 be a string or an array representing
-	 * the values that the column or DB expression should be like.
-	 * For example, array('like', 'name', '%tester%') will generate "name LIKE '%tester%'".
-	 * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
-	 * For example, array('like', 'name', array('%test%', '%sample%')) will generate
-	 * "name LIKE '%test%' AND name LIKE '%sample%'".
-	 * The method will properly quote the column name and escape values in the range.</li>
-	 * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
-	 * <li><code>or like</code>: similar as the <code>like</code> operator except that OR is used to concatenated the LIKE predicates.</li>
-	 * <li><code>or not like</code>: similar as the <code>not like</code> operator except that OR is used to concatenated the NOT LIKE predicates.</li>
-	 * </ul>
-	 * @param mixed $conditions the conditions that should be put in the WHERE part.
-	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the WHERE part of the query.
+     *
+     * The method requires a $conditions parameter, and optionally a $params parameter
+     * specifying the values to be bound to the query.
+     *
+     * The $conditions parameter should be either a string (e.g. 'id=1') or an array.
+     * If the latter, it must be of the format <code>array(operator, operand1, operand2, ...)</code>,
+     * where the operator can be one of the followings, and the possible operands depend on the corresponding
+     * operator:
+     * <ul>
+     * <li><code>and</code>: the operands should be concatenated together using AND. For example,
+     * array('and', 'id=1', 'id=2') will generate 'id=1 AND id=2'. If an operand is an array,
+     * it will be converted into a string using the same rules described here. For example,
+     * array('and', 'type=1', array('or', 'id=1', 'id=2')) will generate 'type=1 AND (id=1 OR id=2)'.
+     * The method will NOT do any quoting or escaping.</li>
+     * <li><code>or</code>: similar as the <code>and</code> operator except that the operands are concatenated using OR.</li>
+     * <li><code>in</code>: operand 1 should be a column or DB expression, and operand 2 be an array representing
+     * the range of the values that the column or DB expression should be in. For example,
+     * array('in', 'id', array(1,2,3)) will generate 'id IN (1,2,3)'.
+     * The method will properly quote the column name and escape values in the range.</li>
+     * <li><code>not in</code>: similar as the <code>in</code> operator except that IN is replaced with NOT IN in the generated condition.</li>
+     * <li><code>like</code>: operand 1 should be a column or DB expression, and operand 2 be a string or an array representing
+     * the values that the column or DB expression should be like.
+     * For example, array('like', 'name', '%tester%') will generate "name LIKE '%tester%'".
+     * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
+     * For example, array('like', 'name', array('%test%', '%sample%')) will generate
+     * "name LIKE '%test%' AND name LIKE '%sample%'".
+     * The method will properly quote the column name and escape values in the range.</li>
+     * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
+     * <li><code>or like</code>: similar as the <code>like</code> operator except that OR is used to concatenated the LIKE predicates.</li>
+     * <li><code>or not like</code>: similar as the <code>not like</code> operator except that OR is used to concatenated the NOT LIKE predicates.</li>
+     * </ul>
+     * @param mixed $conditions the conditions that should be put in the WHERE part.
+     * @param array $params the parameters (name=>value) to be bound to the query
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function where($conditions, $params=array())
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['where']=$this->processConditions($conditions);
 
 		foreach($params as $name=>$value)
@@ -784,20 +793,22 @@ class CDbCommand extends CComponent
 		return $this;
 	}
 
-	/**
-	 * Appends given condition to the existing WHERE part of the query with 'AND' operator.
-	 *
-	 * This method works almost the same way as {@link where} except the fact that it appends condition
-	 * with 'AND' operator, but not replaces it with the new one. For more information on parameters
-	 * of this method refer to the {@link where} documentation.
-	 *
-	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
-	 * @param array $params the parameters (name=>value) to be bound to the query.
-	 * @return static the command object itself.
-	 * @since 1.1.13
-	 */
+    /**
+     * Appends given condition to the existing WHERE part of the query with 'AND' operator.
+     *
+     * This method works almost the same way as {@link where} except the fact that it appends condition
+     * with 'AND' operator, but not replaces it with the new one. For more information on parameters
+     * of this method refer to the {@link where} documentation.
+     *
+     * @param mixed $conditions the conditions that should be appended to the WHERE part.
+     * @param array $params the parameters (name=>value) to be bound to the query.
+     * @return static the command object itself.
+     * @throws CDbException
+     * @since 1.1.13
+     */
 	public function andWhere($conditions,$params=array())
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(isset($this->_query['where']))
 			$this->_query['where']=$this->processConditions(array('AND',$this->_query['where'],$conditions));
 		else
@@ -808,20 +819,22 @@ class CDbCommand extends CComponent
 		return $this;
 	}
 
-	/**
-	 * Appends given condition to the existing WHERE part of the query with 'OR' operator.
-	 *
-	 * This method works almost the same way as {@link where} except the fact that it appends condition
-	 * with 'OR' operator, but not replaces it with the new one. For more information on parameters
-	 * of this method refer to the {@link where} documentation.
-	 *
-	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
-	 * @param array $params the parameters (name=>value) to be bound to the query.
-	 * @return static the command object itself.
-	 * @since 1.1.13
-	 */
+    /**
+     * Appends given condition to the existing WHERE part of the query with 'OR' operator.
+     *
+     * This method works almost the same way as {@link where} except the fact that it appends condition
+     * with 'OR' operator, but not replaces it with the new one. For more information on parameters
+     * of this method refer to the {@link where} documentation.
+     *
+     * @param mixed $conditions the conditions that should be appended to the WHERE part.
+     * @param array $params the parameters (name=>value) to be bound to the query.
+     * @return static the command object itself.
+     * @throws CDbException
+     * @since 1.1.13
+     */
 	public function orWhere($conditions,$params=array())
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(isset($this->_query['where']))
 			$this->_query['where']=$this->processConditions(array('OR',$this->_query['where'],$conditions));
 		else
@@ -882,15 +895,17 @@ class CDbCommand extends CComponent
 		return isset($this->_query['join']) ? $this->_query['join'] : '';
 	}
 
-	/**
-	 * Sets the join part in the query.
-	 * @param mixed $value the join part in the query. This can be either a string or
-	 * an array representing multiple join parts in the query. Each part must contain
-	 * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the join part in the query.
+     * @param mixed $value the join part in the query. This can be either a string or
+     * an array representing multiple join parts in the query. Each part must contain
+     * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function setJoin($value)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['join']=$value;
 	}
 
@@ -988,17 +1003,19 @@ class CDbCommand extends CComponent
 		return $this->joinInternal('natural right join', $table);
 	}
 
-	/**
-	 * Sets the GROUP BY part of the query.
-	 * @param mixed $columns the columns to be grouped by.
-	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
-	 * The method will automatically quote the column names unless a column contains some parenthesis
-	 * (which means the column contains a DB expression).
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the GROUP BY part of the query.
+     * @param mixed $columns the columns to be grouped by.
+     * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
+     * The method will automatically quote the column names unless a column contains some parenthesis
+     * (which means the column contains a DB expression).
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function group($columns)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(is_string($columns) && strpos($columns,'(')!==false)
 			$this->_query['group']=$columns;
 		else
@@ -1038,16 +1055,18 @@ class CDbCommand extends CComponent
 		$this->group($value);
 	}
 
-	/**
-	 * Sets the HAVING part of the query.
-	 * @param mixed $conditions the conditions to be put after HAVING.
-	 * Please refer to {@link where} on how to specify conditions.
-	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the HAVING part of the query.
+     * @param mixed $conditions the conditions to be put after HAVING.
+     * Please refer to {@link where} on how to specify conditions.
+     * @param array $params the parameters (name=>value) to be bound to the query
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function having($conditions, $params=array())
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['having']=$this->processConditions($conditions);
 		foreach($params as $name=>$value)
 			$this->params[$name]=$value;
@@ -1075,24 +1094,26 @@ class CDbCommand extends CComponent
 		$this->having($value);
 	}
 
-	/**
-	 * Sets the ORDER BY part of the query.
-	 * @param mixed $columns the columns (and the directions) to be ordered by.
-	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
-	 * The method will automatically quote the column names unless a column contains some parenthesis
-	 * (which means the column contains a DB expression).
-	 *
-	 * For example, to get "ORDER BY 1" you should use
-	 *
-	 * <pre>
-	 * $criteria->order('(1)');
-	 * </pre>
-	 *
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the ORDER BY part of the query.
+     * @param mixed $columns the columns (and the directions) to be ordered by.
+     * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
+     * The method will automatically quote the column names unless a column contains some parenthesis
+     * (which means the column contains a DB expression).
+     *
+     * For example, to get "ORDER BY 1" you should use
+     *
+     * <pre>
+     * $criteria->order('(1)');
+     * </pre>
+     *
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function order($columns)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(is_string($columns) && strpos($columns,'(')!==false)
 			$this->_query['order']=$columns;
 		else
@@ -1137,15 +1158,17 @@ class CDbCommand extends CComponent
 		$this->order($value);
 	}
 
-	/**
-	 * Sets the LIMIT part of the query.
-	 * @param integer $limit the limit
-	 * @param integer $offset the offset
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the LIMIT part of the query.
+     * @param integer $limit the limit
+     * @param integer $offset the offset
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function limit($limit, $offset=null)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['limit']=(int)$limit;
 		if($offset!==null)
 			$this->offset($offset);
@@ -1173,14 +1196,16 @@ class CDbCommand extends CComponent
 		$this->limit($value);
 	}
 
-	/**
-	 * Sets the OFFSET part of the query.
-	 * @param integer $offset the offset
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the OFFSET part of the query.
+     * @param integer $offset the offset
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function offset($offset)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['offset']=(int)$offset;
 		return $this;
 	}
@@ -1206,14 +1231,16 @@ class CDbCommand extends CComponent
 		$this->offset($value);
 	}
 
-	/**
-	 * Appends a SQL statement using UNION operator.
-	 * @param string $sql the SQL statement to be appended using UNION
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Appends a SQL statement using UNION operator.
+     * @param string $sql the SQL statement to be appended using UNION
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function union($sql)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(isset($this->_query['union']) && is_string($this->_query['union']))
 			$this->_query['union']=array($this->_query['union']);
 
@@ -1233,14 +1260,16 @@ class CDbCommand extends CComponent
 		return isset($this->_query['union']) ? $this->_query['union'] : '';
 	}
 
-	/**
-	 * Sets the UNION part in the query.
-	 * @param mixed $value the UNION part. This can be either a string or an array
-	 * representing multiple SQL statements to be unioned together.
-	 * @since 1.1.6
-	 */
+    /**
+     * Sets the UNION part in the query.
+     * @param mixed $value the UNION part. This can be either a string or an array
+     * representing multiple SQL statements to be unioned together.
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	public function setUnion($value)
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		$this->_query['union']=$value;
 	}
 
@@ -1574,21 +1603,23 @@ class CDbCommand extends CComponent
 		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
 	}
 
-	/**
-	 * Appends an JOIN part to the query.
-	 * @param string $type the join type ('join', 'left join', 'right join', 'cross join', 'natural join')
-	 * @param string $table the table to be joined.
-	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
-	 * The method will automatically quote the table name unless it contains some parenthesis
-	 * (which means the table is given as a sub-query or DB expression).
-	 * @param mixed $conditions the join condition that should appear in the ON part.
-	 * Please refer to {@link where} on how to specify conditions.
-	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return static the command object itself
-	 * @since 1.1.6
-	 */
+    /**
+     * Appends an JOIN part to the query.
+     * @param string $type the join type ('join', 'left join', 'right join', 'cross join', 'natural join')
+     * @param string $table the table to be joined.
+     * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+     * The method will automatically quote the table name unless it contains some parenthesis
+     * (which means the table is given as a sub-query or DB expression).
+     * @param mixed $conditions the join condition that should appear in the ON part.
+     * Please refer to {@link where} on how to specify conditions.
+     * @param array $params the parameters (name=>value) to be bound to the query
+     * @return static the command object itself
+     * @throws CDbException
+     * @since 1.1.6
+     */
 	private function joinInternal($type, $table, $conditions='', $params=array())
 	{
+        $this->throwExceptionIfSqlQueryTextExists();
 		if(strpos($table,'(')===false)
 		{
 			if(preg_match('/^(.*?)(?i:\s+as|)\s+([^ ]+)$/',$table,$matches))  // with alias
@@ -1636,4 +1667,30 @@ class CDbCommand extends CComponent
 	{
 		return $this->setText($this->getConnection()->getSchema()->dropPrimaryKey($name,$table))->execute();
 	}
+
+    /**
+     * Throws exception if sql query text exists
+     * since the $_query array  won't use at all
+     *
+     * @see getText where {@link setText} with {@link buildQuery}
+     * is only invoked if $_text is empty ($this->_text=='')
+     *
+     * The method should be called in any method
+     * like select(), from(), where(), andWhere(), etc.
+     * where $_query array is populated
+     * to avoid hard-to-debug errors. If __construct() or setText
+     * sets $_text there is no point in using the methods
+     * like select(), from(), etc after that
+     * because the sql query text already exists and
+     * the buildQuery() method will never be called.
+     *
+     * @return void
+     * @throws CDbException
+     */
+    private function throwExceptionIfSqlQueryTextExists()
+    {
+        if ($this->_text!='') {
+            throw new CDbException(Yii::t('yii', "There is no point in using the builder since the sql query text already exists"));
+        }
+    }
 }
