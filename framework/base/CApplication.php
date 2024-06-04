@@ -427,8 +427,8 @@ abstract class CApplication extends CModule
 	 */
 	public function setLocaleDataPath($value)
 	{
-		$property=new ReflectionProperty($this->localeClass,'dataPath');
-		$property->setValue($value);
+		$class=new ReflectionClass($this->localeClass);
+		$class->setStaticPropertyValue('dataPath',$value);
 	}
 
 	/**
