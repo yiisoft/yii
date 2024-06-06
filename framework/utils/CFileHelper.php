@@ -360,9 +360,16 @@ class CFileHelper
 	{
 		if($mode===null)
 			$mode=0777;
+		
+		if(is_dir($dst))
+	        {
+	        	@chmod($dst,$mode);
+	        	return true;
+	        }
+		
 		$prevDir=dirname($dst);
-		if($recursive && !is_dir($dst) && !is_dir($prevDir))
-			self::createDirectory(dirname($dst),$mode,true);
+		if($recursive && !is_dir($prevDir))
+			self::createDirectory($prevDir,$mode,true);
 		$res=mkdir($dst, $mode);
 		@chmod($dst,$mode);
 		return $res;
