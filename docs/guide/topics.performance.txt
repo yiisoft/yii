@@ -71,7 +71,7 @@ matter of fact, the [APC caching](/doc/guide/topics.performance#enabling-apc-ext
 described earlier belongs to this category. There are other server
 techniques, such as [Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer),
 [eAccelerator](http://eaccelerator.net/),
-[Squid](http://www.squid-cache.org/), to name a few.
+[Squid](https://www.squid-cache.org/), to name a few.
 
 Database Optimization
 ---------------------
