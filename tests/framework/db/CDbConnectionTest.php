@@ -45,6 +45,34 @@ class CDbConnectionTest extends CTestCase
 		$this->assertTrue($db->isInitialized);
 	}
 
+	public function testSchemaCachingDuration($cachingDuration = 2)
+	{
+		$app = new TestApplication(array(
+			'id' => 'testApp',
+			'components' => array(
+				'db' => array(
+					'class' => 'CDbConnection',
+					'connectionString' => 'sqlite::memory:',
+					'schemaCachingDuration' => $cachingDuration,
+                ),
+				'cache' => array(
+					'class' => 'CFileCache',
+                ),
+			),
+        ));
+		$app->db->pdoInstance->exec(file_get_contents(dirname(__FILE__) . '/data/sqlite.sql'));
+		$this->assertEquals($cachingDuration, $app->db->schemaCachingDuration);
+		$cachedSchema = $app->db->schema->getTable('posts');
+		$this->assertFalse(in_array('update_time', $cachedSchema->columnNames), '`posts`.`update_time` column should not be in cached schema yet');
+		$app->db->pdoInstance->exec('ALTER TABLE posts ADD COLUMN update_time TIMESTAMP');
+		$cachedSchema = $app->db->schema->getTable('posts');
+		$this->assertFalse(in_array('update_time', $cachedSchema->columnNames), '`posts`.`update_time` column should not be in cached schema');
+		sleep($cachingDuration + 1);
+//		$app->db->schema->refresh();
+		$cachedSchema = $app->db->schema->getTable('posts');
+		$this->assertTrue(in_array('update_time', $cachedSchema->columnNames), '`posts`.`update_time` column should be in cached schema');
+	}
+
 	public function testActive()
 	{
 	    $this->assertFalse($this->_connection->active);
