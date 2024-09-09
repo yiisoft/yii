@@ -1,36 +1,36 @@
 /*!
  * jQuery BBQ: Back Button & Query Library - v1.4pre - 1/15/2013
- * http://benalman.com/projects/jquery-bbq-plugin/
+ * https://benalman.com/projects/jquery-bbq-plugin/
  * 
  * Copyright (c) 2010-2013 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * https://benalman.com/about/license/
  */
 
 // Script: jQuery BBQ: Back Button & Query Library
 //
 // *Version: 1.4pre, Last updated: 1/15/2013*
 // 
-// Project Home - http://benalman.com/projects/jquery-bbq-plugin/
-// GitHub       - http://github.com/cowboy/jquery-bbq/
-// Source       - http://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.js
-// (Minified)   - http://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.min.js (2.2kb gzipped)
+// Project Home - https://benalman.com/projects/jquery-bbq-plugin/
+// GitHub       - https://github.com/cowboy/jquery-bbq/
+// Source       - https://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.js
+// (Minified)   - https://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.min.js (2.2kb gzipped)
 // 
 // About: License
 // 
 // Copyright (c) 2010-2013 "Cowboy" Ben Alman,
 // Dual licensed under the MIT and GPL licenses.
-// http://benalman.com/about/license/
+// https://benalman.com/about/license/
 // 
 // About: Examples
 // 
 // These working examples, complete with fully commented code, illustrate a few
 // ways in which this plugin can be used.
 // 
-// Basic AJAX     - http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
-// Advanced AJAX  - http://benalman.com/code/projects/jquery-bbq/examples/fragment-advanced/
-// jQuery UI Tabs - http://benalman.com/code/projects/jquery-bbq/examples/fragment-jquery-ui-tabs/
-// Deparam        - http://benalman.com/code/projects/jquery-bbq/examples/deparam/
+// Basic AJAX     - https://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
+// Advanced AJAX  - https://benalman.com/code/projects/jquery-bbq/examples/fragment-advanced/
+// jQuery UI Tabs - https://benalman.com/code/projects/jquery-bbq/examples/fragment-jquery-ui-tabs/
+// Deparam        - https://benalman.com/code/projects/jquery-bbq/examples/deparam/
 // 
 // About: Support and Testing
 // 
@@ -41,7 +41,7 @@
 // jQuery Versions - 1.2.6, 1.3.2, 1.4.1, 1.4.2
 // Browsers Tested - Internet Explorer 6-8, Firefox 2-4, Chrome 5-6, Safari 3.2-5,
 //                   Opera 9.6-10.60, iPhone 3.1, Android 1.6-2.2, BlackBerry 4.6-5.
-// Unit Tests      - http://benalman.com/code/projects/jquery-bbq/unit/
+// Unit Tests      - https://benalman.com/code/projects/jquery-bbq/unit/
 // 
 // About: Release History
 // 
@@ -342,7 +342,7 @@
   // 
   //  obj - (Object) An object to be serialized.
   //  traditional - (Boolean) Params deep/shallow serialization mode. See the
-  //    documentation at http://api.jquery.com/jQuery.param/ for more detail.
+  //    documentation at https://api.jquery.com/jQuery.param/ for more detail.
   // 
   // Returns:
   // 
@@ -999,35 +999,35 @@
 
 /*!
  * jQuery hashchange event - v1.3 - 7/21/2010
- * http://benalman.com/projects/jquery-hashchange-plugin/
+ * https://benalman.com/projects/jquery-hashchange-plugin/
  * 
  * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * https://benalman.com/about/license/
  */
 
 // Script: jQuery hashchange event
 //
 // *Version: 1.3, Last updated: 7/21/2010*
 // 
-// Project Home - http://benalman.com/projects/jquery-hashchange-plugin/
-// GitHub       - http://github.com/cowboy/jquery-hashchange/
-// Source       - http://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.js
-// (Minified)   - http://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.min.js (0.8kb gzipped)
+// Project Home - https://benalman.com/projects/jquery-hashchange-plugin/
+// GitHub       - https://github.com/cowboy/jquery-hashchange/
+// Source       - https://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.js
+// (Minified)   - https://github.com/cowboy/jquery-hashchange/raw/master/jquery.ba-hashchange.min.js (0.8kb gzipped)
 // 
 // About: License
 // 
 // Copyright (c) 2010 "Cowboy" Ben Alman,
 // Dual licensed under the MIT and GPL licenses.
-// http://benalman.com/about/license/
+// https://benalman.com/about/license/
 // 
 // About: Examples
 // 
 // These working examples, complete with fully commented code, illustrate a few
 // ways in which this plugin can be used.
 // 
-// hashchange event - http://benalman.com/code/projects/jquery-hashchange/examples/hashchange/
-// document.domain - http://benalman.com/code/projects/jquery-hashchange/examples/document_domain/
+// hashchange event - https://benalman.com/code/projects/jquery-hashchange/examples/hashchange/
+// document.domain - https://benalman.com/code/projects/jquery-hashchange/examples/document_domain/
 // 
 // About: Support and Testing
 // 
@@ -1038,7 +1038,7 @@
 // jQuery Versions - 1.2.6, 1.3.2, 1.4.1, 1.4.2
 // Browsers Tested - Internet Explorer 6-8, Firefox 2-4, Chrome 5-6, Safari 3.2-5,
 //                   Opera 9.6-10.60, iPhone 3.1, Android 1.6-2.2, BlackBerry 4.6-5.
-// Unit Tests      - http://benalman.com/code/projects/jquery-hashchange/unit/
+// Unit Tests      - https://benalman.com/code/projects/jquery-hashchange/unit/
 // 
 // About: Known issues
 // 
@@ -1048,10 +1048,10 @@
 // window.onhashchange abstraction. See the following examples for more
 // information:
 // 
-// Chrome: Back Button - http://benalman.com/code/projects/jquery-hashchange/examples/bug-chrome-back-button/
-// Firefox: Remote XMLHttpRequest - http://benalman.com/code/projects/jquery-hashchange/examples/bug-firefox-remote-xhr/
-// WebKit: Back Button in an Iframe - http://benalman.com/code/projects/jquery-hashchange/examples/bug-webkit-hash-iframe/
-// Safari: Back Button from a different domain - http://benalman.com/code/projects/jquery-hashchange/examples/bug-safari-back-from-diff-domain/
+// Chrome: Back Button - https://benalman.com/code/projects/jquery-hashchange/examples/bug-chrome-back-button/
+// Firefox: Remote XMLHttpRequest - https://benalman.com/code/projects/jquery-hashchange/examples/bug-firefox-remote-xhr/
+// WebKit: Back Button in an Iframe - https://benalman.com/code/projects/jquery-hashchange/examples/bug-webkit-hash-iframe/
+// Safari: Back Button from a different domain - https://benalman.com/code/projects/jquery-hashchange/examples/bug-safari-back-from-diff-domain/
 // 
 // Also note that should a browser natively support the window.onhashchange 
 // event, but not report that it does, the fallback polling loop will be used.
@@ -1061,7 +1061,7 @@
 // 1.3   - (7/21/2010) Reorganized IE6/7 Iframe code to make it more
 //         "removable" for mobile-only development. Added IE6/7 document.title
 //         support. Attempted to make Iframe as hidden as possible by using
-//         techniques from http://www.paciellogroup.com/blog/?p=604. Added 
+//         techniques from https://www.paciellogroup.com/blog/?p=604. Added 
 //         support for the "shortcut" format $(window).hashchange( fn ) and
 //         $(window).hashchange() like jQuery provides for built-in events.
 //         Renamed jQuery.hashchangeDelay to <jQuery.fn.hashchange.delay> and
