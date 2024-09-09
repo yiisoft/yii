@@ -1,15 +1,15 @@
 /*!
- * jQuery BBQ: Back Button & Query Library - v1.3pre - 8/26/2010
+ * jQuery BBQ: Back Button & Query Library - v1.4pre - 1/15/2013
  * http://benalman.com/projects/jquery-bbq-plugin/
  * 
- * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Copyright (c) 2010-2013 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
 
 // Script: jQuery BBQ: Back Button & Query Library
 //
-// *Version: 1.3pre, Last updated: 8/26/2010*
+// *Version: 1.4pre, Last updated: 1/15/2013*
 // 
 // Project Home - http://benalman.com/projects/jquery-bbq-plugin/
 // GitHub       - http://github.com/cowboy/jquery-bbq/
@@ -18,7 +18,7 @@
 // 
 // About: License
 // 
-// Copyright (c) 2010 "Cowboy" Ben Alman,
+// Copyright (c) 2010-2013 "Cowboy" Ben Alman,
 // Dual licensed under the MIT and GPL licenses.
 // http://benalman.com/about/license/
 // 
@@ -45,6 +45,7 @@
 // 
 // About: Release History
 // 
+// 1.4pre - (1/15/2013) Removed $.browser reference to work with jQuery 1.9
 // 1.3pre - (8/26/2010) Integrated <jQuery hashchange event> v1.3, which adds
 //         document.title and document.domain support in IE6/7, BlackBerry
 //         support, better Iframe hiding for accessibility reasons, and the new
