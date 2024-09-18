@@ -483,7 +483,7 @@
         keys = key.split( '][' ),
         keys_last = keys.length - 1;
 
-      if (prohibitedKeys.includes(key)) {
+      if ( prohibitedKeys.includes( key ) ) {
         return;
       }
       
@@ -528,7 +528,7 @@
           for ( ; i <= keys_last; i++ ) {
             key = keys[i] === '' ? cur.length : keys[i];
             
-            if (prohibitedKeys.includes(key)) {
+            if ( prohibitedKeys.includes( key ) ) {
               return;
             }
 
