@@ -7,7 +7,7 @@ Version 1.1.30 under development
 - Bug #4547: PHP 8 compatibility: Fix deprecation in CCaptcha when using Imagick extension (apphp)
 - Bug #4541: PHP 8 compatibility: Fix deprecation in MarkdownParser (mdeweerd)
 - Bug #4544: PHP 8 compatibility: Fix deprecation in CLocale (apphp)
-- Enh #4552: Added support for PHP 8.3 (sandippingle, marcovtwout)
+- Enh #4552: Added support for PHP 8.3 (sandippingle, ThePepster, marcovtwout)
 
 Version 1.1.29 November 14, 2023
 --------------------------------
