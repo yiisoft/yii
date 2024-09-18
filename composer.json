@@ -109,7 +109,7 @@
 				"Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
 				"Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch",
 				"Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php81.patch",
-				"Fix PHP 8.3 compatibility": "tests/phpunit_php83.patch"
+				"Fix PHP 8.3 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php83.patch"
 			}
 		}
 	},
