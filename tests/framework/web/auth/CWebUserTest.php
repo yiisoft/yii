@@ -31,6 +31,7 @@ class CWebUserTest extends CTestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 * @outputBuffering enabled
 	 * @dataProvider booleanProvider
 	 */
@@ -59,6 +60,7 @@ class CWebUserTest extends CTestCase
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 * @outputBuffering enabled
 	 */
 	public function testCheckAccess()
