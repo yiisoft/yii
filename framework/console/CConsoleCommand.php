@@ -229,8 +229,8 @@ abstract class CConsoleCommand extends CComponent
 		$params=array();	// unnamed parameters
 		foreach($args as $arg)
 		{
-            if (is_null($arg))
-                continue;
+			if (is_null($arg))
+				continue;
 
 			if(preg_match('/^--(\w+)(=(.*))?$/',$arg,$matches))  // an option
 			{
