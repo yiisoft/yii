@@ -7,6 +7,13 @@
  * https://benalman.com/about/license/
  */
 
+/* 
+ * Additional changes to this file:
+ * - Removed support for IE8 and below
+ * - Fixed prototype pollution (CVE-2021-20086)
+ * - Minified with `uglifyjs jquery.ba-bbq.js --compress -o jquery.ba-bbq.min.js`
+ */
+
 // Script: jQuery BBQ: Back Button & Query Library
 //
 // *Version: 1.4pre, Last updated: 1/15/2013*
