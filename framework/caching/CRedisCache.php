@@ -101,8 +101,8 @@ class CRedisCache extends CCache
 		{
 			if($this->ssl)
 				stream_socket_enable_crypto($this->_socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
-			if($this->password!==null || $this->username!==null){
-				if(isset($this->username))
+			if($this->password!==null){
+				if($this->username!==null)
 					$this->executeCommand('AUTH',array($this->username, $this->password));
 				else
 					$this->executeCommand('AUTH',array($this->password));
