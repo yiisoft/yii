@@ -53,7 +53,7 @@ class CRedisCache extends CCache
 	 * @var int the port to use for connecting to the redis server. Default port is 6379.
 	 */
 	public $port=6379;
-		/**
+	/**
 	 * @var string the username to use to authenticate with the redis server. If set, AUTH command will be sent with username.
 	 */
 	public $username;
@@ -101,11 +101,12 @@ class CRedisCache extends CCache
 		{
 			if($this->ssl)
 				stream_socket_enable_crypto($this->_socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
-			if($this->password!==null){
-				if($this->username!==null)
+			if ($this->password !== null) {
+				if ($this->username !== null) {
 					$this->executeCommand('AUTH',array($this->username, $this->password));
-				else
+				} else {
 					$this->executeCommand('AUTH',array($this->password));
+				}
 			}
 				
 			$this->executeCommand('SELECT',array($this->database));
