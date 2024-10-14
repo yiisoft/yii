@@ -7,6 +7,13 @@
  * https://benalman.com/about/license/
  */
 
+/* 
+ * Additional changes to this file:
+ * - Removed support for IE8 and below
+ * - Fixed prototype pollution (CVE-2021-20086)
+ * - Minified with `uglifyjs jquery.ba-bbq.js --compress -o jquery.ba-bbq.min.js`
+ */
+
 // Script: jQuery BBQ: Back Button & Query Library
 //
 // *Version: 1.4pre, Last updated: 1/15/2013*
@@ -465,7 +472,9 @@
   //  (Object) An object representing the deserialized params string.
   
   $.deparam = jq_deparam = function( params, coerce ) {
-    var obj = {},
+    var prohibitedKeys = ['__proto__'];
+    
+    var obj = Object.create(null),
       coerce_types = { 'true': !0, 'false': !1, 'null': null };
     
     // Iterate over all name=value pairs.
@@ -480,6 +489,10 @@
         // into its component parts.
         keys = key.split( '][' ),
         keys_last = keys.length - 1;
+
+      if ( prohibitedKeys.includes( key ) ) {
+        return;
+      }
       
       // If the first keys part contains [ and the last ends with ], then []
       // are correctly balanced.
@@ -521,8 +534,13 @@
           // * Rinse & repeat.
           for ( ; i <= keys_last; i++ ) {
             key = keys[i] === '' ? cur.length : keys[i];
+            
+            if ( prohibitedKeys.includes( key ) ) {
+              return;
+            }
+
             cur = cur[key] = i < keys_last
-              ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? {} : [] )
+              ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? Object.create(null) : [] )
               : val;
           }
           
@@ -1017,7 +1035,7 @@
 // 
 // hashchange event - https://benalman.com/code/projects/jquery-hashchange/examples/hashchange/
 // document.domain - https://benalman.com/code/projects/jquery-hashchange/examples/document_domain/
-//
+// 
 // About: Support and Testing
 // 
 // Information about what version or versions of jQuery this plugin has been
@@ -1050,7 +1068,7 @@
 // 1.3   - (7/21/2010) Reorganized IE6/7 Iframe code to make it more
 //         "removable" for mobile-only development. Added IE6/7 document.title
 //         support. Attempted to make Iframe as hidden as possible by using
-//         techniques from https://www.paciellogroup.com/blog/?p=604. Added
+//         techniques from https://www.paciellogroup.com/blog/?p=604. Added 
 //         support for the "shortcut" format $(window).hashchange( fn ) and
 //         $(window).hashchange() like jQuery provides for built-in events.
 //         Renamed jQuery.hashchangeDelay to <jQuery.fn.hashchange.delay> and
@@ -1281,96 +1299,6 @@
       
       timeout_id = setTimeout( poll, $.fn[ str_hashchange ].delay );
     };
-    
-    // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    // vvvvvvvvvvvvvvvvvvv REMOVE IF NOT SUPPORTING IE6/7/8 vvvvvvvvvvvvvvvvvvv
-    // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    (navigator.userAgent.match(/MSIE/i) !== null) && !supports_onhashchange && (function(){
-      // Not only do IE6/7 need the "magical" Iframe treatment, but so does IE8
-      // when running in "IE7 compatibility" mode.
-      
-      var iframe,
-        iframe_src;
-      
-      // When the event is bound and polling starts in IE 6/7, create a hidden
-      // Iframe for history handling.
-      self.start = function(){
-        if ( !iframe ) {
-          iframe_src = $.fn[ str_hashchange ].src;
-          iframe_src = iframe_src && iframe_src + get_fragment();
-          
-          // Create hidden Iframe. Attempt to make Iframe as hidden as possible
-          // by using techniques from https://www.paciellogroup.com/blog/?p=604.
-          iframe = $('<iframe tabindex="-1" title="empty"/>').hide()
-            
-            // When Iframe has completely loaded, initialize the history and
-            // start polling.
-            .one( 'load', function(){
-              iframe_src || history_set( get_fragment() );
-              poll();
-            })
-            
-            // Load Iframe src if specified, otherwise nothing.
-            .attr( 'src', iframe_src || 'javascript:0' )
-            
-            // Append Iframe after the end of the body to prevent unnecessary
-            // initial page scrolling (yes, this works).
-            .insertAfter( 'body' )[0].contentWindow;
-          
-          // Whenever `document.title` changes, update the Iframe's title to
-          // prettify the back/next history menu entries. Since IE sometimes
-          // errors with "Unspecified error" the very first time this is set
-          // (yes, very useful) wrap this with a try/catch block.
-          doc.onpropertychange = function(){
-            try {
-              if ( event.propertyName === 'title' ) {
-                iframe.document.title = doc.title;
-              }
-            } catch(e) {}
-          };
-          
-        }
-      };
-      
-      // Override the "stop" method since an IE6/7 Iframe was created. Even
-      // if there are no longer any bound event handlers, the polling loop
-      // is still necessary for back/next to work at all!
-      self.stop = fn_retval;
-      
-      // Get history by looking at the hidden Iframe's location.hash.
-      history_get = function() {
-        return get_fragment( iframe.location.href );
-      };
-      
-      // Set a new history item by opening and then closing the Iframe
-      // document, *then* setting its location.hash. If document.domain has
-      // been set, update that as well.
-      history_set = function( hash, history_hash ) {
-        var iframe_doc = iframe.document,
-          domain = $.fn[ str_hashchange ].domain;
-        
-        if ( hash !== history_hash ) {
-          // Update Iframe with any initial `document.title` that might be set.
-          iframe_doc.title = doc.title;
-          
-          // Opening the Iframe's document after it has been closed is what
-          // actually adds a history entry.
-          iframe_doc.open();
-          
-          // Set document.domain for the Iframe document as well, if necessary.
-          domain && iframe_doc.write( '<script>document.domain="' + domain + '"</script>' );
-          
-          iframe_doc.close();
-          
-          // Update the Iframe's hash, for great justice.
-          iframe.location.hash = hash;
-        }
-      };
-      
-    })();
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // ^^^^^^^^^^^^^^^^^^^ REMOVE IF NOT SUPPORTING IE6/7/8 ^^^^^^^^^^^^^^^^^^^
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     
     return self;
   })();
