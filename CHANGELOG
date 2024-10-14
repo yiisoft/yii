@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.30 under development
+Version 1.1.30 October 14, 2024
 --------------------------------
 
 - Bug #4547: PHP 8 compatibility: Fix deprecation in CCaptcha when using Imagick extension (apphp)
