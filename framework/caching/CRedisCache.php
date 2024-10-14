@@ -31,7 +31,7 @@
  *             'port'=>6379,
  *             'database'=>0,
  *             'options'=>STREAM_CLIENT_CONNECT,
- * 			   'username' => 'default' // only for REDIS version 6.0 or later
+ *             'username' => 'default' // only for REDIS version 6.0 or later
  *         ),
  *     ),
  * )
