@@ -31,6 +31,7 @@
  *             'port'=>6379,
  *             'database'=>0,
  *             'options'=>STREAM_CLIENT_CONNECT,
+ *             'username' => 'default' // only for REDIS version 6.0 or later
  *         ),
  *     ),
  * )
@@ -52,6 +53,10 @@ class CRedisCache extends CCache
 	 * @var int the port to use for connecting to the redis server. Default port is 6379.
 	 */
 	public $port=6379;
+	/**
+	 * @var string the username to use to authenticate with the redis server. If set, AUTH command will be sent with username.
+	 */
+	public $username;
 	/**
 	 * @var string the password to use to authenticate with the redis server. If not set, no AUTH command will be sent.
 	 */
@@ -96,8 +101,14 @@ class CRedisCache extends CCache
 		{
 			if($this->ssl)
 				stream_socket_enable_crypto($this->_socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
-			if($this->password!==null)
-				$this->executeCommand('AUTH',array($this->password));
+			if ($this->password !== null) {
+				if ($this->username !== null) {
+					$this->executeCommand('AUTH',array($this->username, $this->password));
+				} else {
+					$this->executeCommand('AUTH',array($this->password));
+				}
+			}
+				
 			$this->executeCommand('SELECT',array($this->database));
 		}
 		else

@@ -9,6 +9,7 @@ Version 1.1.30 under development
 - Bug #4544: PHP 8 compatibility: Fix deprecation in CLocale (apphp)
 - Bug #4566: PHP 8 compatibility: Fix passing null to string parameter parameter (apphp)
 - Enh #4552: Added support for PHP 8.3 (sandippingle, ThePepster, marcovtwout)
+- Enh #4559: Added support for Redis ACL authentication with username for Redis 6+ (arfeen)
 - Enh #4568: Add missing hungarian translations (albertborsos)
 
 Version 1.1.29 November 14, 2023
