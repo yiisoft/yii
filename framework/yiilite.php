@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.30-dev';
+		return '1.1.30';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1345,8 +1345,8 @@ abstract class CApplication extends CModule
 	}
 	public function setLocaleDataPath($value)
 	{
-		$property=new ReflectionProperty($this->localeClass,'dataPath');
-		$property->setValue($value);
+		$class=new ReflectionClass($this->localeClass);
+		$class->setStaticPropertyValue('dataPath',$value);
 	}
 	public function getNumberFormatter()
 	{
