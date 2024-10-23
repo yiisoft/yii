@@ -69,12 +69,12 @@ class CDbCommand extends CComponent
 	 */
 	public $params=array();
 
-	private $_connection;
-	private $_text;
-	private $_statement;
-	private $_paramLog=array();
-	private $_query;
-	private $_fetchMode = array(PDO::FETCH_ASSOC);
+	protected $_connection;
+	protected $_text;
+	protected $_statement;
+	protected $_paramLog=array();
+	protected $_query;
+	protected $_fetchMode = array(PDO::FETCH_ASSOC);
 
 	/**
 	 * Constructor.
@@ -193,6 +193,15 @@ class CDbCommand extends CComponent
 	{
 		return $this->_statement;
 	}
+
+    /**
+     * Return _paramLog
+     * @return array
+     */
+    public function getParamLog()
+    {
+        return $this->_paramLog;
+    }
 
 	/**
 	 * Prepares the SQL statement to be executed.
