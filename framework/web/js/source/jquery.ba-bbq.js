@@ -472,7 +472,7 @@
   
   $.deparam = jq_deparam = function( params, coerce ) {
     var obj = {},
-      prohibitedKeys = ['__proto__'],
+      prohibited_keys = ['__proto__'],
       coerce_types = { 'true': !0, 'false': !1, 'null': null };
     
     // Iterate over all name=value pairs.
@@ -488,7 +488,7 @@
         keys = key.split( '][' ),
         keys_last = keys.length - 1;
 
-      if (prohibitedKeys.includes(key)) {
+      if ( prohibited_keys.includes( key ) ) {
         return;
       }
       
@@ -533,7 +533,7 @@
           for ( ; i <= keys_last; i++ ) {
             key = keys[i] === '' ? cur.length : keys[i];
 
-            if (prohibitedKeys.includes(key)) {
+            if ( prohibited_keys.includes( key ) ) {
               return;
             }
 
