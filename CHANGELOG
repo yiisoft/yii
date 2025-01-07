@@ -3,7 +3,7 @@
 
 Version 1.1.31 under development
 --------------------------------
-- No changes yet
+- Bug #4570: Fix regression in jquery-bbq introduced in Yii 1.1.30 (kevin-foster-uk)
 
 Version 1.1.30 October 14, 2024
 --------------------------------
