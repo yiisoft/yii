@@ -472,9 +472,9 @@
   //  (Object) An object representing the deserialized params string.
   
   $.deparam = jq_deparam = function( params, coerce ) {
-    var prohibitedKeys = ['__proto__'];
+    var prohibited_keys = ['__proto__'];
     
-    var obj = Object.create(null),
+    var obj = {},
       coerce_types = { 'true': !0, 'false': !1, 'null': null };
     
     // Iterate over all name=value pairs.
@@ -490,7 +490,7 @@
         keys = key.split( '][' ),
         keys_last = keys.length - 1;
 
-      if ( prohibitedKeys.includes( key ) ) {
+      if ( prohibited_keys.includes( key ) ) {
         return;
       }
       
@@ -535,12 +535,12 @@
           for ( ; i <= keys_last; i++ ) {
             key = keys[i] === '' ? cur.length : keys[i];
             
-            if ( prohibitedKeys.includes( key ) ) {
+            if ( prohibited_keys.includes( key ) ) {
               return;
             }
 
             cur = cur[key] = i < keys_last
-              ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? Object.create(null) : [] )
+              ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? {} : [] )
               : val;
           }
           
