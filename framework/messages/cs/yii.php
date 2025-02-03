@@ -220,7 +220,7 @@ return array (
   '{attribute} must be repeated exactly.' => '{attribute} musí být přesně zopakovaný.',
   '{attribute} must be {type}.' => '{attribute} musí být typu {type}.',
   '{attribute} must be {value}.' => '{attribute} musí mít hodnotu {value}.',
-  '{attribute} must not be equal to "{compareValue}".' => '{attribute} musí být rovný "{compareValue}".',
+  '{attribute} must not be equal to "{compareValue}".' => '{attribute} nesmí být rovný "{compareValue}".',
   '{className} does not support add() functionality.' => '{className} nepodporuje funkcionalitu add().',
   '{className} does not support delete() functionality.' => '{className} nepodporuje funkcionalitu delete().',
   '{className} does not support get() functionality.' => '{className} nepodporuje funkcionalitu get().',
