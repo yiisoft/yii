@@ -6,6 +6,7 @@ Version 1.1.31 under development
 
 - Bug #4579: Fix Czech translation for "not equal to" validation message in CCompareValidator (karelvasicek)
 - Bug #4570: Fix regression in jquery-bbq introduced in Yii 1.1.30 (kevin-foster-uk)
+- Bug #4584: Fix a hungarian translation (albertborsos)
 
 Version 1.1.30 October 14, 2024
 --------------------------------
