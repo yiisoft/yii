@@ -19,6 +19,8 @@ class ValidatorTestModel extends CFormModel
 	public function rules()
 	{
 		return array(
+			array('string1', 'filter', 'filter' => 'trim', 'on' => 'CFilterValidatorTest'),
+
 			array('string1', 'length', 'min'=>10, 'tooShort'=>'Too short message.', 'allowEmpty'=>false,
 				'on'=>'CStringValidatorTest'),
 			array('string2', 'length', 'max'=>10, 'tooLong'=>'Too long message.', 'allowEmpty'=>false,
