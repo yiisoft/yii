@@ -85,6 +85,7 @@ class CJSONTest extends CTestCase {
         $className = get_class($this).'_JsonSerializable';
         $classCode = <<<EOL
 class $className implements JsonSerializable{
+	#[ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		return 'test';
