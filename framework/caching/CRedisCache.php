@@ -108,10 +108,10 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
-		$socket = $this->unixSocket ? 'unix://'.$this->unixSocket : $this->hostname.':'.$this->port;
+		$address = $this->unixSocket ? 'unix://'.$this->unixSocket : $this->hostname.':'.$this->port;
 
 		$this->_socket=@stream_socket_client(
-			$socket,
+			$address,
 			$errorNumber,
 			$errorDescription,
 			$this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
