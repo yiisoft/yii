@@ -261,7 +261,7 @@ return array (
 '{className} does not support flushValues() functionality.' => '{className} nem támogatja a flushValues() lehetőséget.',
 '{className} does not support get() functionality.' => '{className} nem támogatja a get() lehetőséget.',
 '{className} does not support set() functionality.' => '{className} nem támogatja az set() lehetőséget.',
-'{class} and its behaviors do not have a method or closure named "{name}".' => '{class} és viselkedései nem rendelkeznek "{name}" nevű metódussal vagy lezárással.',
+'{class} and its behaviors do not have a method or closure named "{name}".' => '{class} és behavior-jai nem rendelkeznek "{name}" nevű metódussal vagy closure-ral.',
 '{class} does not have relation "{name}".' => '{class} nem rendelkezik "{name}" relációval.',
 '{class} does not support fetching all table names.' => '{class} nem támogatja az összes táblanév lekérdezését.',
 '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} rendelkezik egy érvénytelen érvényességi szabállyal. A szabálynak meg kell határozni az érvényesítendő tulajdonságokat és az érvényesítendő nevet.',

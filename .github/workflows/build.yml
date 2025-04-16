@@ -110,6 +110,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
+          ini-file: development
           ini-values: date.timezone='UTC'
           coverage: xdebug
           tools: composer:v2, pecl
