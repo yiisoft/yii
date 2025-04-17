@@ -332,7 +332,7 @@ class CSecurityManager extends CApplicationComponent
 			$hashAlgorithm=$this->hashAlgorithm;
 
 		if(function_exists('hash_hmac'))
-			return hash_hmac($hashAlgorithm,$data,$key);
+			return self::hash_hmac_fallback($hashAlgorithm,$data,$key);
 
 		if(0===strcasecmp($hashAlgorithm,'sha1'))
 		{
@@ -643,5 +643,107 @@ class CSecurityManager extends CApplicationComponent
 		if(!is_int($length))
 			return '';
 		return $this->substr($decoded,$length,$length)^$this->substr($decoded,0,$length);
+	}
+
+	/**
+	 * Universal pure‑PHP HMAC fallback (no algorithm checks).
+	 *
+	 * @param string $algo       Name of the hash algorithm (e.g. 'crc32b', 'sha256').
+	 * @param string $data       Message to authenticate.
+	 * @param string $key        Shared secret key.
+	 * @param bool   $raw_output If true, return raw binary; else lowercase hex.
+	 * @return string            HMAC digest.
+	 *
+	 * @see https://www.ietf.org/rfc/rfc2104.txt
+	 * @see https://www.php.net/manual/en/function.hash.php
+	 */
+	static function my_hash_hmac($algo, $data, $key, $raw_output = false) {
+		// Dynamic block size = digest length (bytes)
+		$blockSize = strlen(hash($algo, '', true));
+
+		// If key is longer than the block size, shorten it by hashing once
+		if (strlen($key) > $blockSize) {
+			$key = hash($algo, $key, true);                  // raw output from hash()
+		}
+
+		// Pad key to block size with zero bytes
+		$key = str_pad($key, $blockSize, "\x00", STR_PAD_RIGHT);
+
+		// Inner and outer padding constants
+		$ipad = str_repeat("\x36", $blockSize);
+		$opad = str_repeat("\x5c", $blockSize);
+
+		// Inner hash: H((K ⊕ ipad) ∥ data)
+		$inner = hash($algo, ($key ^ $ipad) . $data, true);   // raw binary inner digest
+
+		// Outer hash: H((K ⊕ opad) ∥ inner)
+		return hash($algo, ($key ^ $opad) . $inner, $raw_output);
+	}
+
+
+	/**
+	 * Wrapper that uses native hash_hmac() if available;
+	 * otherwise falls back to my_hash_hmac().
+	 *
+	 * @param string $algo       Algorithm name.
+	 * @param string $data       Message to hash.
+	 * @param string $key        Secret key.
+	 * @param bool   $raw_output Raw output flag.
+	 * @return string            HMAC digest.
+	 *
+	 * @see https://www.php.net/manual/en/function.hash-hmac-algos.php
+	 * @see https://www.php.net/manual/en/function.in-array.php
+	 */
+	static function hash_hmac_fallback($algo, $data, $key, $raw_output = false) {
+		// Get list of algos supported by native hash_hmac()
+		if(function_exists('hash_hmac_algos')) {    // Was introduced in PHP 7.2.0
+			// Use native if supported
+			$supported = hash_hmac_algos();
+		} else {
+	 		// hash_hmac() exists, not hash_hmac_algos, expecting internal support for these
+			$supported = array('sha1', 'md5');
+		}
+
+		if (in_array(strtolower($algo), $supported, true)) {
+			return hash_hmac($algo, $data, $key, $raw_output);
+		}
+
+		// Fallback for unsupported algos
+		return self::my_hash_hmac($algo, $data, $key, $raw_output);    // RFC 2104 HMAC
+	}
+
+
+	/**
+	 *
+	 * Test the CRC32B HMAC implementation.
+	 *
+	 * This function was used to validate the pure php implementation on php7.0.33
+	 *
+	 * Ran on php7.0.33: ok
+	 */
+	static function test_crc32b() {
+		$num_tests = 1000; // Limited number of tests until initial success
+		$passed = true;
+
+		for ($i = 0; $i < $num_tests; $i++) {
+			$random_string = bin2hex(random_bytes(16)); // Generate a random string
+			$random_secret = bin2hex(random_bytes(16)); // Generate a random string
+			$old_result = hash_hmac('crc32b', $random_string, $random_secret);
+			$new_result = self::my_hash_hmac('crc32b', $random_string, $random_secret);
+
+			// Compare results
+			if ($old_result !== $new_result) {
+			    echo "Test failed for random string: $random_string\n";
+			    echo "Old result: $old_result\n";
+			    echo "New result: $new_result\n";
+			    $passed = false;
+			}
+		}
+
+		if ($passed) {
+			echo "All tests passed\n";
+		} else {
+			echo "Some tests failed\n";
+		}
 	}
 }
