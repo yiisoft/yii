@@ -14,7 +14,8 @@ class CCaptchaValidatorTest extends CTestCase
 		Yii::app()->setController(new CCaptchaValidatorTestController('CCaptchaValidatorTest'));
 
 		$rules = array(
-			array('foo', 'captcha')
+			array('foo', 'captcha', 'allowEmpty' => false),
+			array('bar', 'captcha', 'allowEmpty' => true),
 		);
 
 		$stub = $this->getMock('ModelMock', array('rules'));
@@ -23,9 +24,11 @@ class CCaptchaValidatorTest extends CTestCase
 			->will($this->returnValue($rules));
 
 		$stub->foo = null;
+		$stub->bar = null;
 		$this->assertFalse($stub->validate());
 
 		$stub->foo = array();
+		$stub->bar = array();
 		$this->assertFalse($stub->validate());
 	}
 }
