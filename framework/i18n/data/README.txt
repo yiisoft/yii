@@ -2,7 +2,7 @@
                 CLDR v23.1 (May 15, 2013)
 
 This directory contains the CLDR data files in form of PHP scripts.
-They are obtained by extracting the CLDR data (http://unicode.org/Public/cldr/23.1/)
+They are obtained by extracting the CLDR data (https://unicode.org/Public/cldr/23.1/)
 with the script "build/build cldr".
 
 Only the data relevant to date and number formatting are extracted.

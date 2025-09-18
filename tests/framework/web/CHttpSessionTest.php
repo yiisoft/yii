@@ -16,6 +16,7 @@ class CHttpSessionTest extends CTestCase {
 	 * @covers CHttpSession::setGCProbability
 	 *
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testSetGet() {
 		Yii::app()->setComponents(array('session' => array(

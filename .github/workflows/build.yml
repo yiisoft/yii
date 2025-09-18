@@ -32,6 +32,7 @@ jobs:
           - "8.0"
           - "8.1"
           - "8.2"
+          - "8.3"
 
     services:
       mysql:
@@ -68,7 +69,7 @@ jobs:
         uses: niden/actions-memcached@v7
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Setup cache environment 5.3 - 5.6
         if: matrix.php < '7.0'
@@ -90,7 +91,7 @@ jobs:
 
       - name: Cache extensions 5.3 - 5.6
         if: matrix.php < '7.0'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.cache-env-php5.outputs.dir }}
           key: ${{ steps.cache-env-php5.outputs.key }}
@@ -98,7 +99,7 @@ jobs:
 
       - name: Cache extensions 7.0 - 8.0
         if: matrix.php >= '7.0'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.cache-env-php7.outputs.dir }}
           key: ${{ steps.cache-env-php7.outputs.key }}
@@ -109,6 +110,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
+          ini-file: development
           ini-values: date.timezone='UTC'
           coverage: xdebug
           tools: composer:v2, pecl
@@ -121,7 +123,7 @@ jobs:
         run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}

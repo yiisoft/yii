@@ -1,11 +1,41 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.29 under development
+Version 1.1.32 under development
+--------------------------------
+
+- Enh #4587: Add socket connection support to `CRedisCache` (mateusmetzker)
+- Bug #4591: Fix deprecation in `CCaptchaAction` for PHP 8.1+ (rob006)
+
+Version 1.1.31 April 10, 2025
+--------------------------------
+
+- Bug #4579: Fix Czech translation for "not equal to" validation message in CCompareValidator (karelvasicek)
+- Bug #4570: Fix regression in jquery-bbq introduced in Yii 1.1.30 (kevin-foster-uk)
+- Bug #4584: Fix a hungarian translation (albertborsos)
+- Bug: CVE-2025-32027. Prevent XSS in scenarios where fallback error renderer is used (samdark, marcovtwout)
+
+Version 1.1.30 October 14, 2024
+--------------------------------
+
+- Bug #4547: PHP 8 compatibility: Fix deprecation in CCaptcha when using Imagick extension (apphp)
+- Bug #4541: PHP 8 compatibility: Fix deprecation in MarkdownParser (mdeweerd)
+- Bug #4544: PHP 8 compatibility: Fix deprecation in CLocale (apphp)
+- Bug #4566: PHP 8 compatibility: Fix passing null to string parameter parameter (apphp)
+- Bug #4563: CVE-2021-20086. Prevent prototype pollution in jquert-bbq (kevin-foster-uk)
+- Enh #4552: Added support for PHP 8.3 (sandippingle, ThePepster, marcovtwout)
+- Enh #4559: Added support for Redis ACL authentication with username for Redis 6+ (arfeen)
+- Enh #4568: Add missing hungarian translations (albertborsos)
+
+Version 1.1.29 November 14, 2023
 --------------------------------
 
 - Bug #4516: PHP 8 compatibility: Allow union types and intersection types in action declarations (wtommyw)
 - Bug #4523: Fixed translated in Greek class messages in framework requirements view, which they should not be translated (lourdas)
+- Bug #4534: PHP 8.2 compatibility: Fix deprecated dynamic properties in gii/components/Pear/Text/Diff (mdeweerd, marcovtwout)
+- Bug: CVE-2023-47130. Prevent RCE when deserializing untrusted user input (ma4ter222, marcovtwout)
+- Enh #4529: Exceptions thrown while loading fixture file rows now contain more details (eduardor2k)
+- Enh #4533: Various refactorings applied based on PHAN checks (marcovtwout)
 
 Version 1.1.28 February 28, 2023
 --------------------------------
@@ -309,7 +339,7 @@ Version 1.1.16 December 21, 2014
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - Chg #3464: Updated multifile plugin used by CMultiFileUpload to version 1.48 (samdark)
 - Chg #3636: Upgraded jQuery UI to 1.11.2 (marcovtwout)
-- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://unicode.org/Public/cldr/23.1/> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
+- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <https://unicode.org/Public/cldr/23.1/> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.15 June 29, 2014

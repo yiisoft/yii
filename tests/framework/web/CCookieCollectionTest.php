@@ -38,6 +38,7 @@ class CCookieCollectionTest extends CTestCase
 	}
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 * @outputBuffering enabled
 	 */
 	public function testAdd()
@@ -59,6 +60,7 @@ class CCookieCollectionTest extends CTestCase
 	}
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 * @outputBuffering enabled
 	 */
 	public function testRemove()
