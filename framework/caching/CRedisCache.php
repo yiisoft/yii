@@ -13,7 +13,7 @@
  *
  * CRedisCache needs to be configured with {@link hostname}, {@link port} and {@link database} of the server
  * to connect to. By default CRedisCache assumes there is a redis server running on localhost at
- * port 6379 and uses the database number 0.
+ * port 6379 and uses the database number 0. It also supports redis server using {@link unixSocket}.
  *
  * CRedisCache also supports {@link https://redis.io/commands/auth the AUTH command} of redis.
  * When the server needs authentication, you can set the {@link password} property to
@@ -36,6 +36,18 @@
  *     ),
  * )
  * </pre>
+ * 
+ * To use CRedisCache with a unix socket, configure the application as follows,
+ * <pre>
+ * array(
+ *     'components'=>array(
+ *         'cache'=>array(
+ *             'class'=>'CRedisCache',
+ *             'unixSocket'=>'/var/run/redis/redis.sock',
+ *         ),
+ *     ),
+ * )
+ * </pre>
  *
  * The minimum required redis version is 2.0.0.
  *
@@ -47,10 +59,12 @@ class CRedisCache extends CCache
 {
 	/**
 	 * @var string hostname to use for connecting to the redis server. Defaults to 'localhost'.
+	 * If [[unixSocket]] is specified, this property and [[port]] will be ignored.
 	 */
 	public $hostname='localhost';
 	/**
 	 * @var int the port to use for connecting to the redis server. Default port is 6379.
+	 * If [[unixSocket]] is specified, this property and [[hostname]] will be ignored.
 	 */
 	public $port=6379;
 	/**
@@ -82,6 +96,10 @@ class CRedisCache extends CCache
 	 * @var resource redis socket connection
 	 */
 	private $_socket;
+	/**
+	 * @var string unix socket path (e.g. `/var/run/redis/redis.sock`) to use for connecting to the redis server. If set, [[hostname]] and [[port]] will be ignored.
+	 */
+	public $unixSocket;
 
 	/**
 	 * Establishes a connection to the redis server.
@@ -90,8 +108,10 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
+		$address = $this->unixSocket ? 'unix://'.$this->unixSocket : $this->hostname.':'.$this->port;
+
 		$this->_socket=@stream_socket_client(
-			$this->hostname.':'.$this->port,
+			$address,
 			$errorNumber,
 			$errorDescription,
 			$this->timeout ? $this->timeout : ini_get("default_socket_timeout"),

@@ -1,9 +1,19 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.31 under development
+Version 1.1.32 under development
 --------------------------------
+
+- Enh #4587: Add socket connection support to `CRedisCache` (mateusmetzker)
+- Bug #4591: Fix deprecation in `CCaptchaAction` for PHP 8.1+ (rob006)
+
+Version 1.1.31 April 10, 2025
+--------------------------------
+
+- Bug #4579: Fix Czech translation for "not equal to" validation message in CCompareValidator (karelvasicek)
 - Bug #4570: Fix regression in jquery-bbq introduced in Yii 1.1.30 (kevin-foster-uk)
+- Bug #4584: Fix a hungarian translation (albertborsos)
+- Bug: CVE-2025-32027. Prevent XSS in scenarios where fallback error renderer is used (samdark, marcovtwout)
 
 Version 1.1.30 October 14, 2024
 --------------------------------

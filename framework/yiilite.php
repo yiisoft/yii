@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.31-dev';
+		return '1.1.32-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1607,7 +1607,7 @@ abstract class CApplication extends CModule
 		if(YII_DEBUG)
 		{
 			echo "<h1>PHP Error [$code]</h1>\n";
-			echo "<p>$message ($file:$line)</p>\n";
+			echo "<p>".nl2br($this->htmlEncodeInternal($message))." (".$this->htmlEncodeInternal($file).":$line)</p>\n";
 			echo '<pre>';
 			$trace=debug_backtrace();
 			// skip the first 2 stacks as they are always irrelevant
@@ -1631,7 +1631,7 @@ abstract class CApplication extends CModule
 		else
 		{
 			echo "<h1>PHP Error [$code]</h1>\n";
-			echo "<p>$message</p>\n";
+			echo "<p>".nl2br($this->htmlEncodeInternal($message))."</p>\n";
 		}
 	}
 	public function displayException($exception)
@@ -1639,14 +1639,18 @@ abstract class CApplication extends CModule
 		if(YII_DEBUG)
 		{
 			echo '<h1>'.get_class($exception)."</h1>\n";
-			echo '<p>'.$exception->getMessage().' ('.$exception->getFile().':'.$exception->getLine().')</p>';
-			echo '<pre>'.$exception->getTraceAsString().'</pre>';
+			echo '<p>'.nl2br($this->htmlEncodeInternal($exception->getMessage())).' ('.$this->htmlEncodeInternal($exception->getFile()).':'.$exception->getLine().')</p>';
+			echo '<pre>'.$this->htmlEncodeInternal($exception->getTraceAsString()).'</pre>';
 		}
 		else
 		{
 			echo '<h1>'.get_class($exception)."</h1>\n";
-			echo '<p>'.$exception->getMessage().'</p>';
+			echo '<p>'.nl2br($this->htmlEncodeInternal($exception->getMessage())).'</p>';
 		}
+	}
+	private function htmlEncodeInternal($string)
+	{
+		return htmlspecialchars($string, ENT_NOQUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
 	}
 	protected function initSystemHandlers()
 	{
