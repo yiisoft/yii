@@ -70,7 +70,7 @@ jobs:
         uses: niden/actions-memcached@v7
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup cache environment 5.3 - 5.6
         if: matrix.php < '7.0'
