@@ -6,6 +6,7 @@ Version 1.1.32 under development
 
 - Enh #4587: Add socket connection support to `CRedisCache` (mateusmetzker)
 - Bug #4591: Fix deprecation in `CCaptchaAction` for PHP 8.1+ (rob006)
+- Bug #4596: Fix transaction not commit when using dblib (icyzyy)
 
 Version 1.1.31 April 10, 2025
 --------------------------------

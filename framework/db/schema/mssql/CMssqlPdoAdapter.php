@@ -30,17 +30,35 @@ class CMssqlPdoAdapter extends PDO
 	}
 
 	/**
+	 * Checks if inside a transaction
+	 * 
+	 * Checks if a transaction is currently active within the driver.
+	 * This method always true if PHP below 5.4.0 to make it able to exec 'COMMIT TRANSACTION'
+	 * @return boolean
+	 */
+	function inTransaction() 
+	{
+		if(version_compare(PHP_VERSION,'5.4.0','>='))
+			return parent::inTransaction();
+		else
+			return true;
+	}
+
+	/**
 	 * Begin a transaction
 	 *
 	 * Is is necessary to override pdo's method, as mssql pdo drivers
-	 * does not support transaction
+	 * does not support transaction for PHP below 5.4.0
 	 *
 	 * @return boolean
 	 */
 	#[ReturnTypeWillChange]
 	public function beginTransaction ()
 	{
-		$this->exec('BEGIN TRANSACTION');
+		if(version_compare(PHP_VERSION,'5.4.0','>='))
+			parent::beginTransaction();
+		else
+			$this->exec('BEGIN TRANSACTION');
 		return true;
 	}
 
@@ -48,14 +66,17 @@ class CMssqlPdoAdapter extends PDO
 	 * Commit a transaction
 	 *
 	 * Is is necessary to override pdo's method, as mssql pdo drivers
-	 * does not support transaction
+	 * does not support transaction for PHP below 5.4.0
 	 *
 	 * @return boolean
 	 */
 	#[ReturnTypeWillChange]
 	public function commit ()
 	{
-		$this->exec('COMMIT TRANSACTION');
+		if(version_compare(PHP_VERSION,'5.4.0','>='))
+			parent::commit();
+		else
+			$this->exec('COMMIT TRANSACTION');
 		return true;
 	}
 
@@ -63,14 +84,17 @@ class CMssqlPdoAdapter extends PDO
 	 * Rollback a transaction
 	 *
 	 * Is is necessary to override pdo's method, ac mssql pdo drivers
-	 * does not support transaction
+	 * does not support transaction for PHP below 5.4.0
 	 *
 	 * @return boolean
 	 */
 	#[ReturnTypeWillChange]
 	public function rollBack ()
 	{
-		$this->exec('ROLLBACK TRANSACTION');
+		if(version_compare(PHP_VERSION,'5.4.0','>='))
+			parent::rollBack();
+		else
+			$this->exec('ROLLBACK TRANSACTION');
 		return true;
 	}
 }
