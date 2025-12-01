@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5ee0ff"/>
+      <stop offset="100%" stop-color="#2b7bff"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="156" height="36" rx="8" fill="#0f1c3d" stroke="url(#g)" stroke-width="3"/>
+  <text x="80" y="25" font-family="'Work Sans', Arial" font-size="18" fill="#ffffff" text-anchor="middle">AI SANA</text>
+</svg>

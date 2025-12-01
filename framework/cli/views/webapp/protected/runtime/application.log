@@ -1,0 +1,2260 @@
+2025/11/27 06:41:35 [error] [exception.CException] CException: AisanaController cannot find the requested view "index". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#1 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#2 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#3 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#14 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:41:35 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:41:41 [error] [exception.CException] CException: AisanaController cannot find the requested view "index". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#1 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#2 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#3 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#14 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:41:41 [error] [exception.CException] CException: AisanaController cannot find the requested view "index". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#1 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#2 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#3 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#14 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:41:41 [error] [exception.CException] CException: AisanaController cannot find the requested view "index". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#1 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#2 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#3 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#14 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:41:41 [error] [exception.CException] CException: AisanaController cannot find the requested view "index". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#1 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#2 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#3 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#13 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#14 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:43:06 [error] [exception.CException] CException: AisanaController cannot find the requested view "parts/agents". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/index.php(17): CController->renderPartial('parts/agents')
+#1 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require('/var/www/html/a...')
+#2 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/a...', NULL, true)
+#3 /var/www/html/aisana/yii/framework/web/CController.php(872): CBaseController->renderFile('/var/www/html/a...', NULL, true)
+#4 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#5 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#6 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#11 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#13 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#16 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#17 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#18 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:43:11 [error] [exception.CException] CException: AisanaController cannot find the requested view "parts/agents". in /var/www/html/aisana/yii/framework/web/CController.php:881
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/index.php(17): CController->renderPartial('parts/agents')
+#1 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require('/var/www/html/a...')
+#2 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/a...', NULL, true)
+#3 /var/www/html/aisana/yii/framework/web/CController.php(872): CBaseController->renderFile('/var/www/html/a...', NULL, true)
+#4 /var/www/html/aisana/yii/framework/web/CController.php(785): CController->renderPartial('index', NULL, true)
+#5 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): CController->render('index')
+#6 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#11 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#13 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('')
+#16 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('')
+#17 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#18 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/aisana.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/aisana....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/aisana.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background-main.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background-main.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background2.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background2.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/aisana.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/aisana....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/aisana.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background-main.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background-main.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background2.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background2.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:13 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/aisana.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/aisana....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/aisana.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background-main.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background-main.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:44:24 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background2.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background2.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/aisana.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/aisana....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/aisana.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background-main.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background-main.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:45:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background2.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background2.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background-main.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background-main.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/background2.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/backgro...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/background2.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/aisana.png". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/aisana....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/aisana.png
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:46:20 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/logo.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/logo.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/logo.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:37 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:48 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/instagram.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/instagr...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/instagram.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/youtube.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/youtube...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/youtube.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/facebook.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/faceboo...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/facebook.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/github.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/github....')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/github.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "uploads/mail.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('uploads/mail.sv...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/uploads/mail.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:50 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:52 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:53 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:54 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:54 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:54 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:54 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:48:54 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:50:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/home.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/home.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:50:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/question.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/question.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:50:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/ai-agents.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/ai-agents.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:50:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/contacts.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/contacts.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 06:50:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "components/icons/news.svg". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('components/icon...')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/components/icons/news.svg
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/27 08:12:57 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/27 08:22:15 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/27 08:35:35 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/27 08:40:12 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/27 08:52:20 [error] [php] Undefined variable $agents (/var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/parts/_agents.php:8)
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#1 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#2 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#3 /var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/index.php(17): AisanaController->renderPartial()
+#4 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#5 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(785): AisanaController->renderPartial()
+#8 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): AisanaController->render()
+#9 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): AisanaController->runAction()
+#12 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/html/aisana/yii/framework/web/CController.php(1148): CAccessControlFilter->filter()
+#14 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): AisanaController->filterAccessControl()
+#15 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter()
+#16 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/html/aisana/yii/framework/web/CController.php(265): AisanaController->runActionWithFilters()
+#18 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): AisanaController->run()
+#19 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#20 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#21 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CWebApplication->run()
+REQUEST_URI=/aisana/index
+2025/11/27 08:56:05 [error] [php] Undefined variable $agents (/var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/parts/_agents.php:8)
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#1 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#2 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#3 /var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/index.php(17): AisanaController->renderPartial()
+#4 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#5 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(785): AisanaController->renderPartial()
+#8 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): AisanaController->render()
+#9 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): AisanaController->runAction()
+#12 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/html/aisana/yii/framework/web/CController.php(1148): CAccessControlFilter->filter()
+#14 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): AisanaController->filterAccessControl()
+#15 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter()
+#16 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/html/aisana/yii/framework/web/CController.php(265): AisanaController->runActionWithFilters()
+#18 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): AisanaController->run()
+#19 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#20 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#21 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CWebApplication->run()
+REQUEST_URI=/aisana/index
+2025/11/27 08:58:40 [error] [php] Undefined variable $agents (/var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/parts/_agents.php:8)
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#1 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#2 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#3 /var/www/html/aisana/yii/framework/cli/views/webapp/themes/new/views/aisana/index.php(17): AisanaController->renderPartial()
+#4 /var/www/html/aisana/yii/framework/web/CBaseController.php(126): require()
+#5 /var/www/html/aisana/yii/framework/web/CBaseController.php(95): AisanaController->renderInternal()
+#6 /var/www/html/aisana/yii/framework/web/CController.php(872): AisanaController->renderFile()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(785): AisanaController->renderPartial()
+#8 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(81): AisanaController->render()
+#9 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionIndex()
+#10 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): AisanaController->runAction()
+#12 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/html/aisana/yii/framework/web/CController.php(1148): CAccessControlFilter->filter()
+#14 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): AisanaController->filterAccessControl()
+#15 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter()
+#16 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/html/aisana/yii/framework/web/CController.php(265): AisanaController->runActionWithFilters()
+#18 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): AisanaController->run()
+#19 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#20 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#21 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CWebApplication->run()
+REQUEST_URI=/aisana/index
+2025/11/27 09:07:49 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "css/admin.css". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('css/admin.css')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/css/admin.css
+HTTP_REFERER=https://aisana.local/aisana/login
+---
+2025/11/27 09:08:04 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "css/admin.css". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('css/admin.css')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/css/admin.css
+HTTP_REFERER=https://aisana.local/aisana/dashboard
+---
+2025/11/27 09:08:11 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "css/admin.css". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('css/admin.css')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/css/admin.css
+HTTP_REFERER=https://aisana.local/aisana/newsAdmin
+---
+2025/11/27 09:08:18 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "css/admin.css". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('css/admin.css')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/css/admin.css
+HTTP_REFERER=https://aisana.local/aisana/newsCreate
+---
+2025/11/27 09:11:00 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "css/admin.css". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('css/admin.css')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/css/admin.css
+HTTP_REFERER=https://aisana.local/aisana/newsCreate
+---
+2025/11/27 09:12:35 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "login". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('login')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/login
+---
+2025/11/28 04:11:11 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/
+---
+2025/11/28 04:22:31 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/news
+---
+2025/11/28 04:22:35 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/28 04:40:07 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/aisana/index
+---
+2025/11/28 04:52:08 [error] [exception.CDbException] CDbException: The table "{{courses}}" for active record class "Course" cannot be found in the database. in /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php:2391
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(413): CActiveRecordMetaData->__construct(Object(Course))
+#1 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(79): CActiveRecord->getMetaData()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(285): CActiveRecord->__construct('search')
+#3 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionCoursesAdmin()
+#4 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('coursesAdmin')
+#13 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('aisana/coursesA...')
+#14 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#15 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/aisana/coursesAdmin
+HTTP_REFERER=https://aisana.local/aisana/newsCreate
+---
+2025/11/28 04:52:10 [error] [exception.CDbException] CDbException: The table "{{courses}}" for active record class "Course" cannot be found in the database. in /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php:2391
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(413): CActiveRecordMetaData->__construct(Object(Course))
+#1 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(79): CActiveRecord->getMetaData()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(300): CActiveRecord->__construct()
+#3 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionCourseCreate()
+#4 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('courseCreate')
+#13 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('aisana/courseCr...')
+#14 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#15 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/aisana/courseCreate
+HTTP_REFERER=https://aisana.local/aisana/newsCreate
+---
+2025/11/28 04:52:23 [error] [exception.CDbException] CDbException: The table "{{courses}}" for active record class "Course" cannot be found in the database. in /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php:2391
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(413): CActiveRecordMetaData->__construct(Object(Course))
+#1 /var/www/html/aisana/yii/framework/db/ar/CActiveRecord.php(79): CActiveRecord->getMetaData()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/protected/controllers/AisanaController.php(285): CActiveRecord->__construct('search')
+#3 /var/www/html/aisana/yii/framework/web/actions/CInlineAction.php(49): AisanaController->actionCoursesAdmin()
+#4 /var/www/html/aisana/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 /var/www/html/aisana/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/html/aisana/yii/framework/web/CController.php(1148): CFilter->filter(Object(CFilterChain))
+#8 /var/www/html/aisana/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/html/aisana/yii/framework/web/filters/CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/html/aisana/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/html/aisana/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('coursesAdmin')
+#13 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('aisana/coursesA...')
+#14 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#15 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/aisana/coursesAdmin
+HTTP_REFERER=https://aisana.local/aisana/newsAdmin
+---
+2025/12/01 04:05:23 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/
+---
+2025/12/01 04:17:03 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "course". in /var/www/html/aisana/yii/framework/web/CController.php:486
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CController.php(270): CController->missingAction('course')
+#1 /var/www/html/aisana/yii/framework/web/CWebApplication.php(282): CController->run('course')
+#2 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('aisana/course')
+#3 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#4 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/aisana/course
+---
+2025/12/01 05:34:51 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "favicon.ico". in /var/www/html/aisana/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/aisana/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/html/aisana/yii/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /var/www/html/aisana/yii/framework/cli/views/webapp/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=https://aisana.local/
+---
