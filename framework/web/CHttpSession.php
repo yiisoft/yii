@@ -116,8 +116,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
     {
         if ($this->getUseCustomStorage()) {
             // PHP 8.4+ deprecates callback-style session_set_save_handler().
-            // Use object-style handler on PHP 8.0+ to avoid deprecation.
+            // Use object-style handler on PHP 7.0+ to avoid deprecation.
+            // CHttpSessionHandler is in a separate file to avoid parse errors on PHP 5.3
+            // where SessionHandlerInterface doesn't exist.
             if (PHP_VERSION_ID >= 70000) {
+                require_once(dirname(__FILE__) . '/CHttpSessionHandler.php');
                 session_set_save_handler(new CHttpSessionHandler($this), true);
             } else {
                 @session_set_save_handler(
@@ -670,86 +673,4 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		session_cache_limiter($cacheLimiter);
 		$this->unfreeze();
 	}
-}
-
-/**
- * SessionHandlerInterface adapter for CHttpSession.
- * Delegates all calls to CHttpSession's openSession/closeSession/etc. methods,
- * allowing subclasses like CDbHttpSession to work without modification.
- */
-class CHttpSessionHandler implements SessionHandlerInterface
-{
-    /**
-     * @var CHttpSession
-     */
-    private $_session;
-
-    /**
-     * @param CHttpSession $session
-     */
-    public function __construct(CHttpSession $session)
-    {
-        $this->_session = $session;
-    }
-
-    /**
-     * @param string $path
-     * @param string $name
-     * @return bool
-     */
-    #[ReturnTypeWillChange]
-    public function open($path, $name)
-    {
-        return $this->_session->openSession($path, $name);
-    }
-
-    /**
-     * @return bool
-     */
-    #[ReturnTypeWillChange]
-    public function close()
-    {
-        return $this->_session->closeSession();
-    }
-
-    /**
-     * @param string $id
-     * @return string|false
-     */
-    #[ReturnTypeWillChange]
-    public function read($id)
-    {
-        return $this->_session->readSession($id);
-    }
-
-    /**
-     * @param string $id
-     * @param string $data
-     * @return bool
-     */
-    #[ReturnTypeWillChange]
-    public function write($id, $data)
-    {
-        return $this->_session->writeSession($id, $data);
-    }
-
-    /**
-     * @param string $id
-     * @return bool
-     */
-    #[ReturnTypeWillChange]
-    public function destroy($id)
-    {
-        return $this->_session->destroySession($id);
-    }
-
-    /**
-     * @param int $max_lifetime
-     * @return int|false
-     */
-    #[ReturnTypeWillChange]
-    public function gc($max_lifetime)
-    {
-        return $this->_session->gcSession($max_lifetime) ? 0 : false;
-    }
 }
