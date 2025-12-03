@@ -71,7 +71,6 @@ class CHttpSessionTest extends CTestCase {
             return false;
         }, E_DEPRECATED);
 
-        try {
             $session = new CustomStorageSession();
             $session->setCookieMode('none');
             $session->setSavePath(sys_get_temp_dir());
@@ -82,11 +81,10 @@ class CHttpSessionTest extends CTestCase {
 
             $this->assertNotSame('', session_id());
             $this->assertFalse($deprecationTriggered, 'session_set_save_handler() deprecation was triggered');
-        } finally {
+
             if (session_id() !== '') {
                 $session->close();
             }
             restore_error_handler();
         }
-    }
 }
