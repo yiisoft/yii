@@ -117,7 +117,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
         if ($this->getUseCustomStorage()) {
             // PHP 8.4+ deprecates callback-style session_set_save_handler().
             // Use object-style handler on PHP 8.0+ to avoid deprecation.
-            if (PHP_VERSION_ID >= 80000) {
+            if (PHP_VERSION_ID >= 70000) {
                 session_set_save_handler(new CHttpSessionHandler($this), true);
             } else {
                 @session_set_save_handler(
@@ -679,39 +679,76 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
  */
 class CHttpSessionHandler implements SessionHandlerInterface
 {
-    private CHttpSession $_session;
+    /**
+     * @var CHttpSession
+     */
+    private $_session;
 
+    /**
+     * @param CHttpSession $session
+     */
     public function __construct(CHttpSession $session)
     {
         $this->_session = $session;
     }
 
-    public function open(string $path, string $name): bool
+    /**
+     * @param string $path
+     * @param string $name
+     * @return bool
+     */
+    #[ReturnTypeWillChange]
+    public function open($path, $name)
     {
         return $this->_session->openSession($path, $name);
     }
 
-    public function close(): bool
+    /**
+     * @return bool
+     */
+    #[ReturnTypeWillChange]
+    public function close()
     {
         return $this->_session->closeSession();
     }
 
-    public function read(string $id): string|false
+    /**
+     * @param string $id
+     * @return string|false
+     */
+    #[ReturnTypeWillChange]
+    public function read($id)
     {
         return $this->_session->readSession($id);
     }
 
-    public function write(string $id, string $data): bool
+    /**
+     * @param string $id
+     * @param string $data
+     * @return bool
+     */
+    #[ReturnTypeWillChange]
+    public function write($id, $data)
     {
         return $this->_session->writeSession($id, $data);
     }
 
-    public function destroy(string $id): bool
+    /**
+     * @param string $id
+     * @return bool
+     */
+    #[ReturnTypeWillChange]
+    public function destroy($id)
     {
         return $this->_session->destroySession($id);
     }
 
-    public function gc(int $max_lifetime): int|false
+    /**
+     * @param int $max_lifetime
+     * @return int|false
+     */
+    #[ReturnTypeWillChange]
+    public function gc($max_lifetime)
     {
         return $this->_session->gcSession($max_lifetime) ? 0 : false;
     }
