@@ -254,6 +254,19 @@ class CArrayDataProviderTest extends CTestCase
             return false;
         });
 
+        $previousErrorReporting = error_reporting(E_ALL);
+        $previousHandler = set_error_handler(function ($errno, $errstr) {
+            if (($errno & (E_DEPRECATED | E_USER_DEPRECATED)) !== 0
+                && strpos($errstr, 'mb_strtolower') !== false
+            ) {
+                throw new ErrorException($errstr, 0, $errno);
+            }
+
+            return false;
+        });
+
+        $exception = null;
+
         try {
             $data = array(
                 array('id' => 1, 'name' => 'Alpha'),
@@ -280,7 +293,7 @@ class CArrayDataProviderTest extends CTestCase
 
             $dataProvider->caseSensitiveSort = false;
 
-            // Before the fix this call triggered a deprecation in PHP 8.1+ via mb_strtolower(null, ...)
+            // Before the fix on PHP 8.1+ this triggered a deprecation via mb_strtolower(null, ...)
             $items = $dataProvider->getData();
 
             $this->assertCount(3, $items);
@@ -297,9 +310,17 @@ class CArrayDataProviderTest extends CTestCase
                     $this->assertNull($item['name']);
                 }
             }
-        } finally {
-            set_error_handler($previousHandler);
-            error_reporting($previousErrorReporting);
+        } catch (Exception $e) {
+            $exception = $e;
+        }
+
+        // emulate finally: always restore handler & error_reporting
+        set_error_handler($previousHandler);
+        error_reporting($previousErrorReporting);
+
+        if ($exception !== null) {
+            // rethrow after cleanup so the test still fails correctly
+            throw $exception;
         }
     }
 
