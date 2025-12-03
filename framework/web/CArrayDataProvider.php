@@ -20,7 +20,7 @@
  * or associative arrays (e.g. query results of DAO).
  * Make sure to set the {@link keyField} property to the name of the field that uniquely
  * identifies a data record or false if you do not have such a field.
- * 
+ *
  * CArrayDataProvider may be used in the following way:
  * <pre>
  * $rawData=Yii::app()->db->createCommand('SELECT * FROM tbl_user')->queryAll();
@@ -164,20 +164,26 @@ class CArrayDataProvider extends CDataProvider
 	 * @param array $fields sorting fields in $data
 	 * @return mixed $data sorting field value
 	 */
-	protected function getSortingFieldValue($data, $fields)
-	{
-		if(is_object($data))
-		{
-			foreach($fields as $field)
-				$data=isset($data->$field) ? $data->$field : null;
-		}
-		else
-		{
-			foreach($fields as $field)
-				$data=isset($data[$field]) ? $data[$field] : null;
-		}
-		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
-	}
+    protected function getSortingFieldValue($data, $fields)
+    {
+        if(is_object($data))
+        {
+            foreach($fields as $field)
+                $data = isset($data->$field) ? $data->$field : null;
+        }
+        else
+        {
+            foreach($fields as $field)
+                $data = isset($data[$field]) ? $data[$field] : null;
+        }
+
+        // PHP 8.1+: avoid mb_strtolower(null, ...) deprecation when sort key is missing
+        if ($this->caseSensitiveSort || $data === null) {
+            return $data;
+        }
+
+        return mb_strtolower((string)$data, Yii::app()->charset);
+    }
 
 	/**
 	 * Converts the "ORDER BY" clause into an array representing the sorting directions.
