@@ -109,13 +109,27 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		return false;
 	}
 
-	/**
-	 * Starts the session if it has not started yet.
-	 */
-	public function open()
-	{
-		if($this->getUseCustomStorage())
-			@session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
+    /**
+     * Starts the session if it has not started yet.
+     */
+    public function open()
+    {
+        if ($this->getUseCustomStorage()) {
+            // PHP 8.4+ deprecates callback-style session_set_save_handler().
+            // Use object-style handler on PHP 8.0+ to avoid deprecation.
+            if (PHP_VERSION_ID >= 80000) {
+                session_set_save_handler(new CHttpSessionHandler($this), true);
+            } else {
+                @session_set_save_handler(
+                    array($this, 'openSession'),
+                    array($this, 'closeSession'),
+                    array($this, 'readSession'),
+                    array($this, 'writeSession'),
+                    array($this, 'destroySession'),
+                    array($this, 'gcSession')
+                );
+            }
+        }
 
 		@session_start();
 		if(YII_DEBUG && session_id()=='')
@@ -656,4 +670,49 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		session_cache_limiter($cacheLimiter);
 		$this->unfreeze();
 	}
+}
+
+/**
+ * SessionHandlerInterface adapter for CHttpSession.
+ * Delegates all calls to CHttpSession's openSession/closeSession/etc. methods,
+ * allowing subclasses like CDbHttpSession to work without modification.
+ */
+class CHttpSessionHandler implements SessionHandlerInterface
+{
+    private CHttpSession $_session;
+
+    public function __construct(CHttpSession $session)
+    {
+        $this->_session = $session;
+    }
+
+    public function open(string $path, string $name): bool
+    {
+        return $this->_session->openSession($path, $name);
+    }
+
+    public function close(): bool
+    {
+        return $this->_session->closeSession();
+    }
+
+    public function read(string $id): string|false
+    {
+        return $this->_session->readSession($id);
+    }
+
+    public function write(string $id, string $data): bool
+    {
+        return $this->_session->writeSession($id, $data);
+    }
+
+    public function destroy(string $id): bool
+    {
+        return $this->_session->destroySession($id);
+    }
+
+    public function gc(int $max_lifetime): int|false
+    {
+        return $this->_session->gcSession($max_lifetime) ? 0 : false;
+    }
 }
