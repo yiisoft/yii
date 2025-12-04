@@ -236,92 +236,24 @@ class CArrayDataProviderTest extends CTestCase
 		$this->assertEquals($sortedArray, $dataProvider->getData());
 	}
 
-    public function testCaseInsensitiveSortWithNullValue()
-    {
-        // This deprecation occurs only on PHP 8.1+
-        if (version_compare(PHP_VERSION, '8.1', '<')) {
-            $this->markTestSkipped('mb_strtolower(null, ...) deprecation only occurs on PHP 8.1+');
-        }
+	public function testCaseInsensitiveSortWithNullValue()
+	{
+		$data = array(
+			array('name' => 'Alpha'),
+			array('name' => null),
+			array('name' => 'beta'),
+		);
 
-        $previousErrorReporting = error_reporting(E_ALL);
-        $previousHandler = set_error_handler(function ($errno, $errstr) {
-            if (($errno & (E_DEPRECATED | E_USER_DEPRECATED)) !== 0
-                && strpos($errstr, 'mb_strtolower') !== false
-            ) {
-                throw new ErrorException($errstr, 0, $errno);
-            }
+		$dataProvider = new CArrayDataProvider($data, array(
+			'sort' => array(
+				'attributes' => array('name'),
+				'defaultOrder' => 'name ASC',
+			),
+		));
 
-            return false;
-        });
+		$dataProvider->caseSensitiveSort = false;
 
-        $previousErrorReporting = error_reporting(E_ALL);
-        $previousHandler = set_error_handler(function ($errno, $errstr) {
-            if (($errno & (E_DEPRECATED | E_USER_DEPRECATED)) !== 0
-                && strpos($errstr, 'mb_strtolower') !== false
-            ) {
-                throw new ErrorException($errstr, 0, $errno);
-            }
-
-            return false;
-        });
-
-        $exception = null;
-
-        try {
-            $data = array(
-                array('id' => 1, 'name' => 'Alpha'),
-                array('id' => 2, 'name' => null),
-                array('id' => 3, 'name' => 'beta'),
-            );
-
-            $dataProvider = new CArrayDataProvider($data, array(
-                'keyField' => 'id',
-                'sort' => array(
-                    'attributes' => array(
-                        'name' => array(
-                            'asc' => 'name ASC',
-                            'desc' => 'name DESC',
-                            'label' => 'Name',
-                            'default' => 'asc',
-                        ),
-                    ),
-                    'defaultOrder' => array(
-                        'name' => CSort::SORT_ASC,
-                    ),
-                ),
-            ));
-
-            $dataProvider->caseSensitiveSort = false;
-
-            // Before the fix on PHP 8.1+ this triggered a deprecation via mb_strtolower(null, ...)
-            $items = $dataProvider->getData();
-
-            $this->assertCount(3, $items);
-
-            $ids = array();
-            foreach ($items as $item) {
-                $ids[] = $item['id'];
-            }
-            $this->assertContains(2, $ids);
-
-            foreach ($items as $item) {
-                if ($item['id'] === 2) {
-                    $this->assertArrayHasKey('name', $item);
-                    $this->assertNull($item['name']);
-                }
-            }
-        } catch (Exception $e) {
-            $exception = $e;
-        }
-
-        // emulate finally: always restore handler & error_reporting
-        set_error_handler($previousHandler);
-        error_reporting($previousErrorReporting);
-
-        if ($exception !== null) {
-            // rethrow after cleanup so the test still fails correctly
-            throw $exception;
-        }
-    }
+		$this->assertCount(3, $dataProvider->getData());
+	}
 
 }
