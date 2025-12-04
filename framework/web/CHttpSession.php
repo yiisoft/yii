@@ -109,30 +109,34 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		return false;
 	}
 
-    /**
-     * Starts the session if it has not started yet.
-     */
-    public function open()
-    {
-        if ($this->getUseCustomStorage()) {
-            // PHP 8.4+ deprecates callback-style session_set_save_handler().
-            // Use object-style handler on PHP 7.0+ to avoid deprecation.
-            // CHttpSessionHandler is in a separate file to avoid parse errors on PHP 5.3
-            // where SessionHandlerInterface doesn't exist.
-            if (PHP_VERSION_ID >= 70000) {
-                require_once(dirname(__FILE__).'/CHttpSessionHandler.php');
-                @session_set_save_handler(new CHttpSessionHandler($this), true);
-            } else {
-                @session_set_save_handler(
-                    array($this, 'openSession'),
-                    array($this, 'closeSession'),
-                    array($this, 'readSession'),
-                    array($this, 'writeSession'),
-                    array($this, 'destroySession'),
-                    array($this, 'gcSession')
-                );
-            }
-        }
+	/**
+	 * Starts the session if it has not started yet.
+	 */
+	public function open()
+	{
+		if($this->getUseCustomStorage())
+		{
+			// PHP 8.4+ deprecates callback-style session_set_save_handler().
+			// Use object-style handler on PHP 7.0+ to avoid deprecation.
+			// CHttpSessionHandler is in a separate file to avoid parse errors on PHP 5.3
+			// where SessionHandlerInterface doesn't exist.
+			if(PHP_VERSION_ID >= 70000)
+			{
+				require_once(dirname(__FILE__) . '/CHttpSessionHandler.php');
+				@session_set_save_handler(new CHttpSessionHandler($this), true);
+			}
+			else
+			{
+				@session_set_save_handler(
+					array($this, 'openSession'),
+					array($this, 'closeSession'),
+					array($this, 'readSession'),
+					array($this, 'writeSession'),
+					array($this, 'destroySession'),
+					array($this, 'gcSession')
+				);
+			}
+		}
 
 		@session_start();
 		if(YII_DEBUG && session_id()=='')
