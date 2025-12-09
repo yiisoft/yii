@@ -170,7 +170,8 @@ class CArrayDataProvider extends CDataProvider
 		{
 			foreach($fields as $field)
 				$data = isset($data->$field) ? $data->$field : null;
-		} else
+		}
+		else
 		{
 			foreach($fields as $field)
 				$data = isset($data[$field]) ? $data[$field] : null;
@@ -178,7 +179,7 @@ class CArrayDataProvider extends CDataProvider
 		// PHP 8.1+: avoid mb_strtolower(null, ...) deprecation when sort key is missing
 		if($this->caseSensitiveSort || $data === null)
 			return $data;
-		return mb_strtolower((string)$data, Yii::app()->charset);
+		return mb_strtolower($data, Yii::app()->charset);
 	}
 
 	/**
