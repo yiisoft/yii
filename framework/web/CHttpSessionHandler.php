@@ -2,7 +2,7 @@
 /**
  * CHttpSessionHandler class file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author EFH Sollewijn Gelpke <efhsg@live.nl>
  * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
  * @license https://www.yiiframework.com/license/
