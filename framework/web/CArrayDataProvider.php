@@ -169,12 +169,12 @@ class CArrayDataProvider extends CDataProvider
 		if(is_object($data))
 		{
 			foreach($fields as $field)
-				$data = isset($data->$field) ? $data->$field : null;
+				$data=isset($data->$field) ? $data->$field : null;
 		}
 		else
 		{
 			foreach($fields as $field)
-				$data = isset($data[$field]) ? $data[$field] : null;
+				$data=isset($data[$field]) ? $data[$field] : null;
 		}
 		// PHP 8.1+: avoid mb_strtolower(null, ...) deprecation when sort key is missing
 		if($this->caseSensitiveSort || $data === null)
