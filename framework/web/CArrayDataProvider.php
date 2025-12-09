@@ -20,7 +20,7 @@
  * or associative arrays (e.g. query results of DAO).
  * Make sure to set the {@link keyField} property to the name of the field that uniquely
  * identifies a data record or false if you do not have such a field.
- * 
+ *
  * CArrayDataProvider may be used in the following way:
  * <pre>
  * $rawData=Yii::app()->db->createCommand('SELECT * FROM tbl_user')->queryAll();
@@ -176,7 +176,10 @@ class CArrayDataProvider extends CDataProvider
 			foreach($fields as $field)
 				$data=isset($data[$field]) ? $data[$field] : null;
 		}
-		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
+		// PHP 8.1+: avoid mb_strtolower(null, ...) deprecation when sort key is missing
+		if($this->caseSensitiveSort || $data === null)
+			return $data;
+		return mb_strtolower($data, Yii::app()->charset);
 	}
 
 	/**

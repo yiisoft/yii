@@ -235,4 +235,25 @@ class CArrayDataProviderTest extends CTestCase
 		$sortedArray = array($obj2, $obj3, $obj1);
 		$this->assertEquals($sortedArray, $dataProvider->getData());
 	}
+
+	public function testCaseInsensitiveSortWithNullValue()
+	{
+		$data = array(
+			array('name' => 'Alpha'),
+			array('name' => null),
+			array('name' => 'beta'),
+		);
+
+		$dataProvider = new CArrayDataProvider($data, array(
+			'sort' => array(
+				'attributes' => array('name'),
+				'defaultOrder' => 'name ASC',
+			),
+		));
+
+		$dataProvider->caseSensitiveSort = false;
+
+		$this->assertCount(3, $dataProvider->getData());
+	}
+
 }
