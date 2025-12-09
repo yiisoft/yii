@@ -65,6 +65,8 @@ class CHttpSessionTest extends CTestCase {
 		}
 
 		$deprecationTriggered=false;
+		$session=null;
+
 		set_error_handler(function ($errno, $errstr) use (&$deprecationTriggered)
 		{
 			if($errno === E_DEPRECATED && strpos($errstr, 'session_set_save_handler') !== false)
@@ -74,21 +76,25 @@ class CHttpSessionTest extends CTestCase {
 			return false;
 		}, E_DEPRECATED);
 
-		$session=new CustomStorageSession();
-		$session->setCookieMode('none');
-		$session->setSavePath(sys_get_temp_dir());
-		$session->setSessionName('CHttpSessionPhp84Test');
-		$session->setTimeout(5);
-
-		$session->open();
-
-		$this->assertNotSame('', session_id());
-		$this->assertFalse($deprecationTriggered, 'session_set_save_handler() deprecation was triggered');
-
-		if(session_id() !== '')
+		try
 		{
-			$session->close();
+			$session=new CustomStorageSession();
+			$session->setCookieMode('none');
+			$session->setSavePath(sys_get_temp_dir());
+			$session->setSessionName('CHttpSessionPhp84Test');
+			$session->setTimeout(5);
+
+			$session->open();
+
+			$this->assertNotSame('', session_id());
+			$this->assertFalse($deprecationTriggered, 'session_set_save_handler() deprecation was triggered');
+		} finally
+		{
+			if($session !== null && session_id() !== '')
+			{
+				$session->close();
+			}
+			restore_error_handler();
 		}
-		restore_error_handler();
 	}
 }
