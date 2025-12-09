@@ -5,6 +5,7 @@ Version 1.1.32 under development
 --------------------------------
 
 - Enh #4587: Add socket connection support to `CRedisCache` (mateusmetzker)
+- Bug #4578: PHP 8.4 compatibility: Fix deprecation in session_set_save_handler() (efhsg)
 - Bug #4573: PHP 8 compatibility: Fix deprecation warning in CArrayDataProvider (efhsg)
 - Bug #4591: Fix deprecation in `CCaptchaAction` for PHP 8.1+ (rob006)
 
