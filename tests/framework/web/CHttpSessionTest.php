@@ -88,13 +88,20 @@ class CHttpSessionTest extends CTestCase {
 
 			$this->assertNotSame('', session_id());
 			$this->assertFalse($deprecationTriggered, 'session_set_save_handler() deprecation was triggered');
-		} finally
+		} catch(Exception $e)
 		{
 			if($session !== null && session_id() !== '')
 			{
 				$session->close();
 			}
 			restore_error_handler();
+			throw $e;
 		}
+
+		if($session !== null && session_id() !== '')
+		{
+			$session->close();
+		}
+		restore_error_handler();
 	}
 }
