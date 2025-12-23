@@ -9,9 +9,13 @@
  */
 
 /**
- * SessionHandlerInterface adapter for CHttpSession.
+ * CHttpSessionHandler is an adapter that implements SessionHandlerInterface for CHttpSession.
+ *
  * Delegates all calls to CHttpSession's openSession/closeSession/etc. methods,
  * allowing subclasses like CDbHttpSession to work without modification.
+ *
+ * @package system.web
+ * @since 1.1.32
  */
 class CHttpSessionHandler implements SessionHandlerInterface
 {
@@ -21,7 +25,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	private $_session;
 
 	/**
-	 * @param CHttpSession $session
+	 * Constructor.
+     * @param CHttpSession $session
 	 */
 	public function __construct(CHttpSession $session)
 	{
@@ -29,6 +34,7 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
+     * Initialize session.
 	 * @param string $path
 	 * @param string $name
 	 * @return bool
@@ -40,7 +46,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
-	 * @return bool
+	 * Close the session.
+     * @return bool
 	 */
 	#[ReturnTypeWillChange]
 	public function close()
@@ -49,7 +56,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
-	 * @param string $id
+	 * Read session data.
+     * @param string $id
 	 * @return string|false
 	 */
 	#[ReturnTypeWillChange]
@@ -59,7 +67,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
-	 * @param string $id
+	 * Write session data.
+     * @param string $id
 	 * @param string $data
 	 * @return bool
 	 */
@@ -70,7 +79,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
-	 * @param string $id
+	 * Destroy a session.
+     * @param string $id
 	 * @return bool
 	 */
 	#[ReturnTypeWillChange]
@@ -80,7 +90,8 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	}
 
 	/**
-	 * @param int $max_lifetime
+	 * Cleanup old sessions.
+     * @param int $max_lifetime
 	 * @return int|false
 	 */
 	#[ReturnTypeWillChange]
