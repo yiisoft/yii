@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.32 under development
+Version 1.1.32 December 23, 2025
 --------------------------------
 
 - Enh #4587: Add socket connection support to `CRedisCache` (mateusmetzker)
