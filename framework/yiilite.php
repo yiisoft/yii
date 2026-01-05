@@ -4665,7 +4665,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			// where SessionHandlerInterface doesn't exist.
 			if(version_compare(PHP_VERSION, '7.0', '>='))
 			{
-				require_once(dirname(__FILE__) . '/CHttpSessionHandler.php');
+				require_once(dirname(__FILE__) . '/web/CHttpSessionHandler.php');
 				@session_set_save_handler(new CHttpSessionHandler($this), true);
 			}
 			else
