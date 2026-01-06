@@ -4,7 +4,7 @@
 Version 1.1.33 under development
 --------------------------------
 
-- No changes yet
+- Bug #4607: Fix loading CHttpSessionHandler when using yiilite on Yii 1.1.32 and PHP 7+ (tance77, marcovtwout)
 
 Version 1.1.32 December 23, 2025
 --------------------------------
