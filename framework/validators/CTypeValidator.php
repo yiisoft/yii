@@ -117,9 +117,9 @@ class CTypeValidator extends CValidator
 			return false;
 
 		if($type==='integer')
-			return (boolean)preg_match('/^[-+]?[0-9]+$/',trim($value));
+			return (bool)preg_match('/^[-+]?[0-9]+$/',trim($value));
 		elseif($type==='double')
-			return (boolean)preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
+			return (bool)preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
 		elseif($type==='date')
 			return CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
 		elseif($type==='time')
