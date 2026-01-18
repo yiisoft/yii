@@ -2775,11 +2775,11 @@ class CHttpRequest extends CApplicationComponent
 						if($matches[4][$i]==='q')
 						{
 							// sanity check on q value
-							$q=(double)$matches[5][$i];
+							$q=(float)$matches[5][$i];
 							if($q>1)
-								$q=(double)1;
+								$q=(float)1;
 							elseif($q<0)
-								$q=(double)0;
+								$q=(float)0;
 							$accept['params'][$matches[4][$i]]=$q;
 						}
 						else
@@ -2790,7 +2790,7 @@ class CHttpRequest extends CApplicationComponent
 				}
 				// q defaults to 1 if not explicitly given
 				if(!isset($accept['params']['q']))
-					$accept['params']['q']=(double)1;
+					$accept['params']['q']=(float)1;
 				$accepts[] = $accept;
 			}
 		}
@@ -10327,8 +10327,8 @@ class CDbColumnSchema extends CComponent
 		switch($this->type)
 		{
 			case 'string': return (string)$value;
-			case 'integer': return (integer)$value;
-			case 'boolean': return (boolean)$value;
+			case 'integer': return (int)$value;
+			case 'boolean': return (bool)$value;
 			case 'double':
 			default: return $value;
 		}
