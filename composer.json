@@ -116,6 +116,9 @@
 	"config": {
 		"allow-plugins": {
 			"cweagans/composer-patches": true
+		},
+		"audit": {
+			"block-insecure": false
 		}
 	}
 }
