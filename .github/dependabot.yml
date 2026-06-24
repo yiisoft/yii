@@ -16,3 +16,5 @@ updates:
     schedule:
         interval: "daily"
     versioning-strategy: increase-if-necessary
+    cooldown:
+      default-days: 7
