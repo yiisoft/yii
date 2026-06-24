@@ -7,8 +7,6 @@ updates:
           interval: "daily"
 
     # Maintain dependencies for Composer
-      ignore:
-        - dependency-name: "yiisoft/*"
     - package-ecosystem: "composer"
       directory: "/"
       schedule:
