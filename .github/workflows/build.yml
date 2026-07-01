@@ -1,8 +1,15 @@
+permissions:
+  contents: read
+
 on:
   - pull_request
   - push
 
 name: build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
@@ -38,7 +45,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:5.7@sha256:4bc6bc963e6d8443453676cae56536f4b8156d78bae03c0145cbe47c2aad73bb
         env:
           MYSQL_USER: test
           MYSQL_PASSWORD: test
@@ -48,7 +55,7 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
-        image: postgres:9.6
+        image: postgres:9.6@sha256:caddd35b05cdd56c614ab1f674e63be778e0abdf54e71a7507ff3e28d4902698
         env:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
@@ -57,7 +64,7 @@ jobs:
           - 5432:5432
         options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
       redis:
-        image: redis
+        image: redis:8@sha256:2838d5524559494f6f1cd66e97e76b200d64a633a8614200620755ed395daf32
         ports:
           - 6379:6379
         options:
@@ -68,15 +75,17 @@ jobs:
 
     steps:
       - name: Install service memcached
-        uses: niden/actions-memcached@v8
+        uses: niden/actions-memcached@9ff2b102979272958682d09bf262563039bea69c # v8
 
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup cache environment 5.3 - 5.6
         if: matrix.php < '7.0'
         id: cache-env-php5
-        uses: shivammathur/cache-extensions@v1
+        uses: shivammathur/cache-extensions@9b476298b44f2e4d4268dd103ff4c3e216314e27 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php5 }}
@@ -85,7 +94,7 @@ jobs:
       - name: Setup cache environment 7.0 - 8.0
         if: matrix.php >= '7.0'
         id: cache-env-php7
-        uses: shivammathur/cache-extensions@v1
+        uses: shivammathur/cache-extensions@9b476298b44f2e4d4268dd103ff4c3e216314e27 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php7 }}
@@ -93,7 +102,7 @@ jobs:
 
       - name: Cache extensions 5.3 - 5.6
         if: matrix.php < '7.0'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ steps.cache-env-php5.outputs.dir }}
           key: ${{ steps.cache-env-php5.outputs.key }}
@@ -101,14 +110,14 @@ jobs:
 
       - name: Cache extensions 7.0 - 8.0
         if: matrix.php >= '7.0'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ steps.cache-env-php7.outputs.dir }}
           key: ${{ steps.cache-env-php7.outputs.key }}
           restore-keys: ${{ steps.cache-env-php7.outputs.key }}
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -125,7 +134,7 @@ jobs:
         run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
