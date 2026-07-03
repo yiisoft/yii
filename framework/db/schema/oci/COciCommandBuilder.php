@@ -28,7 +28,15 @@ class COciCommandBuilder extends CDbCommandBuilder
 	 */
 	public function getLastInsertID($table)
 	{
-		return $this->returnID;
+		if($table !== null && $table->sequenceName !== null) {
+            $sql = "SELECT " . $table->sequenceName . ".CURRVAL FROM DUAL";
+            try {
+                return $this->getDbConnection()->createCommand($sql)->queryScalar();
+            } catch(Exception $e) {
+                return $this->returnID;
+            }
+        }
+        return $this->returnID;
 	}
 
 	/**
@@ -105,15 +113,7 @@ EOD;
 
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
 
-		if(is_string($table->primaryKey) && ($column=$table->getColumn($table->primaryKey))!==null && $column->type!=='string')
-		{
-			$sql.=' RETURNING '.$column->rawName.' INTO :RETURN_ID';
-			$command=$this->getDbConnection()->createCommand($sql);
-			$command->bindParam(':RETURN_ID', $this->returnID, PDO::PARAM_INT, 12);
-			$table->sequenceName='RETURN_ID';
-		}
-		else
-			$command=$this->getDbConnection()->createCommand($sql);
+		$command=$this->getDbConnection()->createCommand($sql);
 
 		foreach($values as $name=>$value)
 			$command->bindValue($name,$value);

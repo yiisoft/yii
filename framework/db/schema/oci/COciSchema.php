@@ -213,12 +213,34 @@ EOD;
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
-				$table->sequenceName='';
+				$table->sequenceName=$this->getTableSequenceName($table->name);
 				$c->autoIncrement=true;
 			}
 		}
 		return true;
 	}
+
+	/**
+     * Sequence name of table.
+     * @param string $tableName table name
+     * @return string Whether the sequence exists.
+     */
+    protected function getTableSequenceName($tableName)
+    {
+        $sequenceNameSql = <<<EOD
+SELECT
+    UD.REFERENCED_NAME AS SEQUENCE_NAME
+    FROM USER_DEPENDENCIES UD
+    JOIN USER_TRIGGERS UT ON (UT.TRIGGER_NAME = UD.NAME)
+    WHERE
+    UT.TABLE_NAME = '{$tableName}'
+    AND UD.TYPE = 'TRIGGER'
+    AND UD.REFERENCED_TYPE = 'SEQUENCE'
+EOD;
+
+        $sequenceName = $this->getDbConnection()->createCommand($sequenceNameSql)->queryScalar();
+        return $sequenceName === false ? '' : $sequenceName;
+    }
 
 	/**
 	 * Creates a table column.
