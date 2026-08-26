@@ -73,7 +73,7 @@ class CJavaScript
 			return 'null';
 		elseif(is_bool($value))
 			return $value?'true':'false';
-		elseif(is_integer($value))
+		elseif(is_int($value))
 			return "$value";
 		elseif(is_float($value))
 		{
