@@ -99,4 +99,28 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	{
 		return $this->_session->gcSession($max_lifetime) ? 0 : false;
 	}
+
+	/**
+	 * Creates a new session ID.
+	 * @return string the new session ID
+	 */
+	public function create_sid()
+	{
+		if(function_exists('session_create_id'))
+			return session_create_id();
+
+		return bin2hex(random_bytes(16));
+	}
+
+	/**
+	 * Validates a session ID.
+	 * Returning true preserves the behavior of the legacy callback-based handler,
+	 * which accepted externally supplied session IDs.
+	 * @param string $id the session ID
+	 * @return bool whether the session ID is valid
+	 */
+	public function validateId($id)
+	{
+		return true;
+	}
 }

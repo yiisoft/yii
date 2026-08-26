@@ -1164,7 +1164,7 @@ abstract class CActiveRecord extends CModel
 			$values=array();
 			foreach($attributes as $name=>$value)
 			{
-				if(is_integer($name))
+				if(is_int($name))
 					$values[$value]=$this->$value;
 				else
 					$values[$name]=$this->$name=$value;
@@ -1379,7 +1379,7 @@ abstract class CActiveRecord extends CModel
 			$c=$this->getDbCriteria();
 			foreach((array)$criteria->scopes as $k=>$v)
 			{
-				if(is_integer($k))
+				if(is_int($k))
 				{
 					if(is_string($v))
 					{

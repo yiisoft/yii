@@ -104,4 +104,16 @@ class CHttpSessionTest extends CTestCase {
 		}
 		restore_error_handler();
 	}
+
+	public function testCustomStorageHandlerSupportsSessionIdValidation()
+	{
+		Yii::import('system.web.CHttpSessionHandler');
+
+		$handler=new CHttpSessionHandler(new CustomStorageSession());
+		$sessionId=$handler->create_sid();
+
+		$this->assertInternalType('string', $sessionId);
+		$this->assertNotSame('', $sessionId);
+		$this->assertTrue($handler->validateId($sessionId));
+	}
 }
