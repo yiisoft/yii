@@ -107,6 +107,11 @@ class CHttpSessionTest extends CTestCase {
 
 	public function testCustomStorageHandlerSupportsSessionIdValidation()
 	{
+		if(version_compare(PHP_VERSION, '7.0', '<'))
+		{
+			$this->markTestSkipped('Object-style session handlers are used on PHP 7.0+ only.');
+		}
+
 		Yii::import('system.web.CHttpSessionHandler');
 
 		$handler=new CHttpSessionHandler(new CustomStorageSession());

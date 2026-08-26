@@ -109,14 +109,7 @@ class CHttpSessionHandler implements SessionHandlerInterface
 		if(function_exists('session_create_id'))
 			return session_create_id();
 
-		if(function_exists('openssl_random_pseudo_bytes'))
-		{
-			$bytes=openssl_random_pseudo_bytes(16);
-			if($bytes!==false)
-				return bin2hex($bytes);
-		}
-
-		return sha1(uniqid(mt_rand(), true));
+		return bin2hex(random_bytes(16));
 	}
 
 	/**
