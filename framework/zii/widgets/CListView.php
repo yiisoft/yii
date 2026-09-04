@@ -312,7 +312,7 @@ class CListView extends CBaseListView
 		foreach($this->sortableAttributes as $name=>$label)
 		{
 			echo "<li>";
-			if(is_integer($name))
+			if(is_int($name))
 				echo $sort->link($label);
 			else
 				echo $sort->link($name,$label);

@@ -288,7 +288,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 			$next=array_shift($args);
 			foreach($next as $k => $v)
 			{
-				if(is_integer($k))
+				if(is_int($k))
 					isset($res[$k]) ? $res[]=$v : $res[$k]=$v;
 				elseif(is_array($v) && isset($res[$k]) && is_array($res[$k]))
 					$res[$k]=self::mergeArray($res[$k],$v);
