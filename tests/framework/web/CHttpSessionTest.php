@@ -123,6 +123,24 @@ class CHttpSessionTest extends CTestCase {
 		restore_error_handler();
 	}
 
+	public function testCustomStorageHandlerCreatesConfiguredSessionId()
+	{
+		if(version_compare(PHP_VERSION, '7.0', '<'))
+		{
+			$this->markTestSkipped('Object-style session handlers are used on PHP 7.0+ only.');
+		}
+
+		Yii::import('system.web.CHttpSessionHandler');
+
+		$handler=new CHttpSessionHandler(new CustomStorageSession());
+		$sessionId=$handler->create_sid();
+		$bitsPerCharacter=(int)ini_get('session.sid_bits_per_character');
+		$alphabet=substr('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,-',0,1 << $bitsPerCharacter);
+
+		$this->assertSame((int)ini_get('session.sid_length'),strlen($sessionId));
+		$this->assertSame(strlen($sessionId),strspn($sessionId,$alphabet));
+	}
+
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

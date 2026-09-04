@@ -106,7 +106,21 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	 */
 	public function create_sid()
 	{
-		return bin2hex(random_bytes(16));
+		$length=(int)ini_get('session.sid_length');
+		$bitsPerCharacter=(int)ini_get('session.sid_bits_per_character');
+		if($length<1)
+			$length=32;
+		if($bitsPerCharacter<4 || $bitsPerCharacter>6)
+			$bitsPerCharacter=4;
+
+		$alphabet=substr('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,-',0,1 << $bitsPerCharacter);
+		$mask=(1 << $bitsPerCharacter)-1;
+		$bytes=random_bytes($length);
+		$id='';
+		for($i=0;$i<$length;++$i)
+			$id.=$alphabet[ord($bytes[$i]) & $mask];
+
+		return $id;
 	}
 
 	/**
