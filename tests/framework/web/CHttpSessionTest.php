@@ -134,10 +134,15 @@ class CHttpSessionTest extends CTestCase {
 
 		$handler=new CHttpSessionHandler(new CustomStorageSession());
 		$sessionId=$handler->create_sid();
+		$length=(int)ini_get('session.sid_length');
 		$bitsPerCharacter=(int)ini_get('session.sid_bits_per_character');
+		if($length<1)
+			$length=32;
+		if($bitsPerCharacter<4 || $bitsPerCharacter>6)
+			$bitsPerCharacter=4;
 		$alphabet=substr('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,-',0,1 << $bitsPerCharacter);
 
-		$this->assertSame((int)ini_get('session.sid_length'),strlen($sessionId));
+		$this->assertSame($length,strlen($sessionId));
 		$this->assertSame(strlen($sessionId),strspn($sessionId,$alphabet));
 	}
 
