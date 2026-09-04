@@ -433,6 +433,19 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
+	 * Session ID validation handler.
+	 * This method should be overridden if {@link useCustomStorage} is set true
+	 * and the storage can distinguish an empty session from a missing one.
+	 * @param string $id session ID
+	 * @return boolean whether the session ID exists
+	 */
+	public function validateSession($id)
+	{
+		$data=$this->readSession($id);
+		return $data!=='' && $data!==false;
+	}
+
+	/**
 	 * Session write handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.

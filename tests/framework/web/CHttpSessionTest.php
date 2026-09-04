@@ -7,8 +7,26 @@ Yii::import('system.web.CHttpSession');
  */
 class CustomStorageSession extends CHttpSession
 {
+	private $_data=array();
+
 	public function getUseCustomStorage()
 	{
+		return true;
+	}
+
+	public function readSession($id)
+	{
+		return isset($this->_data[$id]) ? $this->_data[$id] : '';
+	}
+
+	public function validateSession($id)
+	{
+		return isset($this->_data[$id]);
+	}
+
+	public function writeSession($id,$data)
+	{
+		$this->_data[$id]=$data;
 		return true;
 	}
 }
@@ -111,9 +129,9 @@ class CHttpSessionTest extends CTestCase {
 	 */
 	public function testCustomStorageHandlerSupportsSessionIdCreation()
 	{
-		if(version_compare(PHP_VERSION, '7.0', '<'))
+		if(version_compare(PHP_VERSION, '7.4', '<'))
 		{
-			$this->markTestSkipped('Object-style session handlers are used on PHP 7.0+ only.');
+			$this->markTestSkipped('Custom session ID validation is not reliable before PHP 7.4.');
 		}
 
 		Yii::import('system.web.CHttpSessionHandler');
@@ -122,10 +140,15 @@ class CHttpSessionTest extends CTestCase {
 		session_set_save_handler($handler, true);
 
 		$this->assertTrue(session_start());
+		$currentSessionId=session_id();
 		$sessionId=session_create_id();
 
 		$this->assertInternalType('string', $sessionId);
 		$this->assertNotSame('', $sessionId);
+		$this->assertFalse($handler->validateId($sessionId));
+
+		$_SESSION['stored']=true;
 		session_write_close();
+		$this->assertTrue($handler->validateId($currentSessionId));
 	}
 }

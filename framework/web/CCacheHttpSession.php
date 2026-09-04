@@ -78,6 +78,16 @@ class CCacheHttpSession extends CHttpSession
 	}
 
 	/**
+	 * Session ID validation handler.
+	 * @param string $id session ID
+	 * @return boolean whether the session ID exists
+	 */
+	public function validateSession($id)
+	{
+		return $this->_cache->get($this->calculateKey($id))!==false;
+	}
+
+	/**
 	 * Session write handler.
 	 * Do not call this method directly.
 	 * @param string $id session ID

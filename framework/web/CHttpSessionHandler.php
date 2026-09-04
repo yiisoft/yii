@@ -106,9 +106,6 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	 */
 	public function create_sid()
 	{
-		if(function_exists('session_create_id'))
-			return session_create_id();
-
 		return bin2hex(random_bytes(16));
 	}
 
@@ -119,8 +116,6 @@ class CHttpSessionHandler implements SessionHandlerInterface
 	 */
 	public function validateId($id)
 	{
-		// Preserve legacy acceptance of the current client-supplied ID while
-		// reporting newly generated collision candidates as unused.
-		return $id===session_id();
+		return $this->_session->validateSession($id);
 	}
 }
