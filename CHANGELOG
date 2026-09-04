@@ -4,7 +4,7 @@
 Version 1.1.33 under development
 --------------------------------
 
-- Bug: Add PHP 8.6-compatible custom session ID handling (ac-dc)
+- Bug #4626: Add PHP 8.6-compatible custom session ID handling (ac-dc)
 - Bug #4627: Replace deprecated `is_integer()` calls with `is_int()` for PHP 8.6 (ac-dc)
 - Bug #4598: PHP 8.5 compatibility: Fix deprecated non-canonical casts to canonical forms (ac-dc)
 - Bug #4607: Fix loading CHttpSessionHandler when using yiilite on Yii 1.1.32 and PHP 7+ (tance77, marcovtwout)

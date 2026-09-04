@@ -105,7 +105,11 @@ class CHttpSessionTest extends CTestCase {
 		restore_error_handler();
 	}
 
-	public function testCustomStorageHandlerSupportsSessionIdValidation()
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCustomStorageHandlerSupportsSessionIdCreation()
 	{
 		if(version_compare(PHP_VERSION, '7.0', '<'))
 		{
@@ -115,10 +119,13 @@ class CHttpSessionTest extends CTestCase {
 		Yii::import('system.web.CHttpSessionHandler');
 
 		$handler=new CHttpSessionHandler(new CustomStorageSession());
-		$sessionId=$handler->create_sid();
+		session_set_save_handler($handler, true);
+
+		$this->assertTrue(session_start());
+		$sessionId=session_create_id();
 
 		$this->assertInternalType('string', $sessionId);
 		$this->assertNotSame('', $sessionId);
-		$this->assertTrue($handler->validateId($sessionId));
+		session_write_close();
 	}
 }

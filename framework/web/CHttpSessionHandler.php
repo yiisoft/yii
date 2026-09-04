@@ -114,13 +114,13 @@ class CHttpSessionHandler implements SessionHandlerInterface
 
 	/**
 	 * Validates a session ID.
-	 * Returning true preserves the behavior of the legacy callback-based handler,
-	 * which accepted externally supplied session IDs.
 	 * @param string $id the session ID
 	 * @return bool whether the session ID is valid
 	 */
 	public function validateId($id)
 	{
-		return true;
+		// Preserve legacy acceptance of the current client-supplied ID while
+		// reporting newly generated collision candidates as unused.
+		return $id===session_id();
 	}
 }
