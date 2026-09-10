@@ -4857,6 +4857,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		return '';
 	}
+	public function validateSession($id)
+	{
+		$data=$this->readSession($id);
+		return $data!=='' && $data!==false;
+	}
 	public function writeSession($id,$data)
 	{
 		return true;

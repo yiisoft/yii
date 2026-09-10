@@ -7,8 +7,26 @@ Yii::import('system.web.CHttpSession');
  */
 class CustomStorageSession extends CHttpSession
 {
+	private $_data=array();
+
 	public function getUseCustomStorage()
 	{
+		return true;
+	}
+
+	public function readSession($id)
+	{
+		return isset($this->_data[$id]) ? $this->_data[$id] : '';
+	}
+
+	public function validateSession($id)
+	{
+		return isset($this->_data[$id]);
+	}
+
+	public function writeSession($id,$data)
+	{
+		$this->_data[$id]=$data;
 		return true;
 	}
 }
@@ -103,5 +121,57 @@ class CHttpSessionTest extends CTestCase {
 			$session->close();
 		}
 		restore_error_handler();
+	}
+
+	public function testCustomStorageHandlerCreatesConfiguredSessionId()
+	{
+		if(version_compare(PHP_VERSION, '7.0', '<'))
+		{
+			$this->markTestSkipped('Object-style session handlers are used on PHP 7.0+ only.');
+		}
+
+		Yii::import('system.web.CHttpSessionHandler');
+
+		$handler=new CHttpSessionHandler(new CustomStorageSession());
+		$sessionId=$handler->create_sid();
+		$length=(int)ini_get('session.sid_length');
+		$bitsPerCharacter=(int)ini_get('session.sid_bits_per_character');
+		if($length<1)
+			$length=32;
+		if($bitsPerCharacter<4 || $bitsPerCharacter>6)
+			$bitsPerCharacter=4;
+		$alphabet=substr('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,-',0,1 << $bitsPerCharacter);
+
+		$this->assertSame($length,strlen($sessionId));
+		$this->assertSame(strlen($sessionId),strspn($sessionId,$alphabet));
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testCustomStorageHandlerSupportsSessionIdCreation()
+	{
+		if(version_compare(PHP_VERSION, '7.4', '<'))
+		{
+			$this->markTestSkipped('Custom session ID validation is not reliable before PHP 7.4.');
+		}
+
+		Yii::import('system.web.CHttpSessionHandler');
+
+		$handler=new CHttpSessionHandler(new CustomStorageSession());
+		session_set_save_handler($handler, true);
+
+		$this->assertTrue(session_start());
+		$currentSessionId=session_id();
+		$sessionId=session_create_id();
+
+		$this->assertInternalType('string', $sessionId);
+		$this->assertNotSame('', $sessionId);
+		$this->assertFalse($handler->validateId($sessionId));
+
+		$_SESSION['stored']=true;
+		session_write_close();
+		$this->assertTrue($handler->validateId($currentSessionId));
 	}
 }
