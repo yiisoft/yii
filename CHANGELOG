@@ -7,6 +7,7 @@ Version 1.1.33 under development
 - Bug #4627: Replace deprecated `is_integer()` calls with `is_int()` for PHP 8.6 (ac-dc)
 - Bug #4598: PHP 8.5 compatibility: Fix deprecated non-canonical casts to canonical forms (ac-dc)
 - Bug #4607: Fix loading CHttpSessionHandler when using yiilite on Yii 1.1.32 and PHP 7+ (tance77, marcovtwout)
+- Enh #4598: Updated HTMLPurifier to version 4.19.0 for PHP 8.5 support (https://github.com/ezyang/htmlpurifier/blob/v4.19.0/NEWS) (marcovtwout)
 
 Version 1.1.32 December 23, 2025
 --------------------------------
