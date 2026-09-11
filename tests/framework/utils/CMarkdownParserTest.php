@@ -7,6 +7,10 @@ class CMarkdownParserTest extends CTestCase
 {
 	public function testUTF8()
 	{
+		// safeTransform() loads the bundled HTML Purifier, which uses short array syntax since 4.17.0
+		if(version_compare(PHP_VERSION,'5.6','<'))
+			$this->markTestSkipped('The bundled HTML Purifier requires PHP 5.6 or above.');
+
 		$markdown = <<<'MARKDOWN'
 ~~~
 [php]
