@@ -177,7 +177,7 @@ class CHttpRequestTest extends CTestCase
 					'subType'=>'html',
 					'baseType'=>null,
 					'params'=>array(
-						'q'=>(double)1,
+						'q'=>(float)1,
 					),
 				),
 				1,
