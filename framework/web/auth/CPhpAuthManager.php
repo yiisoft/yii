@@ -75,9 +75,9 @@ class CPhpAuthManager extends CAuthManager
 		{
 			if(in_array($itemName,$this->defaultRoles))
 				return true;
-			if(isset($this->_assignments[$userId][$itemName]))
+			if(isset($this->_assignments[(string)$userId][$itemName]))
 			{
-				$assignment=$this->_assignments[$userId][$itemName];
+				$assignment=$this->_assignments[(string)$userId][$itemName];
 				if($this->executeBizRule($assignment->getBizRule(),$params,$assignment->getData()))
 					return true;
 			}
@@ -177,11 +177,11 @@ class CPhpAuthManager extends CAuthManager
 	{
 		if(!isset($this->_items[$itemName]))
 			throw new CException(Yii::t('yii','Unknown authorization item "{name}".',array('{name}'=>$itemName)));
-		elseif(isset($this->_assignments[$userId][$itemName]))
+		elseif(isset($this->_assignments[(string)$userId][$itemName]))
 			throw new CException(Yii::t('yii','Authorization item "{item}" has already been assigned to user "{user}".',
 				array('{item}'=>$itemName,'{user}'=>$userId)));
 		else
-			return $this->_assignments[$userId][$itemName]=new CAuthAssignment($this,$itemName,$userId,$bizRule,$data);
+			return $this->_assignments[(string)$userId][$itemName]=new CAuthAssignment($this,$itemName,$userId,$bizRule,$data);
 	}
 
 	/**
@@ -192,9 +192,9 @@ class CPhpAuthManager extends CAuthManager
 	 */
 	public function revoke($itemName,$userId)
 	{
-		if(isset($this->_assignments[$userId][$itemName]))
+		if(isset($this->_assignments[(string)$userId][$itemName]))
 		{
-			unset($this->_assignments[$userId][$itemName]);
+			unset($this->_assignments[(string)$userId][$itemName]);
 			return true;
 		}
 		else
@@ -209,7 +209,7 @@ class CPhpAuthManager extends CAuthManager
 	 */
 	public function isAssigned($itemName,$userId)
 	{
-		return isset($this->_assignments[$userId][$itemName]);
+		return isset($this->_assignments[(string)$userId][$itemName]);
 	}
 
 	/**
@@ -221,7 +221,7 @@ class CPhpAuthManager extends CAuthManager
 	 */
 	public function getAuthAssignment($itemName,$userId)
 	{
-		return isset($this->_assignments[$userId][$itemName])?$this->_assignments[$userId][$itemName]:null;
+		return isset($this->_assignments[(string)$userId][$itemName])?$this->_assignments[(string)$userId][$itemName]:null;
 	}
 
 	/**
@@ -232,7 +232,7 @@ class CPhpAuthManager extends CAuthManager
 	 */
 	public function getAuthAssignments($userId)
 	{
-		return isset($this->_assignments[$userId])?$this->_assignments[$userId]:array();
+		return isset($this->_assignments[(string)$userId])?$this->_assignments[(string)$userId]:array();
 	}
 
 	/**
