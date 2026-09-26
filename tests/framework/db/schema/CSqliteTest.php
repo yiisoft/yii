@@ -298,6 +298,34 @@ class CSqliteTest extends CTestCase
 		$this->assertArrayHasKey('users_renamed',$this->db->schema->tables);
 	}
 
+	public function testDropColumn()
+	{
+		$this->db->schema->refresh();
+		$this->assertArrayHasKey('email',$this->db->schema->getTable('users')->columns);
+		$this->assertArrayHasKey('username',$this->db->schema->getTable('users')->columns);
+
+		$this->db->createCommand($this->db->schema->dropColumn('users','email'))->execute();
+
+		$this->db->schema->refresh();
+		$this->assertArrayNotHasKey('email',$this->db->schema->getTable('users')->columns);
+		$this->assertArrayHasKey('username',$this->db->schema->getTable('users')->columns);
+		$this->assertEquals(4,$this->db->createCommand('SELECT COUNT(*) FROM users')->queryScalar());
+	}
+
+	public function testRenameColumn()
+	{
+		$this->db->schema->refresh();
+		$this->assertArrayHasKey('email',$this->db->schema->getTable('users')->columns);
+		$this->assertArrayNotHasKey('email_address',$this->db->schema->getTable('users')->columns);
+
+		$this->db->createCommand($this->db->schema->renameColumn('users','email','email_address'))->execute();
+
+		$this->db->schema->refresh();
+		$this->assertArrayNotHasKey('email',$this->db->schema->getTable('users')->columns);
+		$this->assertArrayHasKey('email_address',$this->db->schema->getTable('users')->columns);
+		$this->assertEquals('email1',$this->db->createCommand('SELECT email_address FROM users WHERE id=1')->queryScalar());
+	}
+
 	public function testMultipleInsert()
 	{
 		$builder=$this->db->getSchema()->getCommandBuilder();
