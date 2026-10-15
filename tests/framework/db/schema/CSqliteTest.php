@@ -300,6 +300,9 @@ class CSqliteTest extends CTestCase
 
 	public function testDropColumn()
 	{
+		if(version_compare($this->db->getServerVersion(),'3.35.0','<'))
+			$this->markTestSkipped('SQLite 3.35.0 or higher is required.');
+
 		$this->db->schema->refresh();
 		$this->assertArrayHasKey('email',$this->db->schema->getTable('users')->columns);
 		$this->assertArrayHasKey('username',$this->db->schema->getTable('users')->columns);
@@ -314,6 +317,9 @@ class CSqliteTest extends CTestCase
 
 	public function testRenameColumn()
 	{
+		if(version_compare($this->db->getServerVersion(),'3.25.0','<'))
+			$this->markTestSkipped('SQLite 3.25.0 or higher is required.');
+
 		$this->db->schema->refresh();
 		$this->assertArrayHasKey('email',$this->db->schema->getTable('users')->columns);
 		$this->assertArrayNotHasKey('email_address',$this->db->schema->getTable('users')->columns);

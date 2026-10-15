@@ -219,6 +219,37 @@ class CSqliteSchema extends CDbSchema
 	}
 
 	/**
+	 * Builds a SQL statement for dropping a DB column.
+	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
+	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a DB column.
+	 * @since 1.1.6
+	 * @throws CDbException if SQLite version does not support this.
+	 */
+	public function dropColumn($table, $column)
+	{
+		if(version_compare($this->getDbConnection()->getServerVersion(),'3.35.0','<'))
+			throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+		return parent::dropColumn($table, $column);
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 * @throws CDbException if SQLite version does not support this.
+	 */
+	public function renameColumn($table, $name, $newName)
+	{
+		if(version_compare($this->getDbConnection()->getServerVersion(),'3.25.0','<'))
+			throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+		return parent::renameColumn($table, $name, $newName);
+	}
+
+	/**
 	 * Builds a SQL statement for adding a foreign key constraint to an existing table.
 	 * Because SQLite does not support adding foreign key to an existing table, calling this method will throw an exception.
 	 * @param string $name the name of the foreign key constraint.
