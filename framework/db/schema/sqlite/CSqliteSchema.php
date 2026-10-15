@@ -220,31 +220,33 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Builds a SQL statement for dropping a DB column.
-	 * Because SQLite does not support dropping a DB column, calling this method will throw an exception.
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
 	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
 	 * @return string the SQL statement for dropping a DB column.
 	 * @since 1.1.6
-	 * @throws CDbException
+	 * @throws CDbException if SQLite version does not support this.
 	 */
 	public function dropColumn($table, $column)
 	{
-		throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+		if(version_compare($this->getDbConnection()->getServerVersion(),'3.35.0','<'))
+			throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+		return parent::dropColumn($table, $column);
 	}
 
 	/**
 	 * Builds a SQL statement for renaming a column.
-	 * Because SQLite does not support renaming a DB column, calling this method will throw an exception.
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
 	 * @return string the SQL statement for renaming a DB column.
 	 * @since 1.1.6
-	 * @throws CDbException
+	 * @throws CDbException if SQLite version does not support this.
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+		if(version_compare($this->getDbConnection()->getServerVersion(),'3.25.0','<'))
+			throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+		return parent::renameColumn($table, $name, $newName);
 	}
 
 	/**
