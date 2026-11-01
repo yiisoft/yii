@@ -181,6 +181,48 @@ PO;
 		$this->assertSame(array('before'=>'First translation','after'=>'Last translation'),$poFile->load($this->_file,''));
 	}
 
+	/**
+	 * @dataProvider entryBoundaryProvider
+	 */
+	public function testIncompleteEntryDoesNotStealFollowingEntry($newline,$incomplete)
+	{
+		$content='msgid "before"'.$newline.'msgstr "First translation"'.$newline.$newline
+			.$incomplete.$newline." \t".$newline
+			.'msgid "after"'.$newline.'msgstr "Last translation"'.$newline.$newline
+			.'msgctxt "valid"'.$newline.'msgid "scoped"'.$newline.'msgstr "Scoped translation"'.$newline;
+		file_put_contents($this->_file,$content);
+		$poFile=new CGettextPoFile();
+		$this->assertSame(array('before'=>'First translation','after'=>'Last translation'),$poFile->load($this->_file,''));
+		$this->assertSame(array(),$poFile->load($this->_file,'orphan'));
+		$this->assertSame(array('scoped'=>'Scoped translation'),$poFile->load($this->_file,'valid'));
+	}
+
+	public function entryBoundaryProvider()
+	{
+		$cases=array();
+		foreach(array("\n","\r\n","\r") as $newline)
+		{
+			$cases[]=array($newline,'msgctxt "orphan"');
+			$cases[]=array($newline,'msgctxt "or"'.$newline.'"phan"');
+			$cases[]=array($newline,'msgctxt "orphan"'.$newline.'msgid "broken"');
+			$cases[]=array($newline,'msgctxt "orphan"'.$newline.'msgid "broken"'.$newline.'msgstr "unterminated');
+		}
+		return $cases;
+	}
+
+	public function testQuotedValueOnNextPhysicalLine()
+	{
+		foreach(array("\n","\r\n","\r") as $newline)
+		{
+			$content='msgctxt'.$newline.' "context"'.$newline
+				.'msgid'.$newline.' "source"'.$newline
+				.'msgstr'.$newline.' "translation"'.$newline;
+			file_put_contents($this->_file,$content);
+			$poFile=new CGettextPoFile();
+			$this->assertSame(array('source'=>'translation'),$poFile->load($this->_file,'context'));
+		}
+	}
+
 	public function testLoadReportsRegexErrors()
 	{
 		file_put_contents($this->_file,"msgid \"source\"\nmsgstr \"translation\"\n");

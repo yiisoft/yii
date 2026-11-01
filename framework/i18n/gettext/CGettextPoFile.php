@@ -32,10 +32,12 @@ class CGettextPoFile extends CGettextFile
 	 */
 	public function load($file,$context)
 	{
-		$quoted=self::$_quotedStringPattern;
-		$pattern='/(msgctxt\s+((?:'.$quoted.'\s*)++))?\s*'
-			.'msgid\s*((?:'.$quoted.'\s*)++)\s*'
-			.'msgstr\s*((?:'.$quoted.'\s*)++)/';
+		// A field may continue on the next line, but never across a blank entry boundary.
+		$spacing='[ \t]*(?:\r\n|\r|\n)?[ \t]*';
+		$quoted=self::$_quotedStringPattern.$spacing;
+		$pattern='/(msgctxt(?=[ \t\r\n])'.$spacing.'((?:'.$quoted.')++))?'
+			.'msgid'.$spacing.'((?:'.$quoted.')++)'
+			.'msgstr'.$spacing.'((?:'.$quoted.')++)/';
 		$matches=array();
 		$n=preg_match_all($pattern,file_get_contents($file),$matches);
 		if($n===false)
