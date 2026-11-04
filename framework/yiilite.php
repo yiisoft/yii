@@ -5931,7 +5931,7 @@ EOD;
 			{
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
-				$listData[$value]=$text;
+				$listData[$value===null ? '' : $value]=$text;
 			}
 		}
 		else
@@ -5942,9 +5942,9 @@ EOD;
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
 				if($group===null)
-					$listData[$value]=$text;
+					$listData[$value===null ? '' : $value]=$text;
 				else
-					$listData[$group][$value]=$text;
+					$listData[$group][$value===null ? '' : $value]=$text;
 			}
 		}
 		return $listData;
@@ -7461,6 +7461,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	public function getAttributeLabel($attribute)
 	{
+		if($attribute===null)
+			$attribute='';
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];
@@ -7836,6 +7838,8 @@ abstract class CActiveRecord extends CModel
 	}
 	public function getAttributeLabel($attribute)
 	{
+		if($attribute===null)
+			$attribute='';
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];
@@ -10445,6 +10449,8 @@ abstract class CValidator extends CComponent
 	}
 	public function applyTo($scenario)
 	{
+		if($scenario===null)
+			$scenario='';
 		if(isset($this->except[$scenario]))
 			return false;
 		return empty($this->on) || isset($this->on[$scenario]);
