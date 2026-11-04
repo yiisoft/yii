@@ -330,6 +330,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function getAttributeLabel($attribute)
 	{
+		if($attribute===null)
+			$attribute='';
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];

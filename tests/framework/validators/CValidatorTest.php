@@ -63,4 +63,30 @@ class CValidatorTest extends CTestCase
 		$this->assertEquals(1, count($errors));
 		$this->assertArrayHasKey('login', $errors);
 	}
+
+	/**
+	 * Turns a PHP deprecation into an exception, so that a null array key
+	 * (deprecated since PHP 8.5) fails the test.
+	 */
+	public function throwDeprecation($errno,$errstr,$errfile,$errline)
+	{
+		throw new ErrorException($errstr,0,$errno,$errfile,$errline);
+	}
+
+	public function testApplyToWithNullScenario()
+	{
+		$validator=CValidator::createValidator('required',new ModelMock,array('foo'),array('except'=>'scenario1'));
+		set_error_handler(array($this,'throwDeprecation'),E_DEPRECATED);
+		try
+		{
+			$applies=$validator->applyTo(null);
+		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+			throw $e;
+		}
+		restore_error_handler();
+		$this->assertTrue($applies);
+	}
 }

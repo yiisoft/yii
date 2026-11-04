@@ -239,4 +239,30 @@ class CModelTest extends CTestCase
 				$e->getMessage());
 		}
 	}
+
+	/**
+	 * Turns a PHP deprecation into an exception, so that a null array key
+	 * (deprecated since PHP 8.5) fails the test.
+	 */
+	public function throwDeprecation($errno,$errstr,$errfile,$errline)
+	{
+		throw new ErrorException($errstr,0,$errno,$errfile,$errline);
+	}
+
+	public function testGetAttributeLabelWithNullAttribute()
+	{
+		$model=new NewModel;
+		set_error_handler(array($this,'throwDeprecation'),E_DEPRECATED);
+		try
+		{
+			$label=$model->getAttributeLabel(null);
+		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+			throw $e;
+		}
+		restore_error_handler();
+		$this->assertSame('',$label);
+	}
 }
