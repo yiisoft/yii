@@ -7,6 +7,9 @@ class CMarkdownParserTest extends CTestCase
 {
 	public function testUTF8()
 	{
+		if(version_compare(PHP_VERSION,'5.6','<'))
+			$this->markTestSkipped('safeTransform() loads the bundled HTML Purifier, which requires PHP 5.6 or above.');
+
 		$markdown = <<<'MARKDOWN'
 ~~~
 [php]

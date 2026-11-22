@@ -588,6 +588,22 @@ class CActiveRecordTest extends CTestCase
 		$this->assertNull($author);
 	}
 
+	public function testLazyRelationWithoutPrimaryKeyInSelect()
+	{
+		$post=Post::model()->find(array('select'=>'author_id','condition'=>'id=1'));
+		$this->assertNull($post->id);
+		$this->assertEquals('user1',$post->author->username);
+	}
+
+	public function testEagerRelationWithoutPrimaryKeyInSql()
+	{
+		$posts=Post::model()->with('author')->findAllBySql('SELECT title, author_id FROM posts ORDER BY id');
+		$this->assertEquals(5,count($posts));
+		$this->assertNull($posts[0]->id);
+		$this->assertEquals('user1',$posts[0]->author->username);
+		$this->assertEquals('user2',$posts[1]->author->username);
+	}
+
 	public function testRelationWithDynamicCondition()
 	{
 		$user=User::model()->with('posts')->findByPk(2);

@@ -463,7 +463,7 @@ class CJoinElement
 	public function lazyFind($baseRecord)
 	{
 		if(is_string($this->_table->primaryKey))
-			$this->records[$baseRecord->{$this->_table->primaryKey}]=$baseRecord;
+			$this->records[(string)$baseRecord->{$this->_table->primaryKey}]=$baseRecord;
 		else
 		{
 			$pk=array();
@@ -697,7 +697,7 @@ class CJoinElement
 		if(is_string($this->_table->primaryKey))
 		{
 			foreach($baseRecords as $baseRecord)
-				$this->records[$baseRecord->{$this->_table->primaryKey}]=$baseRecord;
+				$this->records[(string)$baseRecord->{$this->_table->primaryKey}]=$baseRecord;
 		}
 		else
 		{

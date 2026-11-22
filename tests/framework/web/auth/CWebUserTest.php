@@ -76,4 +76,15 @@ class CWebUserTest extends CTestCase
 		$this->assertFalse(Yii::app()->user->checkAccess('createPost'));
 		$this->assertFalse(Yii::app()->user->checkAccess('deletePost'));
 	}
+
+	public function testCheckAccessForGuestWithDefaultRole()
+	{
+		$auth = Yii::app()->authManager;
+		$auth->createOperation('readPost');
+		$auth->createRole('reader')->addChild('readPost');
+		$auth->defaultRoles = array('reader');
+
+		$this->assertTrue(Yii::app()->user->getIsGuest());
+		$this->assertTrue(Yii::app()->user->checkAccess('readPost'));
+	}
 }

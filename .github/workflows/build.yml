@@ -85,7 +85,7 @@ jobs:
       - name: Setup cache environment 5.3 - 5.6
         if: matrix.php < '7.0'
         id: cache-env-php5
-        uses: shivammathur/cache-extensions@50000e7030dd3fa176964a8fbbbd9e4b560fe4d4 # v1
+        uses: shivammathur/cache-extensions@38b47b5568926cb949d3c946e30cf8eab5326c39 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php5 }}
@@ -94,7 +94,7 @@ jobs:
       - name: Setup cache environment 7.0 - 8.0
         if: matrix.php >= '7.0'
         id: cache-env-php7
-        uses: shivammathur/cache-extensions@50000e7030dd3fa176964a8fbbbd9e4b560fe4d4 # v1
+        uses: shivammathur/cache-extensions@38b47b5568926cb949d3c946e30cf8eab5326c39 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php7 }}
@@ -117,7 +117,7 @@ jobs:
           restore-keys: ${{ steps.cache-env-php7.outputs.key }}
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
