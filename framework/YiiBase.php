@@ -838,6 +838,7 @@ class YiiBase
 		'CHttpRequest' => '/web/CHttpRequest.php',
 		'CHttpSession' => '/web/CHttpSession.php',
 		'CHttpSessionHandler' => '/web/CHttpSessionHandler.php',
+		'CHttpSessionIdHandler' => '/web/CHttpSessionIdHandler.php',
 		'CHttpSessionIterator' => '/web/CHttpSessionIterator.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
