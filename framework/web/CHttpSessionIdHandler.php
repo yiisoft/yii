@@ -14,7 +14,7 @@
  * @package system.web
  * @since 1.1.33
  */
-class CHttpSessionIdHandler extends CHttpSessionHandler
+class CHttpSessionIdHandler extends CHttpSessionHandlerBase implements SessionHandlerInterface
 {
 	/**
 	 * Creates a new session ID.
