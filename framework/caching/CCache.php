@@ -145,7 +145,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 			foreach($uids as $id => $uid)
 			{
 				$results[$id] = false;
-				if(isset($values[$uid]))
+				if(isset($values[$uid]) && $values[$uid]!==false)
 				{
 					$value = $this->serializer === null ? unserialize($values[$uid]) : call_user_func($this->serializer[1], $values[$uid]);
 					if(is_array($value) && (!$value[1] instanceof ICacheDependency || !$value[1]->getHasChanged()))
