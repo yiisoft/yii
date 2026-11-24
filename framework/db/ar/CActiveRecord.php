@@ -601,8 +601,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttributeLabel($attribute)
 	{
-		if($attribute===null)
-			$attribute='';
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];
