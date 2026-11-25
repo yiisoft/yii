@@ -91,7 +91,8 @@ class CGettextMessageSource extends CMessageSource
 
 		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
-			$key = self::CACHE_KEY_PREFIX . $messageFile . "." . $category;
+			// PO decoding changed: do not reuse translations parsed by older versions.
+			$key = self::CACHE_KEY_PREFIX . ($this->useMoFile ? '' : 'po.v2.') . $messageFile . "." . $category;
 			if (($data=$cache->get($key)) !== false)
 				return unserialize($data);
 		}
