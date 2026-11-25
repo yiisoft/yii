@@ -5931,7 +5931,7 @@ EOD;
 			{
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
-				$listData[$value]=$text;
+				$listData[$value===null ? '' : $value]=$text;
 			}
 		}
 		else
@@ -5942,9 +5942,9 @@ EOD;
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
 				if($group===null)
-					$listData[$value]=$text;
+					$listData[$value===null ? '' : $value]=$text;
 				else
-					$listData[$group][$value]=$text;
+					$listData[$group][$value===null ? '' : $value]=$text;
 			}
 		}
 		return $listData;

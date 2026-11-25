@@ -1145,6 +1145,53 @@ class CHtmlTest extends CTestCase
 		));
 		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", 0, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 	}
+
+	/**
+	 * Runs CHtml::listData() and turns any PHP deprecation into an exception,
+	 * so that a null key (deprecated since PHP 8.5) fails the test.
+	 */
+	private function listDataStrict($models,$valueField,$textField,$groupField='')
+	{
+		set_error_handler(array($this,'throwDeprecation'),E_DEPRECATED);
+		try
+		{
+			$listData=CHtml::listData($models,$valueField,$textField,$groupField);
+		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+			throw $e;
+		}
+		restore_error_handler();
+		return $listData;
+	}
+
+	public function throwDeprecation($errno,$errstr,$errfile,$errline)
+	{
+		throw new ErrorException($errstr,0,$errno,$errfile,$errline);
+	}
+
+	public function testListDataWithNullValue()
+	{
+		$models=array(
+			array('id'=>1,'name'=>'One'),
+			array('id'=>null,'name'=>'None'),
+		);
+		$this->assertSame(array(1=>'One',''=>'None'),$this->listDataStrict($models,'id','name'));
+	}
+
+	public function testListDataWithNullValueInGroup()
+	{
+		$models=array(
+			array('id'=>1,'name'=>'One','group'=>'A'),
+			array('id'=>null,'name'=>'None','group'=>'A'),
+			array('id'=>null,'name'=>'No group','group'=>null),
+		);
+		$this->assertSame(
+			array('A'=>array(1=>'One',''=>'None'),''=>'No group'),
+			$this->listDataStrict($models,'id','name','group')
+		);
+	}
 }
 
 /* Helper classes */
