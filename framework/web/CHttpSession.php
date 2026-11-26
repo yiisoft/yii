@@ -122,7 +122,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			// where SessionHandlerInterface doesn't exist.
 			if(version_compare(PHP_VERSION, '7.0', '>='))
 			{
-				@session_set_save_handler(new CHttpSessionHandler($this), true);
+				// Keep PHP 7.0's native ID generation using session.hash_* settings.
+				$handler=version_compare(PHP_VERSION, '7.1', '>=')
+					? new CHttpSessionIdHandler($this)
+					: new CHttpSessionHandler($this);
+				@session_set_save_handler($handler, true);
 			}
 			else
 			{
@@ -430,6 +434,22 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function readSession($id)
 	{
 		return '';
+	}
+
+	/**
+	 * Session ID validation handler.
+	 * When {@link useCustomStorage} is true, override this method to check whether
+	 * the session record exists, including records containing empty session data.
+	 * The default implementation treats empty data as a missing session. Stores
+	 * returning an empty string for both empty and missing sessions must override
+	 * this method to preserve existing empty session IDs in strict mode.
+	 * @param string $id session ID
+	 * @return boolean whether the session ID exists
+	 */
+	public function validateSession($id)
+	{
+		$data=$this->readSession($id);
+		return $data!=='' && $data!==false;
 	}
 
 	/**

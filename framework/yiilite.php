@@ -540,6 +540,8 @@ class YiiBase
 		'CHttpRequest' => '/web/CHttpRequest.php',
 		'CHttpSession' => '/web/CHttpSession.php',
 		'CHttpSessionHandler' => '/web/CHttpSessionHandler.php',
+		'CHttpSessionHandlerBase' => '/web/CHttpSessionHandlerBase.php',
+		'CHttpSessionIdHandler' => '/web/CHttpSessionIdHandler.php',
 		'CHttpSessionIterator' => '/web/CHttpSessionIterator.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
@@ -4665,7 +4667,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			// where SessionHandlerInterface doesn't exist.
 			if(version_compare(PHP_VERSION, '7.0', '>='))
 			{
-				@session_set_save_handler(new CHttpSessionHandler($this), true);
+				// Keep PHP 7.0's native ID generation using session.hash_* settings.
+				$handler=version_compare(PHP_VERSION, '7.1', '>=')
+					? new CHttpSessionIdHandler($this)
+					: new CHttpSessionHandler($this);
+				@session_set_save_handler($handler, true);
 			}
 			else
 			{
@@ -4856,6 +4862,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function readSession($id)
 	{
 		return '';
+	}
+	public function validateSession($id)
+	{
+		$data=$this->readSession($id);
+		return $data!=='' && $data!==false;
 	}
 	public function writeSession($id,$data)
 	{

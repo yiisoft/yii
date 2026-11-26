@@ -24,12 +24,18 @@ class CCacheHttpSessionTest extends CTestCase
 
 		$this->assertTrue($session->destroySession('test'));
 		$this->assertEquals('',$session->readSession('test'));
+		$this->assertFalse($session->validateSession('test'));
 
 		$this->assertTrue($session->writeSession('test','any value'));
 		$this->assertEquals('any value',$session->readSession('test'));
+		$this->assertTrue($session->validateSession('test'));
+
+		$this->assertTrue($session->writeSession('test',''));
+		$this->assertTrue($session->validateSession('test'));
 
 		$this->assertTrue($session->destroySession('test'));
 		$this->assertEquals('',$session->readSession('test'));
+		$this->assertFalse($session->validateSession('test'));
 	}
 
 	/**

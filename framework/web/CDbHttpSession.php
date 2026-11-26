@@ -232,6 +232,20 @@ class CDbHttpSession extends CHttpSession
 	}
 
 	/**
+	 * Session ID validation handler.
+	 * @param string $id session ID
+	 * @return boolean whether the session ID exists
+	 */
+	public function validateSession($id)
+	{
+		return $this->getDbConnection()->createCommand()
+			->select('id')
+			->from($this->sessionTableName)
+			->where('expire>:expire AND id=:id',array(':expire'=>time(),':id'=>$id))
+			->queryScalar()!==false;
+	}
+
+	/**
 	 * Session write handler.
 	 * Do not call this method directly.
 	 * @param string $id session ID
